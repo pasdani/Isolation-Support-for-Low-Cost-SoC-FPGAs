@@ -26,12 +26,11 @@ ENTITY AxiLiteIdManipulator_v0_1 IS
 	);
 	PORT (
 		-- Users to add ports here
-
+		axi_aclk : IN STD_LOGIC;
+		
 		-- User ports ends
 		-- Do not modify the ports beyond this line
 		-- Ports of Axi Slave Bus Interface S_AXI
-		s_axi_aclk : IN STD_LOGIC;
-		s_axi_aresetn : IN STD_LOGIC;
 		s_axi_awaddr : IN STD_LOGIC_VECTOR(C_S_AXI_ADDR_WIDTH - 1 DOWNTO 0);
 		s_axi_awprot : IN STD_LOGIC_VECTOR(2 DOWNTO 0);
 		s_axi_awvalid : IN STD_LOGIC;
@@ -51,13 +50,11 @@ ENTITY AxiLiteIdManipulator_v0_1 IS
 		s_axi_rresp : OUT STD_LOGIC_VECTOR(1 DOWNTO 0);
 		s_axi_rvalid : OUT STD_LOGIC;
 		s_axi_rready : IN STD_LOGIC;
+		-- removed		
+		  -- s_axi_aclk : IN STD_LOGIC;
+		  -- s_axi_aresetn : IN STD_LOGIC;
 
 		-- Ports of Axi Master Bus Interface M_AXI
-		m_axi_init_axi_txn : IN STD_LOGIC;
-		m_axi_txn_done : OUT STD_LOGIC;
-		m_axi_error : OUT STD_LOGIC;
-		m_axi_aclk : IN STD_LOGIC;
-		m_axi_aresetn : IN STD_LOGIC;
 		m_axi_awid : OUT STD_LOGIC_VECTOR(C_M_AXI_ID_WIDTH - 1 DOWNTO 0);
 		m_axi_awaddr : OUT STD_LOGIC_VECTOR(C_M_AXI_ADDR_WIDTH - 1 DOWNTO 0);
 		m_axi_awlen : OUT STD_LOGIC_VECTOR(7 DOWNTO 0);
@@ -100,6 +97,13 @@ ENTITY AxiLiteIdManipulator_v0_1 IS
 		m_axi_ruser : IN STD_LOGIC_VECTOR(C_M_AXI_RUSER_WIDTH - 1 DOWNTO 0);
 		m_axi_rvalid : IN STD_LOGIC;
 		m_axi_rready : OUT STD_LOGIC
+		-- removed
+		  -- m_axi_txn_done : OUT STD_LOGIC;
+		  -- m_axi_error : OUT STD_LOGIC;
+		  -- m_axi_init_axi_txn : IN STD_LOGIC;
+		  -- m_axi_aclk : IN STD_LOGIC;
+		  -- m_axi_aresetn : IN STD_LOGIC;
+		
 	);
 END AxiLiteIdManipulator_v0_1;
 
