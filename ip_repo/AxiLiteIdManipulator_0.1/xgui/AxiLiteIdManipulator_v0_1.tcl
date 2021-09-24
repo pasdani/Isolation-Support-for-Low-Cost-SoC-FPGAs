@@ -2,6 +2,7 @@
 proc init_gui { IPINST } {
   ipgui::add_param $IPINST -name "Component_Name"
   ipgui::add_param $IPINST -name "C_AXI_ID"
+  ipgui::add_param $IPINST -name "C_M_AXI_ID_WIDTH"
 
 }
 

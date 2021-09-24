@@ -5,7 +5,7 @@ USE ieee.numeric_std.ALL;
 ENTITY AxiLiteIdManipulator_v0_1 IS
 	GENERIC (
 		-- Users to add parameters here
-		C_AXI_ID : INTEGER := 0;
+		C_AXI_ID : STD_LOGIC_VECTOR(16-1 DOWNTO 0)  := "0000000000000000";
 		-- User parameters ends
 
 		-- Parameters of both Axi Slave Bus Interface S_AXI and Axi Master Bus Interface M_AXI
@@ -108,12 +108,10 @@ ENTITY AxiLiteIdManipulator_v0_1 IS
 END AxiLiteIdManipulator_v0_1;
 
 ARCHITECTURE arch_imp OF AxiLiteIdManipulator_v0_1 IS
-	SIGNAL axi_id : STD_LOGIC_VECTOR(C_M_AXI_ID_WIDTH - 1 DOWNTO 0);
 BEGIN
 	-- Set AXI ID
-	axi_id <= STD_LOGIC_VECTOR(to_unsigned(C_AXI_ID, C_M_AXI_ID_WIDTH));
-	m_axi_awid <= axi_id;
-	m_axi_arid <= axi_id;
+	m_axi_awid <= C_AXI_ID(C_M_AXI_ID_WIDTH - 1 DOWNTO 0);
+	m_axi_arid <= C_AXI_ID(C_M_AXI_ID_WIDTH - 1 DOWNTO 0);
 
 	-- Forwarding of the AXI Lite signals
 	m_axi_awaddr <= s_axi_awaddr;
