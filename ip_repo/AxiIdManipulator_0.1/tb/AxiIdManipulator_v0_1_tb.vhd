@@ -168,8 +168,8 @@ BEGIN
     GENERIC MAP(
         C_AXI_ID => AXI_ID,
         C_AXI_ID_MASK => AXI_ID_MASK,
-        C_S_AXI_ID_WIDTH => AXI_ID'LENGTH,
-        C_M_AXI_ID_WIDTH => AXI_ID'LENGTH
+        C_S_AXI_ID_WIDTH => AXI_ID_WIDTH,
+        C_M_AXI_ID_WIDTH => AXI_ID_WIDTH
     )
     PORT MAP(
         axi_aclk => clk,
