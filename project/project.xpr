@@ -36,6 +36,8 @@
     <Option Name="ActiveSimSet" Val="sim_1"/>
     <Option Name="DefaultLib" Val="xil_defaultlib"/>
     <Option Name="ProjectType" Val="Default"/>
+    <Option Name="IPRepoPath" Val="$PPRDIR/../backup/AxiIdManipulator_0.1"/>
+    <Option Name="IPRepoPath" Val="$PPRDIR/../backup/AxiIdManipulator_0.1"/>
     <Option Name="IPRepoPath" Val="$PPRDIR/../ip_repo/AxiIdManipulator_0.1"/>
     <Option Name="IPRepoPath" Val="$PPRDIR/../ip_repo/AxiLiteIdManipulator_0.1"/>
     <Option Name="IPRepoPath" Val="$PPRDIR/../ip_repo/ProtectionUnit_0.1"/>

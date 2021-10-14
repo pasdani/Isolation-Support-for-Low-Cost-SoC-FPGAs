@@ -1,0 +1,10 @@
+
+
+OPTION psf_version = 2.1;
+
+BEGIN DRIVER AxiLiteIdManipulator
+	OPTION supported_peripherals = (AxiLiteIdManipulator);
+	OPTION copyfiles = all;
+	OPTION VERSION = 1.0;
+	OPTION NAME = AxiLiteIdManipulator;
+END DRIVER

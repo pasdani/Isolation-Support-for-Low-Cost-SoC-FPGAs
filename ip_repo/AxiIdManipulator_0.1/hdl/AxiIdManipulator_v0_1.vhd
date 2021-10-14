@@ -17,6 +17,7 @@ ENTITY AxiIdManipulator_v0_1 IS
 		C_M_AXI_DATA_WIDTH : INTEGER := 32;
 		C_S_AXI_ADDR_WIDTH : INTEGER := 32;
 		C_M_AXI_ADDR_WIDTH : INTEGER := 32;
+		
 		C_S_AXI_AWUSER_WIDTH : INTEGER := 0;
 		C_M_AXI_AWUSER_WIDTH : INTEGER := 0;
 		C_S_AXI_ARUSER_WIDTH : INTEGER := 0;
@@ -144,16 +145,19 @@ ARCHITECTURE arch_imp OF AxiIdManipulator_v0_1 IS
 
 	-- Forwards old bits, if they aren't set in mask.
 	-- Forwards new bits, if they are set in mask.
-	-- In case 
+	-- The returned vector has always the size of the new_bits vector.
+	-- If the the new vector is larger than the old one, bits uneffected by the mask are set to 0.
+	-- If the the new vector is smaller than the old one, the result is truncated.
 	FUNCTION set_masked_bits(
-		old_bits : STD_LOGIC_VECTOR(C_S_AXI_ID_WIDTH - 1 DOWNTO 0);
-		new_bits : STD_LOGIC_VECTOR(16 - 1 DOWNTO 0);
-		mask : STD_LOGIC_VECTOR(16 - 1 DOWNTO 0))
+		old_bits : STD_LOGIC_VECTOR;
+		new_bits : STD_LOGIC_VECTOR;
+		mask : STD_LOGIC_VECTOR)
 		RETURN STD_LOGIC_VECTOR IS
 	BEGIN
-		RETURN ((old_bits AND NOT mask(C_S_AXI_ID_WIDTH - 1 DOWNTO 0)) OR 
-		  (new_bits(C_S_AXI_ID_WIDTH - 1 DOWNTO 0) AND mask(C_S_AXI_ID_WIDTH - 1 DOWNTO 0)));
+		RETURN ((old_bits(new_bits'range) AND NOT mask(new_bits'range)) OR 
+		  (new_bits AND mask(new_bits'range)));
 	END FUNCTION set_masked_bits;
+
 BEGIN
 	-- Store most recent ID
 	store_id : PROCESS (axi_aclk)
