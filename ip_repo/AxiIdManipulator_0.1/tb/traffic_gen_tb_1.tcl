@@ -122,7 +122,7 @@ set bCheckIPsPassed 1
 set bCheckIPs 1
 if { $bCheckIPs == 1 } {
    set list_check_ips "\ 
-xilinx.com:user:AXI_Dummy:1.0\
+xilinx.com:user:AxiIdManipulator:0.1\
 xilinx.com:ip:axi_bram_ctrl:4.1\
 xilinx.com:ip:blk_mem_gen:8.4\
 xilinx.com:ip:axi_traffic_gen:3.0\
@@ -195,8 +195,8 @@ proc create_root_design { parentCell } {
   set resetn [ create_bd_port -dir I resetn ]
   set start [ create_bd_port -dir I start ]
 
-  # Create instance: AXI_Dummy_0, and set properties
-  set AXI_Dummy_0 [ create_bd_cell -type ip -vlnv xilinx.com:user:AXI_Dummy:1.0 AXI_Dummy_0 ]
+  # Create instance: AxiIdManipulator_0, and set properties
+  set AxiIdManipulator_0 [ create_bd_cell -type ip -vlnv xilinx.com:user:AxiIdManipulator:0.1 AxiIdManipulator_0 ]
 
   # Create instance: axi_bram_ctrl_0, and set properties
   set axi_bram_ctrl_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_bram_ctrl:4.1 axi_bram_ctrl_0 ]
@@ -211,29 +211,27 @@ proc create_root_design { parentCell } {
   set axi_traffic_gen_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_traffic_gen:3.0 axi_traffic_gen_0 ]
   set_property -dict [ list \
    CONFIG.ATG_OPTIONS {High Level Traffic} \
-   CONFIG.C_ATG_MODE_L2 {Advanced} \
    CONFIG.TRAFFIC_PROFILE {Data} \
  ] $axi_traffic_gen_0
 
   # Create interface connections
-  connect_bd_intf_net -intf_net AXI_Dummy_0_M_AXI [get_bd_intf_pins AXI_Dummy_0/M_AXI] [get_bd_intf_pins axi_bram_ctrl_0/S_AXI]
+  connect_bd_intf_net -intf_net AxiIdManipulator_0_m_axi [get_bd_intf_pins AxiIdManipulator_0/m_axi] [get_bd_intf_pins axi_bram_ctrl_0/S_AXI]
   connect_bd_intf_net -intf_net axi_bram_ctrl_0_BRAM_PORTA [get_bd_intf_pins axi_bram_ctrl_0/BRAM_PORTA] [get_bd_intf_pins axi_bram_ctrl_0_bram/BRAM_PORTA]
-  connect_bd_intf_net -intf_net axi_traffic_gen_0_M_AXI [get_bd_intf_pins AXI_Dummy_0/S_AXI] [get_bd_intf_pins axi_traffic_gen_0/M_AXI]
+  connect_bd_intf_net -intf_net axi_traffic_gen_0_M_AXI [get_bd_intf_pins AxiIdManipulator_0/s_axi] [get_bd_intf_pins axi_traffic_gen_0/M_AXI]
 
   # Create port connections
-  connect_bd_net -net clk_1 [get_bd_ports clk] [get_bd_pins AXI_Dummy_0/m_axi_aclk] [get_bd_pins AXI_Dummy_0/s_axi_aclk] [get_bd_pins axi_bram_ctrl_0/s_axi_aclk] [get_bd_pins axi_traffic_gen_0/s_axi_aclk]
-  connect_bd_net -net resetn_1 [get_bd_ports resetn] [get_bd_pins AXI_Dummy_0/m_axi_aresetn] [get_bd_pins AXI_Dummy_0/s_axi_aresetn] [get_bd_pins axi_bram_ctrl_0/s_axi_aresetn] [get_bd_pins axi_traffic_gen_0/s_axi_aresetn]
-  connect_bd_net -net start_1 [get_bd_ports start] [get_bd_pins AXI_Dummy_0/m_axi_init_axi_txn] [get_bd_pins axi_traffic_gen_0/core_ext_start]
+  connect_bd_net -net clk_1 [get_bd_ports clk] [get_bd_pins AxiIdManipulator_0/axi_aclk] [get_bd_pins axi_bram_ctrl_0/s_axi_aclk] [get_bd_pins axi_traffic_gen_0/s_axi_aclk]
+  connect_bd_net -net resetn_1 [get_bd_ports resetn] [get_bd_pins axi_bram_ctrl_0/s_axi_aresetn] [get_bd_pins axi_traffic_gen_0/s_axi_aresetn]
+  connect_bd_net -net start_1 [get_bd_ports start] [get_bd_pins axi_traffic_gen_0/core_ext_start]
 
   # Create address segments
-  assign_bd_address -offset 0xC0000000 -range 0x00002000 -target_address_space [get_bd_addr_spaces AXI_Dummy_0/M_AXI] [get_bd_addr_segs axi_bram_ctrl_0/S_AXI/Mem0] -force
-  assign_bd_address -offset 0x76000000 -range 0x00010000 -target_address_space [get_bd_addr_spaces axi_traffic_gen_0/Data] [get_bd_addr_segs AXI_Dummy_0/S_AXI/S_AXI_mem] -force
+  assign_bd_address -offset 0x00000000 -range 0x00002000 -target_address_space [get_bd_addr_spaces AxiIdManipulator_0/m_axi] [get_bd_addr_segs axi_bram_ctrl_0/S_AXI/Mem0] -force
+  assign_bd_address -offset 0x00000000 -range 0x000100000000 -target_address_space [get_bd_addr_spaces axi_traffic_gen_0/Data] [get_bd_addr_segs AxiIdManipulator_0/s_axi/reg0] -force
 
 
   # Restore current instance
   current_bd_instance $oldCurInst
 
-  validate_bd_design
   save_bd_design
 }
 # End of create_root_design()
@@ -245,4 +243,6 @@ proc create_root_design { parentCell } {
 
 create_root_design ""
 
+
+common::send_gid_msg -ssname BD::TCL -id 2053 -severity "WARNING" "This Tcl script was generated from a block design that has not been validated. It is possible that design <$design_name> may result in errors during validation."
 

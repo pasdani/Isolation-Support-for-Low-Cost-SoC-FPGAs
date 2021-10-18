@@ -30,16 +30,6 @@ ARCHITECTURE Behavioral OF AxiIdManipulator_v0_1_tb IS
             C_M_AXI_DATA_WIDTH : INTEGER := 32;
             C_S_AXI_ADDR_WIDTH : INTEGER := 32;
             C_M_AXI_ADDR_WIDTH : INTEGER := 32;
-            C_S_AXI_AWUSER_WIDTH : INTEGER := 0;
-            C_M_AXI_AWUSER_WIDTH : INTEGER := 0;
-            C_S_AXI_ARUSER_WIDTH : INTEGER := 0;
-            C_M_AXI_ARUSER_WIDTH : INTEGER := 0;
-            C_S_AXI_WUSER_WIDTH : INTEGER := 0;
-            C_M_AXI_WUSER_WIDTH : INTEGER := 0;
-            C_S_AXI_RUSER_WIDTH : INTEGER := 0;
-            C_M_AXI_RUSER_WIDTH : INTEGER := 0;
-            C_S_AXI_BUSER_WIDTH : INTEGER := 0;
-            C_M_AXI_BUSER_WIDTH : INTEGER := 0;
 
             -- Parameters of Axi Master Bus Interface M_AXI
             C_M_AXI_TARGET_SLAVE_BASE_ADDR : STD_LOGIC_VECTOR := x"40000000";
@@ -58,18 +48,15 @@ ARCHITECTURE Behavioral OF AxiIdManipulator_v0_1_tb IS
             s_axi_awcache : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
             s_axi_awprot : IN STD_LOGIC_VECTOR(2 DOWNTO 0);
             s_axi_awqos : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
-            s_axi_awuser : IN STD_LOGIC_VECTOR(C_S_AXI_AWUSER_WIDTH - 1 DOWNTO 0);
             s_axi_awvalid : IN STD_LOGIC;
             s_axi_awready : OUT STD_LOGIC;
             s_axi_wdata : IN STD_LOGIC_VECTOR(C_S_AXI_DATA_WIDTH - 1 DOWNTO 0);
             s_axi_wstrb : IN STD_LOGIC_VECTOR((C_S_AXI_DATA_WIDTH/8) - 1 DOWNTO 0);
             s_axi_wlast : IN STD_LOGIC;
-            s_axi_wuser : IN STD_LOGIC_VECTOR(C_S_AXI_WUSER_WIDTH - 1 DOWNTO 0);
             s_axi_wvalid : IN STD_LOGIC;
             s_axi_wready : OUT STD_LOGIC;
             s_axi_bid : OUT STD_LOGIC_VECTOR(C_S_AXI_ID_WIDTH - 1 DOWNTO 0);
             s_axi_bresp : OUT STD_LOGIC_VECTOR(1 DOWNTO 0);
-            s_axi_buser : OUT STD_LOGIC_VECTOR(C_S_AXI_BUSER_WIDTH - 1 DOWNTO 0);
             s_axi_bvalid : OUT STD_LOGIC;
             s_axi_bready : IN STD_LOGIC;
             s_axi_arid : IN STD_LOGIC_VECTOR(C_S_AXI_ID_WIDTH - 1 DOWNTO 0);
@@ -81,14 +68,12 @@ ARCHITECTURE Behavioral OF AxiIdManipulator_v0_1_tb IS
             s_axi_arcache : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
             s_axi_arprot : IN STD_LOGIC_VECTOR(2 DOWNTO 0);
             s_axi_arqos : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
-            s_axi_aruser : IN STD_LOGIC_VECTOR(C_S_AXI_ARUSER_WIDTH - 1 DOWNTO 0);
             s_axi_arvalid : IN STD_LOGIC;
             s_axi_arready : OUT STD_LOGIC;
             s_axi_rid : OUT STD_LOGIC_VECTOR(C_S_AXI_ID_WIDTH - 1 DOWNTO 0);
             s_axi_rdata : OUT STD_LOGIC_VECTOR(C_S_AXI_DATA_WIDTH - 1 DOWNTO 0);
             s_axi_rresp : OUT STD_LOGIC_VECTOR(1 DOWNTO 0);
             s_axi_rlast : OUT STD_LOGIC;
-            s_axi_ruser : OUT STD_LOGIC_VECTOR(C_S_AXI_RUSER_WIDTH - 1 DOWNTO 0);
             s_axi_rvalid : OUT STD_LOGIC;
             s_axi_rready : IN STD_LOGIC;
 
@@ -102,18 +87,15 @@ ARCHITECTURE Behavioral OF AxiIdManipulator_v0_1_tb IS
             m_axi_awcache : OUT STD_LOGIC_VECTOR(3 DOWNTO 0);
             m_axi_awprot : OUT STD_LOGIC_VECTOR(2 DOWNTO 0);
             m_axi_awqos : OUT STD_LOGIC_VECTOR(3 DOWNTO 0);
-            m_axi_awuser : OUT STD_LOGIC_VECTOR(C_M_AXI_AWUSER_WIDTH - 1 DOWNTO 0);
             m_axi_awvalid : OUT STD_LOGIC;
             m_axi_awready : IN STD_LOGIC;
             m_axi_wdata : OUT STD_LOGIC_VECTOR(C_M_AXI_DATA_WIDTH - 1 DOWNTO 0);
             m_axi_wstrb : OUT STD_LOGIC_VECTOR(C_M_AXI_DATA_WIDTH/8 - 1 DOWNTO 0);
             m_axi_wlast : OUT STD_LOGIC;
-            m_axi_wuser : OUT STD_LOGIC_VECTOR(C_M_AXI_WUSER_WIDTH - 1 DOWNTO 0);
             m_axi_wvalid : OUT STD_LOGIC;
             m_axi_wready : IN STD_LOGIC;
             m_axi_bid : IN STD_LOGIC_VECTOR(C_M_AXI_ID_WIDTH - 1 DOWNTO 0);
             m_axi_bresp : IN STD_LOGIC_VECTOR(1 DOWNTO 0);
-            m_axi_buser : IN STD_LOGIC_VECTOR(C_M_AXI_BUSER_WIDTH - 1 DOWNTO 0);
             m_axi_bvalid : IN STD_LOGIC;
             m_axi_bready : OUT STD_LOGIC;
             m_axi_arid : OUT STD_LOGIC_VECTOR(C_M_AXI_ID_WIDTH - 1 DOWNTO 0);
@@ -125,14 +107,12 @@ ARCHITECTURE Behavioral OF AxiIdManipulator_v0_1_tb IS
             m_axi_arcache : OUT STD_LOGIC_VECTOR(3 DOWNTO 0);
             m_axi_arprot : OUT STD_LOGIC_VECTOR(2 DOWNTO 0);
             m_axi_arqos : OUT STD_LOGIC_VECTOR(3 DOWNTO 0);
-            m_axi_aruser : OUT STD_LOGIC_VECTOR(C_M_AXI_ARUSER_WIDTH - 1 DOWNTO 0);
             m_axi_arvalid : OUT STD_LOGIC;
             m_axi_arready : IN STD_LOGIC;
             m_axi_rid : IN STD_LOGIC_VECTOR(C_M_AXI_ID_WIDTH - 1 DOWNTO 0);
             m_axi_rdata : IN STD_LOGIC_VECTOR(C_M_AXI_DATA_WIDTH - 1 DOWNTO 0);
             m_axi_rresp : IN STD_LOGIC_VECTOR(1 DOWNTO 0);
             m_axi_rlast : IN STD_LOGIC;
-            m_axi_ruser : IN STD_LOGIC_VECTOR(C_M_AXI_RUSER_WIDTH - 1 DOWNTO 0);
             m_axi_rvalid : IN STD_LOGIC;
             m_axi_rready : OUT STD_LOGIC
         );
@@ -202,11 +182,9 @@ BEGIN
         s_axi_awcache => (OTHERS => '0'),
         s_axi_awprot => (OTHERS => '0'),
         s_axi_awqos => (OTHERS => '0'),
-        s_axi_awuser => (OTHERS => '0'),
         s_axi_wdata => (OTHERS => '0'),
         s_axi_wstrb => (OTHERS => '0'),
         s_axi_wlast => '0',
-        s_axi_wuser => (OTHERS => '0'),
         s_axi_wvalid => '0',
         s_axi_araddr => (OTHERS => '0'),
         s_axi_arlen => (OTHERS => '0'),
@@ -216,13 +194,10 @@ BEGIN
         s_axi_arcache => (OTHERS => '0'),
         s_axi_arprot => (OTHERS => '0'),
         s_axi_arqos => (OTHERS => '0'),
-        s_axi_aruser => (OTHERS => '0'),
         m_axi_bresp => (OTHERS => '0'),
-        m_axi_buser => (OTHERS => '0'),
         m_axi_rdata => (OTHERS => '0'),
         m_axi_rresp => (OTHERS => '0'),
-        m_axi_rlast => '0',
-        m_axi_ruser => (OTHERS => '0')
+        m_axi_rlast => '0'
     );
 
     clk_proc : PROCESS
@@ -240,14 +215,14 @@ BEGIN
         WAIT FOR clk_period/10;
 
         -- transfer setting id of write channel to AXI_ID
-        w_id_in <= AXI_ID;
+        w_id_in <= AXI_ID_1;
         awvalid <= '1';
         awready <= '1';
-        ASSERT w_id_forward /= ((AXI_ID AND NOT AXI_ID_MASK) OR (AXI_ID AND AXI_ID_MASK))
-            REPORT "ID is not manipulated properly"
+        ASSERT w_id_forward /= ((AXI_ID_1 AND NOT AXI_ID_MASK) OR (AXI_ID AND AXI_ID_MASK))
+        REPORT "ID is not manipulated properly"
             SEVERITY error;
-        ASSERT w_id_out /= AXI_ID
-            REPORT "ID is not restored"
+        ASSERT w_id_out /= AXI_ID_1
+        REPORT "ID is not restored"
             SEVERITY error;
         WAIT FOR clk_period;
 

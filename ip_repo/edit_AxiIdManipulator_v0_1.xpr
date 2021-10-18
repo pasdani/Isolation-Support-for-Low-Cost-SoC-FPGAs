@@ -37,7 +37,6 @@
     <Option Name="DefaultLib" Val="xil_defaultlib"/>
     <Option Name="ProjectType" Val="Default"/>
     <Option Name="IPRepoPath" Val="$PPRDIR/AxiIdManipulator_0.1"/>
-    <Option Name="IPRepoPath" Val="$PPRDIR/AXI_Dummy_1.0"/>
     <Option Name="IPRepoPath" Val="$PPRDIR/AxiLiteIdManipulator_0.1"/>
     <Option Name="IPRepoPath" Val="$PPRDIR/ProtectionUnit_0.1"/>
     <Option Name="IPOutputRepo" Val="$PCACHEDIR/ip"/>
@@ -50,20 +49,20 @@
     <Option Name="IPStaticSourceDir" Val="$PIPUSERFILESDIR/ipstatic"/>
     <Option Name="EnableBDX" Val="FALSE"/>
     <Option Name="DSABoardId" Val="zc706"/>
-    <Option Name="WTXSimLaunchSim" Val="93"/>
+    <Option Name="WTXSimLaunchSim" Val="186"/>
     <Option Name="WTModelSimLaunchSim" Val="0"/>
     <Option Name="WTQuestaLaunchSim" Val="0"/>
     <Option Name="WTIesLaunchSim" Val="0"/>
     <Option Name="WTVcsLaunchSim" Val="0"/>
     <Option Name="WTRivieraLaunchSim" Val="0"/>
     <Option Name="WTActivehdlLaunchSim" Val="0"/>
-    <Option Name="WTXSimExportSim" Val="30"/>
-    <Option Name="WTModelSimExportSim" Val="30"/>
-    <Option Name="WTQuestaExportSim" Val="30"/>
-    <Option Name="WTIesExportSim" Val="30"/>
-    <Option Name="WTVcsExportSim" Val="30"/>
-    <Option Name="WTRivieraExportSim" Val="30"/>
-    <Option Name="WTActivehdlExportSim" Val="30"/>
+    <Option Name="WTXSimExportSim" Val="43"/>
+    <Option Name="WTModelSimExportSim" Val="43"/>
+    <Option Name="WTQuestaExportSim" Val="43"/>
+    <Option Name="WTIesExportSim" Val="43"/>
+    <Option Name="WTVcsExportSim" Val="43"/>
+    <Option Name="WTRivieraExportSim" Val="43"/>
+    <Option Name="WTActivehdlExportSim" Val="43"/>
     <Option Name="GenerateIPUpgradeLog" Val="TRUE"/>
     <Option Name="XSimRadix" Val="hex"/>
     <Option Name="XSimTimeUnit" Val="ns"/>
@@ -132,7 +131,7 @@
     </FileSet>
     <FileSet Name="traffic_gen_tb" Type="SimulationSrcs" RelSrcDir="$PSRCDIR/traffic_gen_tb" RelGenDir="$PGENDIR/traffic_gen_tb">
       <Filter Type="Srcs"/>
-      <File Path="$PPRDIR/AxiIdManipulator_0.1/bd/traffic_gen_tb_1/traffic_gen_tb_1.bd">
+      <File Path="$PSRCDIR/sources_1/bd/traffic_gen_tb_1/traffic_gen_tb_1.bd">
         <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
@@ -142,6 +141,11 @@
       <File Path="$PPRDIR/AxiIdManipulator_0.1/tb/traffic_gen_tb.vhd">
         <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/AxiIdManipulator_0.1/tb/traffic_gen_tb_behav.wcfg">
+        <FileInfo>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
@@ -158,6 +162,7 @@
         <Option Name="PamSignalDriverFile" Val="xil_bypass_driver"/>
         <Option Name="PamPseudoTop" Val="pseudo_tb"/>
         <Option Name="SrcSet" Val="sources_1"/>
+        <Option Name="XSimWcfgFile" Val="$PPRDIR/AxiIdManipulator_0.1/tb/traffic_gen_tb_behav.wcfg"/>
       </Config>
     </FileSet>
   </FileSets>
