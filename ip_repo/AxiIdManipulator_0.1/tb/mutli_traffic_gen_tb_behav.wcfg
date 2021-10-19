@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="mutli_traffic_gen_tb_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="axi_bram_ctrl_funcs" />
+            <top_module name="glbl" />
+            <top_module name="mutli_traffic_gen_tb" />
+            <top_module name="vcomponents" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="806750fs"></ZoomStartTime>
+      <ZoomEndTime time="1806750fs"></ZoomEndTime>
+      <Cursor1Time time="1270000fs"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="300"></NameColumnWidth>
+      <ValueColumnWidth column_width="140"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="10" />
+   <wvobject fp_name="/mutli_traffic_gen_tb/clk" type="logic">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/mutli_traffic_gen_tb/resetn" type="logic">
+      <obj_property name="ElementShortName">resetn</obj_property>
+      <obj_property name="ObjectShortName">resetn</obj_property>
+   </wvobject>
+   <wvobject fp_name="/mutli_traffic_gen_tb/start0" type="logic">
+      <obj_property name="ElementShortName">start0</obj_property>
+      <obj_property name="ObjectShortName">start0</obj_property>
+   </wvobject>
+   <wvobject fp_name="/mutli_traffic_gen_tb/start1" type="logic">
+      <obj_property name="ElementShortName">start1</obj_property>
+      <obj_property name="ObjectShortName">start1</obj_property>
+   </wvobject>
+   <wvobject fp_name="/mutli_traffic_gen_tb/clk_period" type="other">
+      <obj_property name="ElementShortName">clk_period</obj_property>
+      <obj_property name="ObjectShortName">clk_period</obj_property>
+   </wvobject>
+   <wvobject fp_name="group418" type="group">
+      <obj_property name="label">traffic_gen_0</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/mutli_traffic_gen_tb/uut/axi_traffic_gen_0/M_AXI" type="protoinst">
+         <obj_property name="children_use_element_short_name">true</obj_property>
+         <obj_property name="WaveformStyle">STYLE_ENUM_TRANSACTION</obj_property>
+         <obj_property name="EnumTransactionColorTable">0=blank 1=#D399FF 2=pink</obj_property>
+         <obj_property name="EnumTransactionValueTable">0=blank;1=Read;2=Write;3=Read/Write</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+         <obj_property name="CustomSignalColor">turquoise</obj_property>
+         <obj_property name="Render_Data">/mutli_traffic_gen_tb/uut/axi_traffic_gen_0/M_AXI.readWriteSummary</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+         <obj_property name="CellHeight">36</obj_property>
+         <obj_property name="ElementShortName">M_AXI</obj_property>
+         <obj_property name="ObjectShortName">M_AXI</obj_property>
+         <obj_property name="isExpanded"></obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group419" type="group">
+      <obj_property name="label">traffic_gen_1</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/mutli_traffic_gen_tb/uut/axi_traffic_gen_1/M_AXI" type="protoinst">
+         <obj_property name="ElementShortName">M_AXI</obj_property>
+         <obj_property name="ObjectShortName">M_AXI</obj_property>
+         <obj_property name="children_use_element_short_name">true</obj_property>
+         <obj_property name="WaveformStyle">STYLE_ENUM_TRANSACTION</obj_property>
+         <obj_property name="EnumTransactionColorTable">0=blank 1=#D399FF 2=pink</obj_property>
+         <obj_property name="EnumTransactionValueTable">0=blank;1=Read;2=Write;3=Read/Write</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+         <obj_property name="CustomSignalColor">turquoise</obj_property>
+         <obj_property name="Render_Data">/mutli_traffic_gen_tb/uut/axi_traffic_gen_1/M_AXI.readWriteSummary</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+         <obj_property name="CellHeight">36</obj_property>
+         <obj_property name="isExpanded"></obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group7291" type="group">
+      <obj_property name="label">interconnect</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+      <wvobject fp_name="/mutli_traffic_gen_tb/uut/smartconnect_0/S00_AXI" type="protoinst">
+         <obj_property name="children_use_element_short_name">true</obj_property>
+         <obj_property name="WaveformStyle">STYLE_ENUM_TRANSACTION</obj_property>
+         <obj_property name="EnumTransactionColorTable">0=blank 1=#D399FF 2=pink</obj_property>
+         <obj_property name="EnumTransactionValueTable">0=blank;1=Read;2=Write;3=Read/Write</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+         <obj_property name="CustomSignalColor">turquoise</obj_property>
+         <obj_property name="Render_Data">/mutli_traffic_gen_tb/uut/smartconnect_0/S00_AXI.readWriteSummary</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+         <obj_property name="CellHeight">36</obj_property>
+         <obj_property name="ElementShortName">S00_AXI</obj_property>
+         <obj_property name="ObjectShortName">S00_AXI</obj_property>
+         <obj_property name="isExpanded"></obj_property>
+      </wvobject>
+      <wvobject fp_name="/mutli_traffic_gen_tb/uut/smartconnect_0/S01_AXI" type="protoinst">
+         <obj_property name="children_use_element_short_name">true</obj_property>
+         <obj_property name="WaveformStyle">STYLE_ENUM_TRANSACTION</obj_property>
+         <obj_property name="EnumTransactionColorTable">0=blank 1=#D399FF 2=pink</obj_property>
+         <obj_property name="EnumTransactionValueTable">0=blank;1=Read;2=Write;3=Read/Write</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+         <obj_property name="CustomSignalColor">turquoise</obj_property>
+         <obj_property name="Render_Data">/mutli_traffic_gen_tb/uut/smartconnect_0/S01_AXI.readWriteSummary</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+         <obj_property name="CellHeight">36</obj_property>
+         <obj_property name="ElementShortName">S01_AXI</obj_property>
+         <obj_property name="ObjectShortName">S01_AXI</obj_property>
+         <obj_property name="isExpanded"></obj_property>
+      </wvobject>
+      <wvobject fp_name="/mutli_traffic_gen_tb/uut/smartconnect_0/M00_AXI" type="protoinst">
+         <obj_property name="children_use_element_short_name">true</obj_property>
+         <obj_property name="WaveformStyle">STYLE_ENUM_TRANSACTION</obj_property>
+         <obj_property name="EnumTransactionColorTable">0=blank 1=#D399FF 2=pink</obj_property>
+         <obj_property name="EnumTransactionValueTable">0=blank;1=Read;2=Write;3=Read/Write</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+         <obj_property name="CustomSignalColor">turquoise</obj_property>
+         <obj_property name="Render_Data">/mutli_traffic_gen_tb/uut/smartconnect_0/M00_AXI.readWriteSummary</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+         <obj_property name="CellHeight">36</obj_property>
+         <obj_property name="ElementShortName">M00_AXI</obj_property>
+         <obj_property name="ObjectShortName">M00_AXI</obj_property>
+         <obj_property name="isExpanded"></obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group420" type="group">
+      <obj_property name="label">bram</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/mutli_traffic_gen_tb/uut/axi_bram_ctrl_0/S_AXI" type="protoinst">
+         <obj_property name="children_use_element_short_name">true</obj_property>
+         <obj_property name="WaveformStyle">STYLE_ENUM_TRANSACTION</obj_property>
+         <obj_property name="EnumTransactionColorTable">0=blank 1=#D399FF 2=pink</obj_property>
+         <obj_property name="EnumTransactionValueTable">0=blank;1=Read;2=Write;3=Read/Write</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+         <obj_property name="CustomSignalColor">turquoise</obj_property>
+         <obj_property name="Render_Data">/mutli_traffic_gen_tb/uut/axi_bram_ctrl_0/S_AXI.readWriteSummary</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+         <obj_property name="CellHeight">36</obj_property>
+         <obj_property name="ElementShortName">S_AXI</obj_property>
+         <obj_property name="ObjectShortName">S_AXI</obj_property>
+      </wvobject>
+      <wvobject fp_name="/mutli_traffic_gen_tb/uut/axi_bram_ctrl_0_bram/inst/\native_mem_mapped_module.blk_mem_gen_v8_4_4_inst /memory" type="array">
+         <obj_property name="ElementShortName">memory[0:2047][31:0]</obj_property>
+         <obj_property name="ObjectShortName">memory[0:2047][31:0]</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group4846" type="group">
+      <obj_property name="label">IDs</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="group4851" type="group">
+         <obj_property name="label">man0</obj_property>
+         <obj_property name="DisplayName">label</obj_property>
+         <obj_property name="isExpanded"></obj_property>
+         <wvobject fp_name="/mutli_traffic_gen_tb/uut/AxiIdManipulator_0/s_axi_awid" type="array">
+            <obj_property name="DisplayName">label</obj_property>
+            <obj_property name="ElementShortName">s_axi_awid[0:0]</obj_property>
+            <obj_property name="ObjectShortName">s_axi_awid[0:0]</obj_property>
+            <obj_property name="label">man0_s_axi_awid[0:0]</obj_property>
+            <obj_property name="Radix">BINARYRADIX</obj_property>
+         </wvobject>
+         <wvobject fp_name="/mutli_traffic_gen_tb/uut/AxiIdManipulator_0/m_axi_awid" type="array">
+            <obj_property name="DisplayName">label</obj_property>
+            <obj_property name="ElementShortName">m_axi_awid[15:0]</obj_property>
+            <obj_property name="ObjectShortName">m_axi_awid[15:0]</obj_property>
+            <obj_property name="label">man0_m_axi_awid[15:0]</obj_property>
+            <obj_property name="Radix">BINARYRADIX</obj_property>
+         </wvobject>
+         <wvobject fp_name="/mutli_traffic_gen_tb/uut/AxiIdManipulator_0/m_axi_bid" type="array">
+            <obj_property name="ElementShortName">m_axi_bid[15:0]</obj_property>
+            <obj_property name="ObjectShortName">m_axi_bid[15:0]</obj_property>
+            <obj_property name="Radix">BINARYRADIX</obj_property>
+         </wvobject>
+         <wvobject fp_name="/mutli_traffic_gen_tb/uut/AxiIdManipulator_0/s_axi_bid" type="array">
+            <obj_property name="ElementShortName">s_axi_bid[0:0]</obj_property>
+            <obj_property name="ObjectShortName">s_axi_bid[0:0]</obj_property>
+            <obj_property name="Radix">BINARYRADIX</obj_property>
+         </wvobject>
+      </wvobject>
+      <wvobject fp_name="group4852" type="group">
+         <obj_property name="label">man1</obj_property>
+         <obj_property name="DisplayName">label</obj_property>
+         <obj_property name="isExpanded"></obj_property>
+         <wvobject fp_name="/mutli_traffic_gen_tb/uut/AxiIdManipulator_1/s_axi_awid" type="array">
+            <obj_property name="ElementShortName">s_axi_awid[0:0]</obj_property>
+            <obj_property name="ObjectShortName">s_axi_awid[0:0]</obj_property>
+            <obj_property name="Radix">BINARYRADIX</obj_property>
+         </wvobject>
+         <wvobject fp_name="/mutli_traffic_gen_tb/uut/AxiIdManipulator_1/m_axi_awid" type="array">
+            <obj_property name="ElementShortName">m_axi_awid[15:0]</obj_property>
+            <obj_property name="ObjectShortName">m_axi_awid[15:0]</obj_property>
+            <obj_property name="Radix">BINARYRADIX</obj_property>
+         </wvobject>
+         <wvobject fp_name="/mutli_traffic_gen_tb/uut/AxiIdManipulator_1/m_axi_bid" type="array">
+            <obj_property name="ElementShortName">m_axi_bid[15:0]</obj_property>
+            <obj_property name="ObjectShortName">m_axi_bid[15:0]</obj_property>
+            <obj_property name="Radix">BINARYRADIX</obj_property>
+         </wvobject>
+         <wvobject fp_name="/mutli_traffic_gen_tb/uut/AxiIdManipulator_1/s_axi_bid" type="array">
+            <obj_property name="ElementShortName">s_axi_bid[0:0]</obj_property>
+            <obj_property name="ObjectShortName">s_axi_bid[0:0]</obj_property>
+            <obj_property name="Radix">BINARYRADIX</obj_property>
+         </wvobject>
+      </wvobject>
+      <wvobject fp_name="group4857" type="group">
+         <obj_property name="label">interconnect</obj_property>
+         <obj_property name="DisplayName">label</obj_property>
+         <obj_property name="isExpanded"></obj_property>
+         <wvobject fp_name="/mutli_traffic_gen_tb/uut/smartconnect_0/inst/S00_AXI_awid" type="array">
+            <obj_property name="ElementShortName">S00_AXI_awid[15:0]</obj_property>
+            <obj_property name="ObjectShortName">S00_AXI_awid[15:0]</obj_property>
+            <obj_property name="Radix">BINARYRADIX</obj_property>
+         </wvobject>
+         <wvobject fp_name="/mutli_traffic_gen_tb/uut/smartconnect_0/inst/S00_AXI_bid" type="array">
+            <obj_property name="ElementShortName">S00_AXI_bid[15:0]</obj_property>
+            <obj_property name="ObjectShortName">S00_AXI_bid[15:0]</obj_property>
+            <obj_property name="Radix">BINARYRADIX</obj_property>
+         </wvobject>
+         <wvobject fp_name="/mutli_traffic_gen_tb/uut/smartconnect_0/inst/S01_AXI_awid" type="array">
+            <obj_property name="ElementShortName">S01_AXI_awid[15:0]</obj_property>
+            <obj_property name="ObjectShortName">S01_AXI_awid[15:0]</obj_property>
+            <obj_property name="Radix">BINARYRADIX</obj_property>
+         </wvobject>
+         <wvobject fp_name="/mutli_traffic_gen_tb/uut/smartconnect_0/inst/S01_AXI_bid" type="array">
+            <obj_property name="ElementShortName">S01_AXI_bid[15:0]</obj_property>
+            <obj_property name="ObjectShortName">S01_AXI_bid[15:0]</obj_property>
+            <obj_property name="Radix">BINARYRADIX</obj_property>
+         </wvobject>
+         <wvobject fp_name="/mutli_traffic_gen_tb/uut/smartconnect_0/inst/m00_sc2axi_M_AXI_AWID" type="array">
+            <obj_property name="ElementShortName">m00_sc2axi_M_AXI_AWID[1:0]</obj_property>
+            <obj_property name="ObjectShortName">m00_sc2axi_M_AXI_AWID[1:0]</obj_property>
+            <obj_property name="Radix">BINARYRADIX</obj_property>
+         </wvobject>
+         <wvobject fp_name="/mutli_traffic_gen_tb/uut/smartconnect_0/inst/m00_sc2axi_M_AXI_BID" type="array">
+            <obj_property name="ElementShortName">m00_sc2axi_M_AXI_BID[1:0]</obj_property>
+            <obj_property name="ObjectShortName">m00_sc2axi_M_AXI_BID[1:0]</obj_property>
+            <obj_property name="Radix">BINARYRADIX</obj_property>
+         </wvobject>
+      </wvobject>
+      <wvobject fp_name="group4881" type="group">
+         <obj_property name="label">bram</obj_property>
+         <obj_property name="DisplayName">label</obj_property>
+         <obj_property name="isExpanded"></obj_property>
+         <wvobject fp_name="/mutli_traffic_gen_tb/uut/axi_bram_ctrl_0_bram/inst/s_axi_awid" type="array">
+            <obj_property name="ElementShortName">s_axi_awid[3:0]</obj_property>
+            <obj_property name="ObjectShortName">s_axi_awid[3:0]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/mutli_traffic_gen_tb/uut/axi_bram_ctrl_0_bram/inst/s_axi_bid" type="array">
+            <obj_property name="ElementShortName">s_axi_bid[3:0]</obj_property>
+            <obj_property name="ObjectShortName">s_axi_bid[3:0]</obj_property>
+         </wvobject>
+      </wvobject>
+   </wvobject>
+</wave_config>
