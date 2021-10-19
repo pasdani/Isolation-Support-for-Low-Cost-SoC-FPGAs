@@ -64,18 +64,15 @@ ENTITY AxiLiteIdManipulator_v0_1 IS
 		m_axi_awcache : OUT STD_LOGIC_VECTOR(3 DOWNTO 0);
 		m_axi_awprot : OUT STD_LOGIC_VECTOR(2 DOWNTO 0);
 		m_axi_awqos : OUT STD_LOGIC_VECTOR(3 DOWNTO 0);
-		m_axi_awuser : OUT STD_LOGIC_VECTOR(C_M_AXI_AWUSER_WIDTH - 1 DOWNTO 0);
 		m_axi_awvalid : OUT STD_LOGIC;
 		m_axi_awready : IN STD_LOGIC;
 		m_axi_wdata : OUT STD_LOGIC_VECTOR(C_M_AXI_DATA_WIDTH - 1 DOWNTO 0);
 		m_axi_wstrb : OUT STD_LOGIC_VECTOR(C_M_AXI_DATA_WIDTH/8 - 1 DOWNTO 0);
 		m_axi_wlast : OUT STD_LOGIC;
-		m_axi_wuser : OUT STD_LOGIC_VECTOR(C_M_AXI_WUSER_WIDTH - 1 DOWNTO 0);
 		m_axi_wvalid : OUT STD_LOGIC;
 		m_axi_wready : IN STD_LOGIC;
 		m_axi_bid : IN STD_LOGIC_VECTOR(C_M_AXI_ID_WIDTH - 1 DOWNTO 0);
 		m_axi_bresp : IN STD_LOGIC_VECTOR(1 DOWNTO 0);
-		m_axi_buser : IN STD_LOGIC_VECTOR(C_M_AXI_BUSER_WIDTH - 1 DOWNTO 0);
 		m_axi_bvalid : IN STD_LOGIC;
 		m_axi_bready : OUT STD_LOGIC;
 		m_axi_arid : OUT STD_LOGIC_VECTOR(C_M_AXI_ID_WIDTH - 1 DOWNTO 0);
@@ -87,14 +84,12 @@ ENTITY AxiLiteIdManipulator_v0_1 IS
 		m_axi_arcache : OUT STD_LOGIC_VECTOR(3 DOWNTO 0);
 		m_axi_arprot : OUT STD_LOGIC_VECTOR(2 DOWNTO 0);
 		m_axi_arqos : OUT STD_LOGIC_VECTOR(3 DOWNTO 0);
-		m_axi_aruser : OUT STD_LOGIC_VECTOR(C_M_AXI_ARUSER_WIDTH - 1 DOWNTO 0);
 		m_axi_arvalid : OUT STD_LOGIC;
 		m_axi_arready : IN STD_LOGIC;
 		m_axi_rid : IN STD_LOGIC_VECTOR(C_M_AXI_ID_WIDTH - 1 DOWNTO 0);
 		m_axi_rdata : IN STD_LOGIC_VECTOR(C_M_AXI_DATA_WIDTH - 1 DOWNTO 0);
 		m_axi_rresp : IN STD_LOGIC_VECTOR(1 DOWNTO 0);
 		m_axi_rlast : IN STD_LOGIC;
-		m_axi_ruser : IN STD_LOGIC_VECTOR(C_M_AXI_RUSER_WIDTH - 1 DOWNTO 0);
 		m_axi_rvalid : IN STD_LOGIC;
 		m_axi_rready : OUT STD_LOGIC
 		-- removed
@@ -103,6 +98,11 @@ ENTITY AxiLiteIdManipulator_v0_1 IS
 		  -- m_axi_init_axi_txn : IN STD_LOGIC;
 		  -- m_axi_aclk : IN STD_LOGIC;
 		  -- m_axi_aresetn : IN STD_LOGIC;
+		  -- m_axi_awuser : OUT STD_LOGIC_VECTOR(C_M_AXI_AWUSER_WIDTH - 1 DOWNTO 0);
+		  -- m_axi_wuser : OUT STD_LOGIC_VECTOR(C_M_AXI_WUSER_WIDTH - 1 DOWNTO 0);
+		  -- m_axi_buser : IN STD_LOGIC_VECTOR(C_M_AXI_BUSER_WIDTH - 1 DOWNTO 0);
+		  -- m_axi_aruser : OUT STD_LOGIC_VECTOR(C_M_AXI_ARUSER_WIDTH - 1 DOWNTO 0);
+		  -- m_axi_ruser : IN STD_LOGIC_VECTOR(C_M_AXI_RUSER_WIDTH - 1 DOWNTO 0);
 		
 	);
 END AxiLiteIdManipulator_v0_1;
@@ -164,10 +164,5 @@ BEGIN
 	-- m_axi_aresetn : IN STD_LOGIC;
 	-- m_axi_bid : IN STD_LOGIC_VECTOR(C_M_AXI_ID_WIDTH - 1 DOWNTO 0);
 	-- m_axi_rid : IN STD_LOGIC_VECTOR(C_M_AXI_ID_WIDTH - 1 DOWNTO 0);
-	-- m_axi_awuser : OUT STD_LOGIC_VECTOR(C_M_AXI_AWUSER_WIDTH - 1 DOWNTO 0);
-	-- m_axi_wuser : OUT STD_LOGIC_VECTOR(C_M_AXI_WUSER_WIDTH - 1 DOWNTO 0);
-	-- m_axi_buser : IN STD_LOGIC_VECTOR(C_M_AXI_BUSER_WIDTH - 1 DOWNTO 0);
-	-- m_axi_aruser : OUT STD_LOGIC_VECTOR(C_M_AXI_ARUSER_WIDTH - 1 DOWNTO 0);
-	-- m_axi_ruser : IN STD_LOGIC_VECTOR(C_M_AXI_RUSER_WIDTH - 1 DOWNTO 0);
 	-- m_axi_rlast : IN STD_LOGIC;
 END arch_imp;
