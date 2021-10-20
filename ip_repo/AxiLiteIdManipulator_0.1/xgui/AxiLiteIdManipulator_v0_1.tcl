@@ -1,7 +1,8 @@
 # Definitional proc to organize widgets for parameters.
 proc init_gui { IPINST } {
   ipgui::add_param $IPINST -name "Component_Name"
-  ipgui::add_param $IPINST -name "C_AXI_ID"
+  set C_AXI_ID [ipgui::add_param $IPINST -name "C_AXI_ID"]
+  set_property tooltip {New ID} ${C_AXI_ID}
   ipgui::add_param $IPINST -name "C_M_AXI_ID_WIDTH"
 
 }
