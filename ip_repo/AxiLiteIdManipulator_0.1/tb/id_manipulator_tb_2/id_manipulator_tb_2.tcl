@@ -103,7 +103,7 @@ if { ${design_name} eq "" } {
 
    common::send_gid_msg -ssname BD::TCL -id 2003 -severity "INFO" "Currently there is no design <$design_name> in project, so creating one..."
 
-   create_bd_design $design_name
+   create_bd_design -srcset $design_name $design_name
 
    common::send_gid_msg -ssname BD::TCL -id 2004 -severity "INFO" "Making design <$design_name> as current_bd_design."
    current_bd_design $design_name
@@ -194,7 +194,7 @@ proc create_root_design { parentCell } {
   # Create interface ports
 
   # Create ports
-  set clk_500Mhz [ create_bd_port -dir I -type clk -freq_hz 500000000 clk_500Mhz ]
+  set clk_50Mhz [ create_bd_port -dir I -type clk -freq_hz 50000000 clk_50Mhz ]
   set resetn [ create_bd_port -dir I -type rst resetn ]
 
   # Create instance: AxiLiteIdManipulator_0, and set properties
@@ -218,10 +218,10 @@ proc create_root_design { parentCell } {
    CONFIG.C_ATG_MODE {AXI4-Lite} \
    CONFIG.C_ATG_SYSINIT_MODES {System_Test} \
    CONFIG.C_ATG_SYSTEM_CMD_MAX_RETRY {2147483647} \
-   CONFIG.C_ATG_SYSTEM_INIT_ADDR_MIF {../../../../../../AxiLiteIdManipulator_0.1/tb/id_manipulator_tb_2/axi_traffic_gen_addr.coe} \
-   CONFIG.C_ATG_SYSTEM_INIT_CTRL_MIF {../../../../../../AxiLiteIdManipulator_0.1/tb/id_manipulator_tb_2/axi_traffic_gen_control.coe} \
-   CONFIG.C_ATG_SYSTEM_INIT_DATA_MIF {../../../../../../AxiLiteIdManipulator_0.1/tb/id_manipulator_tb_2/axi_traffic_gen_data.coe} \
-   CONFIG.C_ATG_SYSTEM_INIT_MASK_MIF {../../../../../../AxiLiteIdManipulator_0.1/tb/id_manipulator_tb_2/axi_traffic_gen_mask.coe} \
+   CONFIG.C_ATG_SYSTEM_INIT_ADDR_MIF "${script_folder}/axi_traffic_gen_addr.coe" \
+   CONFIG.C_ATG_SYSTEM_INIT_CTRL_MIF "${script_folder}/axi_traffic_gen_control.coe" \
+   CONFIG.C_ATG_SYSTEM_INIT_DATA_MIF "${script_folder}/axi_traffic_gen_data.coe" \
+   CONFIG.C_ATG_SYSTEM_INIT_MASK_MIF "${script_folder}/axi_traffic_gen_mask.coe" \
  ] $axi_traffic_gen_0
 
   # Create instance: axi_traffic_gen_1, and set properties
@@ -230,10 +230,10 @@ proc create_root_design { parentCell } {
    CONFIG.C_ATG_MODE {AXI4-Lite} \
    CONFIG.C_ATG_SYSINIT_MODES {System_Test} \
    CONFIG.C_ATG_SYSTEM_CMD_MAX_RETRY {2147483647} \
-   CONFIG.C_ATG_SYSTEM_INIT_ADDR_MIF {../../../../../../AxiLiteIdManipulator_0.1/tb/id_manipulator_tb_2/axi_traffic_gen_addr.coe} \
-   CONFIG.C_ATG_SYSTEM_INIT_CTRL_MIF {../../../../../../AxiLiteIdManipulator_0.1/tb/id_manipulator_tb_2/axi_traffic_gen_control.coe} \
-   CONFIG.C_ATG_SYSTEM_INIT_DATA_MIF {../../../../../../AxiLiteIdManipulator_0.1/tb/id_manipulator_tb_2/axi_traffic_gen_data.coe} \
-   CONFIG.C_ATG_SYSTEM_INIT_MASK_MIF {../../../../../../AxiLiteIdManipulator_0.1/tb/id_manipulator_tb_2/axi_traffic_gen_mask.coe} \
+   CONFIG.C_ATG_SYSTEM_INIT_ADDR_MIF "${script_folder}/axi_traffic_gen_addr.coe" \
+   CONFIG.C_ATG_SYSTEM_INIT_CTRL_MIF "${script_folder}/axi_traffic_gen_control.coe" \
+   CONFIG.C_ATG_SYSTEM_INIT_DATA_MIF "${script_folder}/axi_traffic_gen_data.coe" \
+   CONFIG.C_ATG_SYSTEM_INIT_MASK_MIF "${script_folder}/axi_traffic_gen_mask.coe" \
  ] $axi_traffic_gen_1
 
   # Create instance: smartconnect_0, and set properties
@@ -248,7 +248,7 @@ proc create_root_design { parentCell } {
   connect_bd_intf_net -intf_net smartconnect_0_M00_AXI [get_bd_intf_pins axi_bram_ctrl_0/S_AXI] [get_bd_intf_pins smartconnect_0/M00_AXI]
 
   # Create port connections
-  connect_bd_net -net clk_1 [get_bd_ports clk_500Mhz] [get_bd_pins AxiLiteIdManipulator_0/axi_aclk] [get_bd_pins AxiLiteIdManipulator_1/axi_aclk] [get_bd_pins axi_bram_ctrl_0/s_axi_aclk] [get_bd_pins axi_traffic_gen_0/s_axi_aclk] [get_bd_pins axi_traffic_gen_1/s_axi_aclk] [get_bd_pins smartconnect_0/aclk]
+  connect_bd_net -net clk_1 [get_bd_ports clk_50Mhz] [get_bd_pins AxiLiteIdManipulator_0/axi_aclk] [get_bd_pins AxiLiteIdManipulator_1/axi_aclk] [get_bd_pins axi_bram_ctrl_0/s_axi_aclk] [get_bd_pins axi_traffic_gen_0/s_axi_aclk] [get_bd_pins axi_traffic_gen_1/s_axi_aclk] [get_bd_pins smartconnect_0/aclk]
   connect_bd_net -net resetn_1 [get_bd_ports resetn] [get_bd_pins axi_bram_ctrl_0/s_axi_aresetn] [get_bd_pins axi_traffic_gen_0/s_axi_aresetn] [get_bd_pins axi_traffic_gen_1/s_axi_aresetn] [get_bd_pins smartconnect_0/aresetn]
 
   # Create address segments

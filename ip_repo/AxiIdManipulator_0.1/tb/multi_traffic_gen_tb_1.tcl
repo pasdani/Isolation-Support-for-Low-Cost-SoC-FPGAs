@@ -194,7 +194,7 @@ proc create_root_design { parentCell } {
   # Create interface ports
 
   # Create ports
-  set clk_50Mhz [ create_bd_port -dir I -type clk -freq_hz 500000000 clk_50Mhz ]
+  set clk_50Mhz [ create_bd_port -dir I -type clk -freq_hz 50000000 clk_50Mhz ]
   set resetn [ create_bd_port -dir I -type rst resetn ]
   set start0 [ create_bd_port -dir I start0 ]
   set start1 [ create_bd_port -dir I start1 ]
@@ -248,7 +248,7 @@ proc create_root_design { parentCell } {
   connect_bd_intf_net -intf_net smartconnect_0_M00_AXI [get_bd_intf_pins axi_bram_ctrl_0/S_AXI] [get_bd_intf_pins smartconnect_0/M00_AXI]
 
   # Create port connections
-  connect_bd_net -net clk_500Mhz_1 [get_bd_ports clk_50Mhz] [get_bd_pins AxiIdManipulator_0/axi_aclk] [get_bd_pins AxiIdManipulator_1/axi_aclk] [get_bd_pins axi_bram_ctrl_0/s_axi_aclk] [get_bd_pins axi_traffic_gen_0/s_axi_aclk] [get_bd_pins axi_traffic_gen_1/s_axi_aclk] [get_bd_pins smartconnect_0/aclk]
+  connect_bd_net -net clk_50Mhz_1 [get_bd_ports clk_50Mhz] [get_bd_pins AxiIdManipulator_0/axi_aclk] [get_bd_pins AxiIdManipulator_1/axi_aclk] [get_bd_pins axi_bram_ctrl_0/s_axi_aclk] [get_bd_pins axi_traffic_gen_0/s_axi_aclk] [get_bd_pins axi_traffic_gen_1/s_axi_aclk] [get_bd_pins smartconnect_0/aclk]
   connect_bd_net -net resetn_1 [get_bd_ports resetn] [get_bd_pins axi_bram_ctrl_0/s_axi_aresetn] [get_bd_pins axi_traffic_gen_0/s_axi_aresetn] [get_bd_pins axi_traffic_gen_1/s_axi_aresetn] [get_bd_pins smartconnect_0/aresetn]
   connect_bd_net -net start0_1 [get_bd_ports start0] [get_bd_pins axi_traffic_gen_0/core_ext_start]
   connect_bd_net -net start1_1 [get_bd_ports start1] [get_bd_pins axi_traffic_gen_1/core_ext_start]

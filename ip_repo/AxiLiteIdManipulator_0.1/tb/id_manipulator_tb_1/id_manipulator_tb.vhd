@@ -2,7 +2,7 @@
 -- Company: 
 -- Engineer: 
 -- 
--- Create Date: 18.10.2021 11:54:28
+-- Create Date: 08.10.2021 15:34:03
 -- Design Name: 
 -- Module Name: id_manipulator_tb - Behavioral
 -- Project Name: 
@@ -34,40 +34,46 @@ ENTITY id_manipulator_tb IS
 END id_manipulator_tb;
 
 ARCHITECTURE Behavioral OF id_manipulator_tb IS
+    CONSTANT clk_period : time := 20 ns;
 
-    COMPONENT id_manipulator_tb_2 IS
+    COMPONENT id_manipulator_tb_1 IS
         PORT (
             clk_50Mhz : IN STD_LOGIC;
-            resetn : IN STD_LOGIC
+            done : OUT STD_LOGIC;
+            resetn : IN STD_LOGIC;
+            status : OUT STD_LOGIC_VECTOR (31 DOWNTO 0)
         );
     END COMPONENT;
 
-    CONSTANT clk_period : TIME := 20 ns;
-
     SIGNAL clk : STD_LOGIC := '0';
+    SIGNAL done : STD_LOGIC;
     SIGNAL resetn : STD_LOGIC := '1';
+    SIGNAL status : STD_LOGIC_VECTOR (31 DOWNTO 0);
 
 BEGIN
-
-    uut : id_manipulator_tb_2
+    uut : id_manipulator_tb_1
     PORT MAP(
         clk_50Mhz => clk,
-        resetn => resetn
+        done => done,
+        resetn => resetn,
+        status => status
     );
 
     clk_proc : PROCESS
     BEGIN
-        WAIT FOR clk_period/2;
         clk <= NOT clk;
-    END PROCESS;
+        WAIT FOR clk_period/2;
+    END PROCESS clk_proc;
 
-    stim_proc : PROCESS
+    reset_proc : PROCESS
     BEGIN
-        WAIT FOR 200 ns;
-        WAIT UNTIL falling_edge(clk);
+        WAIT FOR 100 ns;
+        WAIT UNTIL rising_edge(clk);
+        WAIT FOR clk_period/10;
         resetn <= '0';
         WAIT FOR clk_period;
         resetn <= '1';
         WAIT;
-    END PROCESS;
+    END PROCESS reset_proc;
+
 END Behavioral;

@@ -55,7 +55,7 @@ set design_name id_manipulator_tb_1
 # This script was generated for a remote BD. To create a non-remote design,
 # change the variable <run_remote_bd_flow> to <0>.
 
-set run_remote_bd_flow 1
+set run_remote_bd_flow 0
 if { $run_remote_bd_flow == 1 } {
   # Set the reference directory for source file relative paths (by default 
   # the value is script directory path)
@@ -192,7 +192,7 @@ proc create_root_design { parentCell } {
   # Create interface ports
 
   # Create ports
-  set clk_500Mhz [ create_bd_port -dir I -type clk -freq_hz 500000000 clk_500Mhz ]
+  set clk_50Mhz [ create_bd_port -dir I -type clk -freq_hz 50000000 clk_50Mhz ]
   set done [ create_bd_port -dir O done ]
   set resetn [ create_bd_port -dir I -type rst resetn ]
   set status [ create_bd_port -dir O -from 31 -to 0 status ]
@@ -224,10 +224,10 @@ proc create_root_design { parentCell } {
    CONFIG.C_ATG_MODE {AXI4-Lite} \
    CONFIG.C_ATG_SYSINIT_MODES {System_Test} \
    CONFIG.C_ATG_SYSTEM_CMD_MAX_RETRY {2147483647} \
-   CONFIG.C_ATG_SYSTEM_INIT_ADDR_MIF {../../axi_traffic_gen_address.coe} \
-   CONFIG.C_ATG_SYSTEM_INIT_CTRL_MIF {../../axi_traffic_gen_control.coe} \
-   CONFIG.C_ATG_SYSTEM_INIT_DATA_MIF {../../axi_traffic_gen_data.coe} \
-   CONFIG.C_ATG_SYSTEM_INIT_MASK_MIF {../../axi_traffic_gen_mask.coe} \
+   CONFIG.C_ATG_SYSTEM_INIT_ADDR_MIF "${script_folder}/axi_traffic_gen_address.coe" \
+   CONFIG.C_ATG_SYSTEM_INIT_CTRL_MIF "${script_folder}/axi_traffic_gen_control.coe" \
+   CONFIG.C_ATG_SYSTEM_INIT_DATA_MIF "${script_folder}/axi_traffic_gen_data.coe" \
+   CONFIG.C_ATG_SYSTEM_INIT_MASK_MIF "${script_folder}/axi_traffic_gen_mask.coe" \
  ] $axi_traffic_gen_0
 
   # Create instance: axi_traffic_gen_1, and set properties
@@ -236,10 +236,10 @@ proc create_root_design { parentCell } {
    CONFIG.C_ATG_MODE {AXI4-Lite} \
    CONFIG.C_ATG_SYSINIT_MODES {System_Test} \
    CONFIG.C_ATG_SYSTEM_CMD_MAX_RETRY {2147483647} \
-   CONFIG.C_ATG_SYSTEM_INIT_ADDR_MIF {../../axi_traffic_gen_address.coe} \
-   CONFIG.C_ATG_SYSTEM_INIT_CTRL_MIF {../../axi_traffic_gen_control.coe} \
-   CONFIG.C_ATG_SYSTEM_INIT_DATA_MIF {../../axi_traffic_gen_data.coe} \
-   CONFIG.C_ATG_SYSTEM_INIT_MASK_MIF {../../axi_traffic_gen_mask.coe} \
+   CONFIG.C_ATG_SYSTEM_INIT_ADDR_MIF "${script_folder}/axi_traffic_gen_address.coe" \
+   CONFIG.C_ATG_SYSTEM_INIT_CTRL_MIF "${script_folder}/axi_traffic_gen_control.coe" \
+   CONFIG.C_ATG_SYSTEM_INIT_DATA_MIF "${script_folder}/axi_traffic_gen_data.coe" \
+   CONFIG.C_ATG_SYSTEM_INIT_MASK_MIF "${script_folder}/axi_traffic_gen_mask.coe" \
  ] $axi_traffic_gen_1
 
   # Create instance: smartconnect_0, and set properties
@@ -259,7 +259,7 @@ proc create_root_design { parentCell } {
   # Create port connections
   connect_bd_net -net axi_traffic_gen_0_done [get_bd_ports done] [get_bd_pins axi_traffic_gen_0/done]
   connect_bd_net -net axi_traffic_gen_0_status [get_bd_ports status] [get_bd_pins axi_traffic_gen_0/status]
-  connect_bd_net -net clk_1 [get_bd_ports clk_500Mhz] [get_bd_pins AxiLiteIdManipulator_0/axi_aclk] [get_bd_pins axi_bram_ctrl_0/s_axi_aclk] [get_bd_pins axi_bram_ctrl_1/s_axi_aclk] [get_bd_pins axi_traffic_gen_0/s_axi_aclk] [get_bd_pins axi_traffic_gen_1/s_axi_aclk] [get_bd_pins smartconnect_0/aclk]
+  connect_bd_net -net clk_1 [get_bd_ports clk_50Mhz] [get_bd_pins AxiLiteIdManipulator_0/axi_aclk] [get_bd_pins axi_bram_ctrl_0/s_axi_aclk] [get_bd_pins axi_bram_ctrl_1/s_axi_aclk] [get_bd_pins axi_traffic_gen_0/s_axi_aclk] [get_bd_pins axi_traffic_gen_1/s_axi_aclk] [get_bd_pins smartconnect_0/aclk]
   connect_bd_net -net resetn_1 [get_bd_ports resetn] [get_bd_pins axi_bram_ctrl_0/s_axi_aresetn] [get_bd_pins axi_bram_ctrl_1/s_axi_aresetn] [get_bd_pins axi_traffic_gen_0/s_axi_aresetn] [get_bd_pins axi_traffic_gen_1/s_axi_aresetn]
 
   # Create address segments
