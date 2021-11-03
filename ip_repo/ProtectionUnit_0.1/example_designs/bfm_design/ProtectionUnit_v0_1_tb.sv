@@ -4,8 +4,8 @@
 
 import axi_vip_pkg::*;
 import ProtectionUnit_v0_1_bfm_1_slave_0_0_pkg::*;
-import ProtectionUnit_v0_1_bfm_1_master_0_0_pkg::*;
 import ProtectionUnit_v0_1_bfm_1_master_1_0_pkg::*;
+import ProtectionUnit_v0_1_bfm_1_master_0_0_pkg::*;
 
 module ProtectionUnit_v0_1_tb();
 
@@ -94,6 +94,8 @@ xil_axi_resp_t                          mtestBresp;
 xil_axi_resp_t[255:0]                   mtestRresp;  
 bit [32767:0]                           mtestWDataF;//ms  
 bit [32767:0]                           mtestRDataF;//ms  
+bit [63:0]                              mtestWDataL; 
+bit [63:0]                              mtestRDataL; 
 axi_transaction                         pss_wr_transaction;   
 axi_transaction                         pss_rd_transaction;   
 axi_transaction                         reactive_transaction;   
@@ -115,8 +117,8 @@ axi_ready_gen                           awready_gen2;
 axi_ready_gen                           wready_gen2;  
 axi_ready_gen                           arready_gen2;  
 xil_axi_payload_byte                    data_mem[xil_axi_ulong];  
-ProtectionUnit_v0_1_bfm_1_master_0_0_mst_t          mst_agent_0;
 ProtectionUnit_v0_1_bfm_1_master_1_0_mst_t          mst_agent_1;
+ProtectionUnit_v0_1_bfm_1_master_0_0_mst_t          mst_agent_0;
 
   `BD_WRAPPER DUT(
       .ARESETN(reset), 
@@ -132,16 +134,16 @@ initial begin
     slv_agent_0.set_agent_tag("Slave VIP");
     slv_agent_0.set_verbosity(slv_agent_verbosity);
     slv_agent_0.start_slave();
-     mst_agent_0 = new("master vip agent",DUT.`BD_INST_NAME.master_0.inst.IF);//ms  
-   mst_agent_0.vif_proxy.set_dummy_drive_type(XIL_AXI_VIF_DRIVE_NONE); 
-   mst_agent_0.set_agent_tag("Master VIP"); 
-   mst_agent_0.set_verbosity(mst_agent_verbosity); 
-   mst_agent_0.start_master(); 
      mst_agent_1 = new("master vip agent",DUT.`BD_INST_NAME.master_1.inst.IF);//ms  
    mst_agent_1.vif_proxy.set_dummy_drive_type(XIL_AXI_VIF_DRIVE_NONE); 
    mst_agent_1.set_agent_tag("Master VIP"); 
    mst_agent_1.set_verbosity(mst_agent_verbosity); 
    mst_agent_1.start_master(); 
+     mst_agent_0 = new("master vip agent",DUT.`BD_INST_NAME.master_0.inst.IF);//ms  
+   mst_agent_0.vif_proxy.set_dummy_drive_type(XIL_AXI_VIF_DRIVE_NONE); 
+   mst_agent_0.set_agent_tag("Master VIP"); 
+   mst_agent_0.set_verbosity(mst_agent_verbosity); 
+   mst_agent_0.start_master(); 
      $timeformat (-12, 1, " ps", 1);
   end
   initial begin
@@ -181,79 +183,6 @@ initial begin
 task automatic S_AXI_TEST;  
 begin   
 #1; 
-   for(int i = 0; i < 8; i++) begin 
-     mtestWDataF[i*32+:32] = i+1; 
-   end 
-   $display("Sequential write transfers example similar to  AXI BFM WRITE_BURST method starts"); 
-   mtestID = 0; 
-   mtestADDR = 0; 
-   mtestBurstLength = 7; 
-   mtestDataSize = xil_axi_size_t'(xil_clog2(32/8)); 
-   mtestBurstType = XIL_AXI_BURST_TYPE_INCR;  
-   mtestLOCK = XIL_AXI_ALOCK_NOLOCK;  
-   mtestCacheType = 0;  
-   mtestProtectionType = 0;  
-   mtestRegion = 0; 
-   mtestQOS = 0; 
-   result_slave = 1; 
-   for(int i = 0; i < 256;i++) begin 
-     mtestWUSER = 'h0; 
-   end  
-   mst_agent_0.AXI4_WRITE_BURST( 
-       mtestID, 
-       mtestADDR, 
-       mtestBurstLength, 
-       mtestDataSize, 
-       mtestBurstType, 
-       mtestLOCK, 
-       mtestCacheType, 
-       mtestProtectionType, 
-       mtestRegion, 
-       mtestQOS, 
-       mtestAWUSER, 
-       mtestWDataF, 
-       mtestWUSER, 
-       mtestBresp 
-     );   
-     $display("Sequential write transfers example similar to  AXI BFM WRITE_BURST method completes"); 
-     $display("Sequential read transfers example similar to  AXI BFM READ_BURST method starts"); 
-     mtestID = 0; 
-     mtestADDR = 0; 
-     mtestBurstLength = 7; 
-     mtestDataSize = xil_axi_size_t'(xil_clog2(32/8)); 
-     mtestBurstType = XIL_AXI_BURST_TYPE_INCR;  
-     mtestLOCK = XIL_AXI_ALOCK_NOLOCK;  
-     mtestCacheType = 0;  
-     mtestProtectionType = 0;  
-     mtestRegion = 0; 
-     mtestQOS = 0; 
-     mst_agent_0.AXI4_READ_BURST ( 
-       mtestID, 
-       mtestADDR, 
-       mtestBurstLength, 
-       mtestDataSize, 
-       mtestBurstType, 
-       mtestLOCK, 
-       mtestCacheType, 
-       mtestProtectionType, 
-       mtestRegion, 
-       mtestQOS, 
-       mtestARUSER, 
-       mtestRDataF, 
-       mtestRresp, 
-       mtestRUSER 
-       ); 
-     $display("Sequential read transfers example similar to  AXI BFM READ_BURST method completes"); 
-     COMPARE_DATA(mtestWDataF,mtestRDataF); 
-     $display("Sequential read transfers example similar to  AXI VIP READ_BURST method completes"); 
-     $display("---------------------------------------------------------"); 
-     $display("EXAMPLE TEST S_AXI_CONFIG: PTGEN_TEST_FINISHED!"); 
-     if ( result_slave ) begin                    
-       $display("PTGEN_TEST: PASSED!");                  
-     end    else begin                                       
-       $display("PTGEN_TEST: FAILED!");                  
-     end                                
-     $display("---------------------------------------------------------"); 
    for(int i = 0; i < 8; i++) begin 
      mtestWDataF[i*32+:32] = i+1; 
    end 
@@ -321,6 +250,62 @@ begin
      $display("Sequential read transfers example similar to  AXI VIP READ_BURST method completes"); 
      $display("---------------------------------------------------------"); 
      $display("EXAMPLE TEST S_AXI: PTGEN_TEST_FINISHED!"); 
+     if ( result_slave ) begin                    
+       $display("PTGEN_TEST: PASSED!");                  
+     end    else begin                                       
+       $display("PTGEN_TEST: FAILED!");                  
+     end                                
+     $display("---------------------------------------------------------"); 
+   $display("Sequential write transfers example similar to  AXI BFM WRITE_BURST method starts"); 
+   mtestID = 0; 
+   mtestADDR = 64'h00000000; 
+   mtestBurstLength = 0; 
+   mtestDataSize = xil_axi_size_t'(xil_clog2(32/8)); 
+   mtestBurstType = XIL_AXI_BURST_TYPE_INCR;  
+   mtestLOCK = XIL_AXI_ALOCK_NOLOCK;  
+   mtestCacheType = 0;  
+   mtestProtectionType = 0;  
+   mtestRegion = 0; 
+   mtestQOS = 0; 
+   result_slave = 1; 
+  mtestWDataL[31:0] = 32'h00000001; 
+  for(int i = 0; i < 4;i++) begin 
+  S00_AXI_test_data[i] <= mtestWDataL[31:0];   
+  mst_agent_0.AXI4LITE_WRITE_BURST( 
+  mtestADDR, 
+  mtestProtectionType, 
+  mtestWDataL, 
+  mtestBresp 
+  );   
+  mtestWDataL[31:0] = mtestWDataL[31:0] + 1; 
+  mtestADDR = mtestADDR + 64'h4; 
+  end 
+     $display("Sequential write transfers example similar to  AXI BFM WRITE_BURST method completes"); 
+     $display("Sequential read transfers example similar to  AXI BFM READ_BURST method starts"); 
+     mtestID = 0; 
+     mtestADDR = 64'h00000000; 
+     mtestBurstLength = 0; 
+     mtestDataSize = xil_axi_size_t'(xil_clog2(32/8)); 
+     mtestBurstType = XIL_AXI_BURST_TYPE_INCR;  
+     mtestLOCK = XIL_AXI_ALOCK_NOLOCK;  
+     mtestCacheType = 0;  
+     mtestProtectionType = 0;  
+     mtestRegion = 0; 
+     mtestQOS = 0; 
+ for(int i = 0; i < 4;i++) begin 
+   mst_agent_0.AXI4LITE_READ_BURST( 
+        mtestADDR, 
+        mtestProtectionType, 
+        mtestRDataL, 
+        mtestRresp 
+      ); 
+   mtestADDR = mtestADDR + 64'h4; 
+   COMPARE_DATA(S00_AXI_test_data[i],mtestRDataL); 
+ end 
+     $display("Sequential read transfers example similar to  AXI BFM READ_BURST method completes"); 
+     $display("Sequential read transfers example similar to  AXI VIP READ_BURST method completes"); 
+     $display("---------------------------------------------------------"); 
+     $display("EXAMPLE TEST S_AXI_CONFIG: PTGEN_TEST_FINISHED!"); 
      if ( result_slave ) begin                    
        $display("PTGEN_TEST: PASSED!");                  
      end    else begin                                       

@@ -38,6 +38,7 @@
     <Option Name="ProjectType" Val="Default"/>
     <Option Name="IPRepoPath" Val="$PPRDIR/ProtectionUnit_0.1"/>
     <Option Name="IPRepoPath" Val="$PPRDIR/ProtectionUnit_0.1"/>
+    <Option Name="IPRepoPath" Val="$PPRDIR/ProtectionUnit_0.1"/>
     <Option Name="IPOutputRepo" Val="$PCACHEDIR/ip"/>
     <Option Name="IPDefaultOutputPath" Val="$PGENDIR/sources_1"/>
     <Option Name="IPCachePermission" Val="read"/>

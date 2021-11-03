@@ -14,7 +14,7 @@ proc create_ipi_design { offsetfile design_name } {
 
 	# Create instance: master_0, and set properties
 	set master_0 [ create_bd_cell -type ip -vlnv  xilinx.com:ip:axi_vip master_0]
-	set_property -dict [ list CONFIG.PROTOCOL {AXI4} CONFIG.INTERFACE_MODE {MASTER} CONFIG.ID_WIDTH {1} CONFIG.AWUSER_WIDTH {1} CONFIG.ARUSER_WIDTH {1} CONFIG.RUSER_WIDTH {1} CONFIG.WUSER_WIDTH {1} CONFIG.BUSER_WIDTH {1} CONFIG.SUPPORTS_NARROW {0} ] $master_0
+	set_property -dict [ list CONFIG.PROTOCOL {AXI4LITE} CONFIG.INTERFACE_MODE {MASTER} ] $master_0
 
 	# Create interface connections
 	connect_bd_intf_net [get_bd_intf_pins master_0/M_AXI ] [get_bd_intf_pins ProtectionUnit_0/S_AXI_CONFIG]

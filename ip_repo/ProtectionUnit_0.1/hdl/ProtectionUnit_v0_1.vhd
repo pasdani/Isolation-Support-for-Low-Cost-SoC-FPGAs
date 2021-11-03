@@ -11,14 +11,8 @@ entity ProtectionUnit_v0_1 is
 
 
 		-- Parameters of Axi Slave Bus Interface S_AXI_CONFIG
-		C_S_AXI_CONFIG_ID_WIDTH	: integer	:= 1;
 		C_S_AXI_CONFIG_DATA_WIDTH	: integer	:= 32;
-		C_S_AXI_CONFIG_ADDR_WIDTH	: integer	:= 6;
-		C_S_AXI_CONFIG_AWUSER_WIDTH	: integer	:= 0;
-		C_S_AXI_CONFIG_ARUSER_WIDTH	: integer	:= 0;
-		C_S_AXI_CONFIG_WUSER_WIDTH	: integer	:= 0;
-		C_S_AXI_CONFIG_RUSER_WIDTH	: integer	:= 0;
-		C_S_AXI_CONFIG_BUSER_WIDTH	: integer	:= 0;
+		C_S_AXI_CONFIG_ADDR_WIDTH	: integer	:= 4;
 
 		-- Parameters of Axi Slave Bus Interface S_AXI
 		C_S_AXI_ID_WIDTH	: integer	:= 1;
@@ -52,48 +46,23 @@ entity ProtectionUnit_v0_1 is
 		-- Ports of Axi Slave Bus Interface S_AXI_CONFIG
 		s_axi_config_aclk	: in std_logic;
 		s_axi_config_aresetn	: in std_logic;
-		s_axi_config_awid	: in std_logic_vector(C_S_AXI_CONFIG_ID_WIDTH-1 downto 0);
 		s_axi_config_awaddr	: in std_logic_vector(C_S_AXI_CONFIG_ADDR_WIDTH-1 downto 0);
-		s_axi_config_awlen	: in std_logic_vector(7 downto 0);
-		s_axi_config_awsize	: in std_logic_vector(2 downto 0);
-		s_axi_config_awburst	: in std_logic_vector(1 downto 0);
-		s_axi_config_awlock	: in std_logic;
-		s_axi_config_awcache	: in std_logic_vector(3 downto 0);
 		s_axi_config_awprot	: in std_logic_vector(2 downto 0);
-		s_axi_config_awqos	: in std_logic_vector(3 downto 0);
-		s_axi_config_awregion	: in std_logic_vector(3 downto 0);
-		s_axi_config_awuser	: in std_logic_vector(C_S_AXI_CONFIG_AWUSER_WIDTH-1 downto 0);
 		s_axi_config_awvalid	: in std_logic;
 		s_axi_config_awready	: out std_logic;
 		s_axi_config_wdata	: in std_logic_vector(C_S_AXI_CONFIG_DATA_WIDTH-1 downto 0);
 		s_axi_config_wstrb	: in std_logic_vector((C_S_AXI_CONFIG_DATA_WIDTH/8)-1 downto 0);
-		s_axi_config_wlast	: in std_logic;
-		s_axi_config_wuser	: in std_logic_vector(C_S_AXI_CONFIG_WUSER_WIDTH-1 downto 0);
 		s_axi_config_wvalid	: in std_logic;
 		s_axi_config_wready	: out std_logic;
-		s_axi_config_bid	: out std_logic_vector(C_S_AXI_CONFIG_ID_WIDTH-1 downto 0);
 		s_axi_config_bresp	: out std_logic_vector(1 downto 0);
-		s_axi_config_buser	: out std_logic_vector(C_S_AXI_CONFIG_BUSER_WIDTH-1 downto 0);
 		s_axi_config_bvalid	: out std_logic;
 		s_axi_config_bready	: in std_logic;
-		s_axi_config_arid	: in std_logic_vector(C_S_AXI_CONFIG_ID_WIDTH-1 downto 0);
 		s_axi_config_araddr	: in std_logic_vector(C_S_AXI_CONFIG_ADDR_WIDTH-1 downto 0);
-		s_axi_config_arlen	: in std_logic_vector(7 downto 0);
-		s_axi_config_arsize	: in std_logic_vector(2 downto 0);
-		s_axi_config_arburst	: in std_logic_vector(1 downto 0);
-		s_axi_config_arlock	: in std_logic;
-		s_axi_config_arcache	: in std_logic_vector(3 downto 0);
 		s_axi_config_arprot	: in std_logic_vector(2 downto 0);
-		s_axi_config_arqos	: in std_logic_vector(3 downto 0);
-		s_axi_config_arregion	: in std_logic_vector(3 downto 0);
-		s_axi_config_aruser	: in std_logic_vector(C_S_AXI_CONFIG_ARUSER_WIDTH-1 downto 0);
 		s_axi_config_arvalid	: in std_logic;
 		s_axi_config_arready	: out std_logic;
-		s_axi_config_rid	: out std_logic_vector(C_S_AXI_CONFIG_ID_WIDTH-1 downto 0);
 		s_axi_config_rdata	: out std_logic_vector(C_S_AXI_CONFIG_DATA_WIDTH-1 downto 0);
 		s_axi_config_rresp	: out std_logic_vector(1 downto 0);
-		s_axi_config_rlast	: out std_logic;
-		s_axi_config_ruser	: out std_logic_vector(C_S_AXI_CONFIG_RUSER_WIDTH-1 downto 0);
 		s_axi_config_rvalid	: out std_logic;
 		s_axi_config_rready	: in std_logic;
 
@@ -201,60 +170,29 @@ architecture arch_imp of ProtectionUnit_v0_1 is
 	-- component declaration
 	component ProtectionUnit_v0_1_S_AXI_CONFIG is
 		generic (
-		C_S_AXI_ID_WIDTH	: integer	:= 1;
 		C_S_AXI_DATA_WIDTH	: integer	:= 32;
-		C_S_AXI_ADDR_WIDTH	: integer	:= 6;
-		C_S_AXI_AWUSER_WIDTH	: integer	:= 0;
-		C_S_AXI_ARUSER_WIDTH	: integer	:= 0;
-		C_S_AXI_WUSER_WIDTH	: integer	:= 0;
-		C_S_AXI_RUSER_WIDTH	: integer	:= 0;
-		C_S_AXI_BUSER_WIDTH	: integer	:= 0
+		C_S_AXI_ADDR_WIDTH	: integer	:= 4
 		);
 		port (
 		S_AXI_ACLK	: in std_logic;
 		S_AXI_ARESETN	: in std_logic;
-		S_AXI_AWID	: in std_logic_vector(C_S_AXI_ID_WIDTH-1 downto 0);
 		S_AXI_AWADDR	: in std_logic_vector(C_S_AXI_ADDR_WIDTH-1 downto 0);
-		S_AXI_AWLEN	: in std_logic_vector(7 downto 0);
-		S_AXI_AWSIZE	: in std_logic_vector(2 downto 0);
-		S_AXI_AWBURST	: in std_logic_vector(1 downto 0);
-		S_AXI_AWLOCK	: in std_logic;
-		S_AXI_AWCACHE	: in std_logic_vector(3 downto 0);
 		S_AXI_AWPROT	: in std_logic_vector(2 downto 0);
-		S_AXI_AWQOS	: in std_logic_vector(3 downto 0);
-		S_AXI_AWREGION	: in std_logic_vector(3 downto 0);
-		S_AXI_AWUSER	: in std_logic_vector(C_S_AXI_AWUSER_WIDTH-1 downto 0);
 		S_AXI_AWVALID	: in std_logic;
 		S_AXI_AWREADY	: out std_logic;
 		S_AXI_WDATA	: in std_logic_vector(C_S_AXI_DATA_WIDTH-1 downto 0);
 		S_AXI_WSTRB	: in std_logic_vector((C_S_AXI_DATA_WIDTH/8)-1 downto 0);
-		S_AXI_WLAST	: in std_logic;
-		S_AXI_WUSER	: in std_logic_vector(C_S_AXI_WUSER_WIDTH-1 downto 0);
 		S_AXI_WVALID	: in std_logic;
 		S_AXI_WREADY	: out std_logic;
-		S_AXI_BID	: out std_logic_vector(C_S_AXI_ID_WIDTH-1 downto 0);
 		S_AXI_BRESP	: out std_logic_vector(1 downto 0);
-		S_AXI_BUSER	: out std_logic_vector(C_S_AXI_BUSER_WIDTH-1 downto 0);
 		S_AXI_BVALID	: out std_logic;
 		S_AXI_BREADY	: in std_logic;
-		S_AXI_ARID	: in std_logic_vector(C_S_AXI_ID_WIDTH-1 downto 0);
 		S_AXI_ARADDR	: in std_logic_vector(C_S_AXI_ADDR_WIDTH-1 downto 0);
-		S_AXI_ARLEN	: in std_logic_vector(7 downto 0);
-		S_AXI_ARSIZE	: in std_logic_vector(2 downto 0);
-		S_AXI_ARBURST	: in std_logic_vector(1 downto 0);
-		S_AXI_ARLOCK	: in std_logic;
-		S_AXI_ARCACHE	: in std_logic_vector(3 downto 0);
 		S_AXI_ARPROT	: in std_logic_vector(2 downto 0);
-		S_AXI_ARQOS	: in std_logic_vector(3 downto 0);
-		S_AXI_ARREGION	: in std_logic_vector(3 downto 0);
-		S_AXI_ARUSER	: in std_logic_vector(C_S_AXI_ARUSER_WIDTH-1 downto 0);
 		S_AXI_ARVALID	: in std_logic;
 		S_AXI_ARREADY	: out std_logic;
-		S_AXI_RID	: out std_logic_vector(C_S_AXI_ID_WIDTH-1 downto 0);
 		S_AXI_RDATA	: out std_logic_vector(C_S_AXI_DATA_WIDTH-1 downto 0);
 		S_AXI_RRESP	: out std_logic_vector(1 downto 0);
-		S_AXI_RLAST	: out std_logic;
-		S_AXI_RUSER	: out std_logic_vector(C_S_AXI_RUSER_WIDTH-1 downto 0);
 		S_AXI_RVALID	: out std_logic;
 		S_AXI_RREADY	: in std_logic
 		);
@@ -390,60 +328,29 @@ begin
 -- Instantiation of Axi Bus Interface S_AXI_CONFIG
 ProtectionUnit_v0_1_S_AXI_CONFIG_inst : ProtectionUnit_v0_1_S_AXI_CONFIG
 	generic map (
-		C_S_AXI_ID_WIDTH	=> C_S_AXI_CONFIG_ID_WIDTH,
 		C_S_AXI_DATA_WIDTH	=> C_S_AXI_CONFIG_DATA_WIDTH,
-		C_S_AXI_ADDR_WIDTH	=> C_S_AXI_CONFIG_ADDR_WIDTH,
-		C_S_AXI_AWUSER_WIDTH	=> C_S_AXI_CONFIG_AWUSER_WIDTH,
-		C_S_AXI_ARUSER_WIDTH	=> C_S_AXI_CONFIG_ARUSER_WIDTH,
-		C_S_AXI_WUSER_WIDTH	=> C_S_AXI_CONFIG_WUSER_WIDTH,
-		C_S_AXI_RUSER_WIDTH	=> C_S_AXI_CONFIG_RUSER_WIDTH,
-		C_S_AXI_BUSER_WIDTH	=> C_S_AXI_CONFIG_BUSER_WIDTH
+		C_S_AXI_ADDR_WIDTH	=> C_S_AXI_CONFIG_ADDR_WIDTH
 	)
 	port map (
 		S_AXI_ACLK	=> s_axi_config_aclk,
 		S_AXI_ARESETN	=> s_axi_config_aresetn,
-		S_AXI_AWID	=> s_axi_config_awid,
 		S_AXI_AWADDR	=> s_axi_config_awaddr,
-		S_AXI_AWLEN	=> s_axi_config_awlen,
-		S_AXI_AWSIZE	=> s_axi_config_awsize,
-		S_AXI_AWBURST	=> s_axi_config_awburst,
-		S_AXI_AWLOCK	=> s_axi_config_awlock,
-		S_AXI_AWCACHE	=> s_axi_config_awcache,
 		S_AXI_AWPROT	=> s_axi_config_awprot,
-		S_AXI_AWQOS	=> s_axi_config_awqos,
-		S_AXI_AWREGION	=> s_axi_config_awregion,
-		S_AXI_AWUSER	=> s_axi_config_awuser,
 		S_AXI_AWVALID	=> s_axi_config_awvalid,
 		S_AXI_AWREADY	=> s_axi_config_awready,
 		S_AXI_WDATA	=> s_axi_config_wdata,
 		S_AXI_WSTRB	=> s_axi_config_wstrb,
-		S_AXI_WLAST	=> s_axi_config_wlast,
-		S_AXI_WUSER	=> s_axi_config_wuser,
 		S_AXI_WVALID	=> s_axi_config_wvalid,
 		S_AXI_WREADY	=> s_axi_config_wready,
-		S_AXI_BID	=> s_axi_config_bid,
 		S_AXI_BRESP	=> s_axi_config_bresp,
-		S_AXI_BUSER	=> s_axi_config_buser,
 		S_AXI_BVALID	=> s_axi_config_bvalid,
 		S_AXI_BREADY	=> s_axi_config_bready,
-		S_AXI_ARID	=> s_axi_config_arid,
 		S_AXI_ARADDR	=> s_axi_config_araddr,
-		S_AXI_ARLEN	=> s_axi_config_arlen,
-		S_AXI_ARSIZE	=> s_axi_config_arsize,
-		S_AXI_ARBURST	=> s_axi_config_arburst,
-		S_AXI_ARLOCK	=> s_axi_config_arlock,
-		S_AXI_ARCACHE	=> s_axi_config_arcache,
 		S_AXI_ARPROT	=> s_axi_config_arprot,
-		S_AXI_ARQOS	=> s_axi_config_arqos,
-		S_AXI_ARREGION	=> s_axi_config_arregion,
-		S_AXI_ARUSER	=> s_axi_config_aruser,
 		S_AXI_ARVALID	=> s_axi_config_arvalid,
 		S_AXI_ARREADY	=> s_axi_config_arready,
-		S_AXI_RID	=> s_axi_config_rid,
 		S_AXI_RDATA	=> s_axi_config_rdata,
 		S_AXI_RRESP	=> s_axi_config_rresp,
-		S_AXI_RLAST	=> s_axi_config_rlast,
-		S_AXI_RUSER	=> s_axi_config_ruser,
 		S_AXI_RVALID	=> s_axi_config_rvalid,
 		S_AXI_RREADY	=> s_axi_config_rready
 	);
