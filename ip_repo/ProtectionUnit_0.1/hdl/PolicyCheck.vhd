@@ -45,6 +45,7 @@ ENTITY PolicyCheck IS
         MEM_REGION_13_LSB,
         MEM_REGION_14_LSB,
         MEM_REGION_15_LSB : INTEGER RANGE 0 TO 31 := 7;
+
         DOMAIN_0_ID,
         DOMAIN_1_ID,
         DOMAIN_2_ID,
@@ -97,7 +98,7 @@ ARCHITECTURE rtl OF PolicyCheck IS
 
 BEGIN
 
-    match_mem_regions : PROCESS IS
+    match_mem_regions : PROCESS (ADDR, LEN, SIZE) IS
         TYPE MEM_REGIONS_TYPE IS ARRAY (0 TO MAX_NUM_MEM_REGIONS - 1) OF STD_LOGIC_VECTOR(ADDR'RANGE);
         VARIABLE mem_regions : MEM_REGIONS_TYPE := (
             MEM_REGION_0,
@@ -147,8 +148,10 @@ BEGIN
         CONSTANT ZEROS : unsigned(ADDR'RANGE) := (OTHERS => '0');
     BEGIN
         -- last_byte_offset := shift_left(uLEN + 1, shift) - 1;
+        uLEN := resize(unsigned(LEN), ADDR'LENGTH);
+        shift := TO_INTEGER(unsigned(SIZE));
         last_byte_offset := shift_left(uLEN + 1, shift) - 1;
-        FOR i IN mem_regions'RANGE LOOP
+        FOR i IN 0 TO NUM_MEM_REGIONS - 1 LOOP
             -- An address matches a region if:
             --  1. The significant bits match and
             --  2. The offset of the last addressed byte doesn't reach into the significant bits
@@ -161,7 +164,7 @@ BEGIN
         END LOOP;
     END PROCESS;
 
-    match_domains : PROCESS IS
+    match_domains : PROCESS (ID) IS
         TYPE DOMAIN_IDS_TYPE IS ARRAY (0 TO MAX_NUM_DOMAINS - 1) OF STD_LOGIC_VECTOR(ID'RANGE);
         VARIABLE domain_ids : DOMAIN_IDS_TYPE := (
             DOMAIN_0_ID,
@@ -204,7 +207,7 @@ BEGIN
 
         VARIABLE match : BOOLEAN;
     BEGIN
-        FOR i_domain IN domain_ids'RANGE LOOP
+        FOR i_domain IN 0 TO NUM_DOMAINS - 1 LOOP
             match := true;
             FOR i_bit IN domain_ids(i_domain)'RANGE LOOP
                 IF domain_masks(i_domain)(i_bit) = '1' THEN
@@ -220,11 +223,12 @@ BEGIN
 
     END PROCESS;
 
-    grant_permission : PROCESS IS
+    grant_permission : PROCESS (POLICY, READ_WRITE, mem_region_matches, domain_matches) IS
         VARIABLE match : BOOLEAN := false;
     BEGIN
-        FOR i_mem IN mem_region_matches'RANGE LOOP
-            FOR i_domain IN domain_matches'RANGE LOOP
+        match := false;
+        FOR i_mem IN 0 TO NUM_MEM_REGIONS - 1 LOOP
+            FOR i_domain IN 0 TO NUM_DOMAINS - 1 LOOP
                 IF mem_region_matches(i_mem) = '1' AND domain_matches(i_domain) = '1' THEN
                     IF READ_WRITE = '0' THEN -- READ
                         match := match OR (POLICY(i_mem, i_domain).READ = '1');
