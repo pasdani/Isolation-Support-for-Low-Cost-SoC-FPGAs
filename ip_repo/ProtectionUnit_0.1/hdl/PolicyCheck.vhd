@@ -44,7 +44,7 @@ ENTITY PolicyCheck IS
         MEM_REGION_12_LSB,
         MEM_REGION_13_LSB,
         MEM_REGION_14_LSB,
-        MEM_REGION_15_LSB : INTEGER RANGE 0 TO 31 := 7;
+        MEM_REGION_15_LSB : INTEGER RANGE 0 TO 32 := 7;
 
         DOMAIN_0_ID,
         DOMAIN_1_ID,
@@ -147,7 +147,6 @@ BEGIN
         VARIABLE last_byte_offset : unsigned(ADDR'RANGE);
         CONSTANT ZEROS : unsigned(ADDR'RANGE) := (OTHERS => '0');
     BEGIN
-        -- last_byte_offset := shift_left(uLEN + 1, shift) - 1;
         uLEN := resize(unsigned(LEN), ADDR'LENGTH);
         shift := TO_INTEGER(unsigned(SIZE));
         last_byte_offset := shift_left(uLEN + 1, shift) - 1;
@@ -155,8 +154,10 @@ BEGIN
             -- An address matches a region if:
             --  1. The significant bits match and
             --  2. The offset of the last addressed byte doesn't reach into the significant bits
-            IF mem_regions(i)(ADDR_WIDTH - 1 DOWNTO mem_region_lsbs(i)) = ADDR(ADDR_WIDTH - 1 DOWNTO mem_region_lsbs(i)) AND
-                last_byte_offset(ADDR_WIDTH - 1 DOWNTO mem_region_lsbs(i)) = ZEROS(ADDR_WIDTH - 1 DOWNTO mem_region_lsbs(i)) THEN
+            IF (mem_regions(i)(ADDR_WIDTH - 1 DOWNTO mem_region_lsbs(i)) = ADDR(ADDR_WIDTH - 1 DOWNTO mem_region_lsbs(i))) AND
+                (last_byte_offset(ADDR_WIDTH - 1 DOWNTO mem_region_lsbs(i)) = ZEROS(ADDR_WIDTH - 1 DOWNTO mem_region_lsbs(i))) THEN
+                mem_region_matches(i) <= '1';
+            ELSIF mem_region_lsbs(i) = ADDR_WIDTH THEN -- region matches all addresses
                 mem_region_matches(i) <= '1';
             ELSE
                 mem_region_matches(i) <= '0';
