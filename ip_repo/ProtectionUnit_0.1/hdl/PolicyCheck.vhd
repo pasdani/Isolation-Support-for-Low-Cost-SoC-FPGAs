@@ -139,23 +139,25 @@ BEGIN
             MEM_REGION_15_LSB
         );
 
-        -- numbers of bursts in the transaction - 1
-        VARIABLE uLEN : unsigned(ADDR'RANGE) := resize(unsigned(LEN), ADDR'LENGTH);
-        -- bits to shift num_burts to the left to account for burst sizes        
+        -- numbers of bursts in the transaction
+        VARIABLE burst_length : unsigned(ADDR'RANGE);
+        -- bits to shift burst_length to the left to account for burst sizes        
         VARIABLE shift : INTEGER RANGE 0 TO 7 := TO_INTEGER(unsigned(SIZE));
         -- offset of the last addressed byte
-        VARIABLE last_byte_offset : unsigned(ADDR'RANGE);
-        CONSTANT ZEROS : unsigned(ADDR'RANGE) := (OTHERS => '0');
+        VARIABLE offset : unsigned(ADDR'RANGE);
+        -- address of the last byte
+        VARIABLE addr_last : STD_LOGIC_VECTOR(ADDR'RANGE);
     BEGIN
-        uLEN := resize(unsigned(LEN), ADDR'LENGTH);
+        burst_length := resize(unsigned(LEN), ADDR'length) + 1;
         shift := TO_INTEGER(unsigned(SIZE));
-        last_byte_offset := shift_left(uLEN + 1, shift) - 1;
+        offset := shift_left(burst_length, shift) - 1;
+        addr_last := STD_LOGIC_VECTOR(unsigned(ADDR) + offset);
         FOR i IN 0 TO NUM_MEM_REGIONS - 1 LOOP
             -- An address matches a region if:
             --  1. The significant bits match and
             --  2. The offset of the last addressed byte doesn't reach into the significant bits
             IF (mem_regions(i)(ADDR_WIDTH - 1 DOWNTO mem_region_lsbs(i)) = ADDR(ADDR_WIDTH - 1 DOWNTO mem_region_lsbs(i))) AND
-                (last_byte_offset(ADDR_WIDTH - 1 DOWNTO mem_region_lsbs(i)) = ZEROS(ADDR_WIDTH - 1 DOWNTO mem_region_lsbs(i))) THEN
+                (addr_last(ADDR_WIDTH - 1 DOWNTO mem_region_lsbs(i)) = ADDR(ADDR_WIDTH - 1 DOWNTO mem_region_lsbs(i))) THEN
                 mem_region_matches(i) <= '1';
             ELSIF mem_region_lsbs(i) = ADDR_WIDTH THEN -- region matches all addresses
                 mem_region_matches(i) <= '1';
