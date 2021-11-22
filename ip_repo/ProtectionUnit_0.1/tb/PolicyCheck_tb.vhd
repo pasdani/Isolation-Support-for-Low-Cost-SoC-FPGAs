@@ -96,20 +96,22 @@ architecture rtl of PolicyCheck_tb is
     );
 END component;
 
-  constant NUM_MEM_REGIONS: integer := 1;
-  constant NUM_DOMAINS: integer := 1;
+  constant NUM_MEM_REGIONS: integer := 2;
+  constant NUM_DOMAINS: integer := 2;
   constant ID_WIDTH : integer := 16;
   constant ADDR_WIDTH : integer := 32;
 
   constant delay: time := 20 ns;
   
   signal POLICY : POLICY_TYPE(NUM_MEM_REGIONS - 1 DOWNTO 0, NUM_DOMAINS - 1 DOWNTO 0) := (
-    others => (others => (READ => '1', WRITE => '1'))
+  -- Domain 0, Domain 1
+    (('1','0'),('0','0')), -- Memory Region 0
+    (('0','1'),('1','0'))  -- Memory Region 1 (included in Memory Region 0)
   );
   signal ID : STD_LOGIC_VECTOR(ID_WIDTH - 1 DOWNTO 0) := (others => '0');
   signal ADDR : STD_LOGIC_VECTOR(ADDR_WIDTH - 1 DOWNTO 0) := (others => '0');
   signal LEN : STD_LOGIC_VECTOR(7 DOWNTO 0) := (others => '0');
-  signal SIZE : STD_LOGIC_VECTOR(2 DOWNTO 0) := "101"; -- 32 bit
+  signal SIZE : STD_LOGIC_VECTOR(2 DOWNTO 0) := "010"; -- 32 bit
   signal READ_WRITE : STD_LOGIC := '0'; -- 0 -> READ, 1 -> WRITE
   signal GRANTED : STD_LOGIC;
 
@@ -136,11 +138,15 @@ begin
      ID_WIDTH            => ID_WIDTH,
      ADDR_WIDTH          => ADDR_WIDTH,
 
-     MEM_REGION_0        => x"00000000",
+     MEM_REGION_0        => x"00000000", -- to x"0000003F" of 64 byte
      MEM_REGION_0_LSB    => 6,
+     MEM_REGION_1        => x"00000020", -- to x"0000003F" of 32 byte
+     MEM_REGION_1_LSB    => 5,
 
-     DOMAIN_0_ID         => b"0000000000000001",
-     DOMAIN_0_MASK       => b"0000000000000011"
+     DOMAIN_0_ID         => b"0000100000000000",
+     DOMAIN_0_MASK       => b"0001111100000011",
+     DOMAIN_1_ID         => b"0000100000000001",
+     DOMAIN_1_MASK       => b"0001111100000011"
    )
    port map (
      POLICY     => POLICY,
@@ -153,11 +159,18 @@ begin
    );
 
   main: process is
-    variable test_cases : TEST_CASES_TYPE(0 to 2) := (
-      -- ID, ADDR, LEN, SIZE, READ_WRITE, GRANTED, NAME
-      (b"0000000000000001", x"00000000", x"00", b"010", '0', '1', new string'("simple allowed access")),
-      (b"0000000000000000", x"00000000", x"00", b"010", '0', '0', new string'("invalid id")),
-      (b"0000000000000001", x"FF000000", x"00", b"010", '0', '0', new string'("invalid address"))
+    variable test_cases : TEST_CASES_TYPE(0 to 9) := (
+    -- ID                   ADDR         LEN    SIZE    R/W  GRANTED          NAME
+      (b"0000100000000000", x"00000000", x"00", b"010", '0', '1', new string'("Simple permitted transaction")),
+      (b"0000100000000001", x"00000000", x"00", b"010", '0', '0', new string'("ID has no access rights")),
+      (b"0001100000000000", x"00000000", x"00", b"010", '0', '0', new string'("unkown ID")),
+      (b"0000100000000001", x"00000000", x"00", b"010", '0', '0', new string'("ADDR not accessible")),
+      (b"0000100000000000", x"00000040", x"00", b"010", '0', '0', new string'("ADDR not listed")),
+      (b"0000100000000000", x"00000000", x"0F", b"010", '0', '1', new string'("LEN just small enough")),
+      (b"0000100000000000", x"00000000", x"10", b"010", '0', '0', new string'("LEN to long")),
+      (b"0000100000000000", x"00000000", x"00", b"110", '0', '1', new string'("SIZE just small enough")),
+      (b"0000100000000000", x"00000000", x"00", b"111", '0', '0', new string'("SIZE to large")),
+      (b"0000100000000000", x"00000000", x"00", b"010", '1', '0', new string'("READ/WRITE not allowed"))
     );
   begin
     for i_test_case in test_cases'range loop

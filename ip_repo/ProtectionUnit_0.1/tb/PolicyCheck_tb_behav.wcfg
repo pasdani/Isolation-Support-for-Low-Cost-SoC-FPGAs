@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="PolicyCheck_tb_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="PolicyCheck_tb" />
+            <top_module name="common" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="0fs"></ZoomStartTime>
+      <ZoomEndTime time="57461fs"></ZoomEndTime>
+      <Cursor1Time time="20000fs"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="285"></NameColumnWidth>
+      <ValueColumnWidth column_width="165"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="17" />
+   <wvobject fp_name="/PolicyCheck_tb/POLICY" type="array">
+      <obj_property name="ElementShortName">POLICY[1:0,1:0]</obj_property>
+      <obj_property name="ObjectShortName">POLICY[1:0,1:0]</obj_property>
+   </wvobject>
+   <wvobject type="divider" fp_name="divider43">
+      <obj_property name="label">Domain</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+   </wvobject>
+   <wvobject fp_name="/PolicyCheck_tb/ID" type="array">
+      <obj_property name="ElementShortName">ID[15:0]</obj_property>
+      <obj_property name="ObjectShortName">ID[15:0]</obj_property>
+      <obj_property name="Radix">BINARYRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="group41" type="group">
+      <obj_property name="label">Domains</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+      <wvobject fp_name="/PolicyCheck_tb/policycheck_inst/domain_matches" type="array">
+         <obj_property name="ElementShortName">domain_matches[1:0]</obj_property>
+         <obj_property name="ObjectShortName">domain_matches[1:0]</obj_property>
+         <obj_property name="Radix">BINARYRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/PolicyCheck_tb/policycheck_inst/DOMAIN_0_ID" type="array">
+         <obj_property name="ElementShortName">DOMAIN_0_ID[15:0]</obj_property>
+         <obj_property name="ObjectShortName">DOMAIN_0_ID[15:0]</obj_property>
+         <obj_property name="Radix">BINARYRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/PolicyCheck_tb/policycheck_inst/DOMAIN_0_MASK" type="array">
+         <obj_property name="ElementShortName">DOMAIN_0_MASK[15:0]</obj_property>
+         <obj_property name="ObjectShortName">DOMAIN_0_MASK[15:0]</obj_property>
+         <obj_property name="Radix">BINARYRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/PolicyCheck_tb/policycheck_inst/DOMAIN_1_ID" type="array">
+         <obj_property name="ElementShortName">DOMAIN_1_ID[15:0]</obj_property>
+         <obj_property name="ObjectShortName">DOMAIN_1_ID[15:0]</obj_property>
+         <obj_property name="Radix">BINARYRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/PolicyCheck_tb/policycheck_inst/DOMAIN_1_MASK" type="array">
+         <obj_property name="ElementShortName">DOMAIN_1_MASK[15:0]</obj_property>
+         <obj_property name="ObjectShortName">DOMAIN_1_MASK[15:0]</obj_property>
+         <obj_property name="Radix">BINARYRADIX</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject type="divider" fp_name="divider44">
+      <obj_property name="label">Memory Regions</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+   </wvobject>
+   <wvobject fp_name="/PolicyCheck_tb/ADDR" type="array">
+      <obj_property name="ElementShortName">ADDR[31:0]</obj_property>
+      <obj_property name="ObjectShortName">ADDR[31:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/PolicyCheck_tb/LEN" type="array">
+      <obj_property name="ElementShortName">LEN[7:0]</obj_property>
+      <obj_property name="ObjectShortName">LEN[7:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/PolicyCheck_tb/SIZE" type="array">
+      <obj_property name="ElementShortName">SIZE[2:0]</obj_property>
+      <obj_property name="ObjectShortName">SIZE[2:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="group42" type="group">
+      <obj_property name="label">Memory Regions</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+      <wvobject fp_name="/PolicyCheck_tb/policycheck_inst/mem_region_matches" type="array">
+         <obj_property name="ElementShortName">mem_region_matches[1:0]</obj_property>
+         <obj_property name="ObjectShortName">mem_region_matches[1:0]</obj_property>
+         <obj_property name="Radix">BINARYRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/PolicyCheck_tb/policycheck_inst/MEM_REGION_0" type="array">
+         <obj_property name="ElementShortName">MEM_REGION_0[31:0]</obj_property>
+         <obj_property name="ObjectShortName">MEM_REGION_0[31:0]</obj_property>
+         <obj_property name="Radix">HEXRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/PolicyCheck_tb/policycheck_inst/MEM_REGION_0_LSB" type="other">
+         <obj_property name="ElementShortName">MEM_REGION_0_LSB</obj_property>
+         <obj_property name="ObjectShortName">MEM_REGION_0_LSB</obj_property>
+      </wvobject>
+      <wvobject fp_name="/PolicyCheck_tb/policycheck_inst/MEM_REGION_1" type="array">
+         <obj_property name="ElementShortName">MEM_REGION_1[31:0]</obj_property>
+         <obj_property name="ObjectShortName">MEM_REGION_1[31:0]</obj_property>
+         <obj_property name="Radix">HEXRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/PolicyCheck_tb/policycheck_inst/MEM_REGION_1_LSB" type="other">
+         <obj_property name="ElementShortName">MEM_REGION_1_LSB</obj_property>
+         <obj_property name="ObjectShortName">MEM_REGION_1_LSB</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject type="divider" fp_name="divider45">
+      <obj_property name="label">Other Signals</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+   </wvobject>
+   <wvobject fp_name="/PolicyCheck_tb/READ_WRITE" type="logic">
+      <obj_property name="ElementShortName">READ_WRITE</obj_property>
+      <obj_property name="ObjectShortName">READ_WRITE</obj_property>
+   </wvobject>
+   <wvobject fp_name="/PolicyCheck_tb/GRANTED" type="logic">
+      <obj_property name="ElementShortName">GRANTED</obj_property>
+      <obj_property name="ObjectShortName">GRANTED</obj_property>
+   </wvobject>
+   <wvobject fp_name="/PolicyCheck_tb/NUM_MEM_REGIONS" type="other">
+      <obj_property name="ElementShortName">NUM_MEM_REGIONS</obj_property>
+      <obj_property name="ObjectShortName">NUM_MEM_REGIONS</obj_property>
+   </wvobject>
+   <wvobject fp_name="/PolicyCheck_tb/NUM_DOMAINS" type="other">
+      <obj_property name="ElementShortName">NUM_DOMAINS</obj_property>
+      <obj_property name="ObjectShortName">NUM_DOMAINS</obj_property>
+   </wvobject>
+   <wvobject fp_name="/PolicyCheck_tb/ID_WIDTH" type="other">
+      <obj_property name="ElementShortName">ID_WIDTH</obj_property>
+      <obj_property name="ObjectShortName">ID_WIDTH</obj_property>
+   </wvobject>
+   <wvobject fp_name="/PolicyCheck_tb/ADDR_WIDTH" type="other">
+      <obj_property name="ElementShortName">ADDR_WIDTH</obj_property>
+      <obj_property name="ObjectShortName">ADDR_WIDTH</obj_property>
+   </wvobject>
+   <wvobject fp_name="/PolicyCheck_tb/delay" type="other">
+      <obj_property name="ElementShortName">delay</obj_property>
+      <obj_property name="ObjectShortName">delay</obj_property>
+   </wvobject>
+</wave_config>
