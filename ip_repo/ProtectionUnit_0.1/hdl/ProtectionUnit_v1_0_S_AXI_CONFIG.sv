@@ -1,13 +1,7 @@
-
 `timescale 1 ns / 1 ps
 
-`include "../../../common_cells/include/common_cells/registers.svh"
-`include "../../../common_cells/src/cf_math_pkg.sv"
-`include "../../../common_cells/src/addr_decode.sv"
-`include "../../../common_cells/src/spill_register.sv"
-`include "../../../axi/include/axi/typedef.svh"
-`include "../../../axi/src/axi_pkg.sv"
-
+`include "common_cells/registers.svh"
+`include "axi/typedef.svh"
 
 // Configuration register for the Protection Unit
 //
@@ -20,9 +14,10 @@
 
 module ProtectionUnit_v1_0_S_AXI_CONFIG #(
     /// Number of configurable memory regions
+    /// TODO: Add in interfacae version
     parameter int unsigned NumMemRegions  = 32'd2,
     /// Number of configurable domains (max. 16)
-    parameter int unsigned NumDomains = 32'd6,
+    parameter int unsigned NumDomains = 32'd2,
     /// Address width of the AXI4-Lite port.
     ///
     /// The minimum value of this parameter is 7.
@@ -78,51 +73,74 @@ module ProtectionUnit_v1_0_S_AXI_CONFIG #(
 
   // Width of each register
   localparam int unsigned RegisterWidth = 32'd32;
-  localparam int unsigned BitsPerRegister = RegisterWidth / 32'd8;
+  localparam int unsigned BytesPerRegister = RegisterWidth / 32'd8;
   localparam int unsigned AddrWidth = 7;
-  localparam int unsigned AddrLsb = (BitsPerRegister > 32'd1) ? $clog2(BitsPerRegister) : 32'd1;
+  localparam int unsigned AddrLsb = (BytesPerRegister > 32'd1) ? $clog2(BytesPerRegister) : 32'd1;
   typedef logic [AddrWidth-1:0] addr_t;
 
-  initial begin
-    assert (AxiAddrWidth >= AddrWidth)
-           else
-             $error("AxiAddrWidth bust be at least %d", AddrWidth);
-    assert (AxiDataWidth == RegisterWidth)
-           else
-             $error("AxiDataWidth must equal the RegisterWidth of %d", RegisterWidth);
-  end
+  // initial begin
+  //   assert (AxiAddrWidth >= AddrWidth)
+  //          else
+  //            $error("AxiAddrWidth bust be at least %d", AddrWidth);
+  //   assert (AxiDataWidth == RegisterWidth)
+  //          else
+  //            $error("AxiDataWidth must equal the RegisterWidth of %d", RegisterWidth);
+  // end
 
   // Type of the index to identify a specific memory region chunk.
   localparam int unsigned MemRegionWidth = (NumMemRegions > 32'd1) ? $clog2(NumMemRegions) : 32'd1;
   typedef logic [MemRegionWidth-1 : 0] mem_region_idx_t;
 
   // Define the register types
+
+  // Control Register
   typedef struct packed {
-            logic [31:0] reserved;
-          } ctrl_reg_t;
-          localparam CTRL_REG_RST = '0;
-          
-          typedef struct packed {
-            logic [31:0] reserved;
-          } status_reg_t;
-          localparam STATUS_REG_RST = '0;
-          
-          typedef struct packed {
-            logic read;
-            logic write;
-          } policy_entry_t;
-          
-          typedef struct packed {
-            policy_entry_t [0:NumDomains-1] entry;
-            policy_entry_t [NumDomains:15] reserved;
-          } policy_reg_t;
-          localparam POLICY_REG_RST = '0;
+    logic [31:0] reserved;
+  } ctrl_reg_t;
+  localparam ctrl_reg_t CTRL_REG_RST = '0;
+
+  typedef union packed { 
+    ctrl_reg_t register;
+    logic [BytesPerRegister-1:0][7:0] bytes;
+    logic [RegisterWidth-1:0] bits;
+  } ctrl_reg_union_t;
+
+  // Status Register
+  typedef struct packed {
+    logic [31:0] reserved;
+  } status_reg_t;
+  localparam status_reg_t STATUS_REG_RST = '0;
+
+  typedef union packed { 
+    status_reg_t register;
+    logic [BytesPerRegister-1:0][7:0] bytes;
+    logic [RegisterWidth-1:0] bits;
+  } status_reg_union_t;
+  
+  // Policy Register
+  typedef struct packed {
+    logic read;
+    logic write;
+  } policy_entry_t;
+  
+  typedef struct packed {
+    policy_entry_t [15:NumDomains] reserved;
+    policy_entry_t [NumDomains-1:0] entry;
+  } policy_reg_t;  
+  localparam policy_reg_t POLICY_REG_RST = '0;
+
+  typedef union packed { 
+    policy_reg_t register;
+    logic [BytesPerRegister-1:0][7:0] bytes;
+    logic [RegisterWidth-1:0] bits;
+  } policy_reg_union_t;
+
       
-  initial begin
-    assert ($bits(status_reg_t) == RegisterWidth);
-    assert ($bits(ctrl_reg_t) == RegisterWidth);
-    assert ($bits(policy_reg_t) == RegisterWidth);
-  end
+  // initial begin
+  //   assert ($bits(status_reg_t) == RegisterWidth);
+  //   assert ($bits(ctrl_reg_t) == RegisterWidth);
+  //   assert ($bits(policy_reg_t) == RegisterWidth);
+  // end
   
   // Enum that indexes register type/region
   typedef enum logic[1:0] {
@@ -143,19 +161,19 @@ module ProtectionUnit_v1_0_S_AXI_CONFIG #(
   assign addr_map[ctrl] = axi_rule_t'{
            idx:        ctrl,
            start_addr: addr_t'('h00),
-           end_addr:   addr_t'('h00 + BitsPerRegister)
+           end_addr:   addr_t'('h00 + BytesPerRegister)
          };
 
   assign addr_map[status] = axi_rule_t'{
            idx:        status,
            start_addr: addr_t'('h04),
-           end_addr:   addr_t'('h04 + BitsPerRegister)
+           end_addr:   addr_t'('h04 + BytesPerRegister)
          };
 
   assign addr_map[policy] = axi_rule_t'{
            idx:        policy,
            start_addr: addr_t'('h40),
-           end_addr:   addr_t'('h40 + (NumMemRegions * BitsPerRegister))
+           end_addr:   addr_t'('h40 + (NumMemRegions * BytesPerRegister))
          };
 
   // Channel definitions for spill register
@@ -164,9 +182,9 @@ module ProtectionUnit_v1_0_S_AXI_CONFIG #(
   `AXI_LITE_TYPEDEF_R_CHAN_T(r_chan_lite_t, axi_data_t)
 
   // Register array declarations
-  ctrl_reg_t                        ctrl_reg_q;
-  status_reg_t                      status_reg_q;
-  policy_reg_t [NumMemRegions-1:0]  policy_reg_q;
+  ctrl_reg_union_t                        ctrl_reg_q;
+  status_reg_union_t                      status_reg_q;
+  policy_reg_union_t [NumMemRegions-1:0]  policy_reg_q;
 
   // Update signals for writeable registers
   logic  [AxiStrbWidth-1:0]                     ctrl_reg_update;
@@ -175,7 +193,7 @@ module ProtectionUnit_v1_0_S_AXI_CONFIG #(
 
   // Write logic
   // TODO: consider strobe
-  register_type_t   aw_reg_type;
+  logic[1:0]        aw_reg_type;
   mem_region_idx_t  aw_mem_region_idx;
   logic             aw_dec_valid;
   b_chan_lite_t     b_chan;
@@ -220,7 +238,7 @@ module ProtectionUnit_v1_0_S_AXI_CONFIG #(
           end
           policy:
           begin
-            // TODO consider this
+            // TODO: consider this
             //policy_reg_q[aw_mem_region_idx].reserved  = '0;
             policy_reg_update[aw_mem_region_idx]      = axi_req_i.w.strb;
             b_chan.resp                               = axi_pkg::RESP_OKAY;
@@ -235,7 +253,7 @@ module ProtectionUnit_v1_0_S_AXI_CONFIG #(
 
 
   // Read logic
-  register_type_t   ar_reg_type;
+  logic[1:0]        ar_reg_type;
   mem_region_idx_t  ar_mem_region_idx;
   logic             ar_dec_valid;
   r_chan_lite_t     r_chan;
@@ -282,24 +300,29 @@ module ProtectionUnit_v1_0_S_AXI_CONFIG #(
   end
 
   // Create registers
-  `FFL(ctrl_reg_q, axi_req_i.w.data, ctrl_reg_update, CTRL_REG_RST, clk_i, rst_ni)
-  for (genvar i = 0; i < NumMemRegions; i++)
-  begin
-  `FFL(policy_reg_q[i], policy_reg_w_data, policy_reg_update[i], POLICY_REG_RST[i], clk_i, rst_ni)
+  for (genvar i = 0; i < AxiStrbWidth; i++) begin
+    `FFL(ctrl_reg_q.bytes[i], axi_req_i.w.data[i*8+:8], ctrl_reg_update[i], CTRL_REG_RST[i*8+:8], clk_i, rst_ni)
   end
-
+  for (genvar i = 0; i < AxiStrbWidth; i++) begin
+   for (genvar j = 0; j < NumMemRegions; j++) begin
+     `FFL(policy_reg_q[j].bytes[i], policy_reg_w_data[i*8+:8], policy_reg_update[j][i], POLICY_REG_RST[i*8+:8], clk_i, rst_ni)
+   end
+  end
+  
   // Assign outputs
-  assign policy_o = policy_reg_q;
+  for (genvar i = 0; i < NumMemRegions; i++) begin
+    assign policy_o[i] = policy_reg_q[i].register.entry;
+  end
 
   addr_decode #(
     .NoIndices ( NumRegisterTypes        ),
     .NoRules   ( NumRegisterTypes        ),
-    .addr_t    ( logic[AxiAddrWidth-1:0] ),
+    .addr_t    ( addr_t                  ),
     .rule_t    ( axi_rule_t              )
   ) i_aw_decode (
     .addr_i           ( addr_t'(axi_req_i.aw.addr) ), // Only look at the significant bits.
     .addr_map_i       ( addr_map                   ),
-    .idx_o            ( aw_mem_region_idx          ),
+    .idx_o            ( aw_reg_type                ),
     .dec_valid_o      ( aw_dec_valid               ),
     .dec_error_o      ( /*not used*/               ),
     .en_default_idx_i ( '0                         ),
@@ -314,7 +337,7 @@ module ProtectionUnit_v1_0_S_AXI_CONFIG #(
   ) i_ar_decode (
     .addr_i           ( addr_t'(axi_req_i.ar.addr) ), // Only look at the significant bits.
     .addr_map_i       ( addr_map                   ),
-    .idx_o            ( ar_mem_region_idx          ),
+    .idx_o            ( ar_reg_type                ),
     .dec_valid_o      ( ar_dec_valid               ),
     .dec_error_o      ( /*not used*/               ),
     .en_default_idx_i ( '0                         ),
@@ -351,27 +374,27 @@ module ProtectionUnit_v1_0_S_AXI_CONFIG #(
     .data_o  ( axi_resp_o.r       )
   );
 
-  // Validate parameters.
-  // pragma translate_off
-  `ifndef VERILATOR
-  initial begin: p_assertions
-    assert (AxiAddrWidth >= AddrWidth) else
-        $fatal(1, "AxiAddrWidth is not wide enough, has to be at least %0d-bit wide!", AddrWidth);
-    assert ($bits(axi_req_i.aw.addr) == AxiAddrWidth) else
-        $fatal(1, "AddrWidth does not match req_i.aw.addr!");
-    assert ($bits(axi_req_i.ar.addr) == AxiAddrWidth) else
-        $fatal(1, "AddrWidth does not match req_i.ar.addr!");
-    assert (AxiDataWidth == $bits(axi_req_i.w.data)) else
-        $fatal(1, "AxiDataWidth has to be: AxiDataWidth == $bits(axi_req_i.w.data)!");
-    assert (AxiDataWidth == $bits(axi_resp_o.r.data)) else
-        $fatal(1, "AxiDataWidth has to be: AxiDataWidth == $bits(axi_resp_o.r.data)!");
-  end
-`endif
-// pragma translate_on
+//   // Validate parameters.
+//   // pragma translate_off
+//   `ifndef VERILATOR
+//   initial begin: p_assertions
+//     assert (AxiAddrWidth >= AddrWidth) else
+//         $fatal(1, "AxiAddrWidth is not wide enough, has to be at least %0d-bit wide!", AddrWidth);
+//     assert ($bits(axi_req_i.aw.addr) == AxiAddrWidth) else
+//         $fatal(1, "AddrWidth does not match req_i.aw.addr!");
+//     assert ($bits(axi_req_i.ar.addr) == AxiAddrWidth) else
+//         $fatal(1, "AddrWidth does not match req_i.ar.addr!");
+//     assert (AxiDataWidth == $bits(axi_req_i.w.data)) else
+//         $fatal(1, "AxiDataWidth has to be: AxiDataWidth == $bits(axi_req_i.w.data)!");
+//     assert (AxiDataWidth == $bits(axi_resp_o.r.data)) else
+//         $fatal(1, "AxiDataWidth has to be: AxiDataWidth == $bits(axi_resp_o.r.data)!");
+//   end
+// `endif
+// // pragma translate_on
 endmodule
 
 
-`include "../../axi/include/axi/assign.svh"
+`include "../lib/axi/include/axi/assign.svh"
 /// Interface variant of [`axi_lite_regs`](module.axi_lite_regs).
 ///
 /// See the documentation of the main module for the definition of ports and parameters.
@@ -417,16 +440,16 @@ module ProtectionUnit_v1_0_S_AXI_CONFIG_intf #(
     .axi_resp_o  ( axi_lite_resp )
   );
 
-  // Validate parameters.
-  // pragma translate_off
-  `ifndef VERILATOR
-    initial begin: p_assertions
-      assert (AXI_ADDR_WIDTH == $bits(slv.aw_addr))
-          else $fatal(1, "AXI_ADDR_WIDTH does not match slv interface!");
-      assert (AXI_DATA_WIDTH == $bits(slv.w_data))
-          else $fatal(1, "AXI_DATA_WIDTH does not match slv interface!");
-    end
-  `endif
-  // pragma translate_on
+  // // Validate parameters.
+  // // pragma translate_off
+  // `ifndef VERILATOR
+  //   initial begin: p_assertions
+  //     assert (AXI_ADDR_WIDTH == $bits(slv.aw_addr))
+  //         else $fatal(1, "AXI_ADDR_WIDTH does not match slv interface!");
+  //     assert (AXI_DATA_WIDTH == $bits(slv.w_data))
+  //         else $fatal(1, "AXI_DATA_WIDTH does not match slv interface!");
+  //   end
+  // `endif
+  // // pragma translate_on
 
 	endmodule
