@@ -394,7 +394,7 @@ module ProtectionUnit_v1_0_S_AXI_CONFIG #(
 endmodule
 
 
-`include "../lib/axi/include/axi/assign.svh"
+`include "axi/assign.svh"
 /// Interface variant of [`axi_lite_regs`](module.axi_lite_regs).
 ///
 /// See the documentation of the main module for the definition of ports and parameters.
