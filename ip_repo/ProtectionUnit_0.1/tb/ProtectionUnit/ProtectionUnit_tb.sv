@@ -5,6 +5,8 @@ module ProtectionUnit_tb_0(
 ProtectionUnit_VIP_tb DUT();
 
 `include "axi_transactions.svh"
+`include "axi_vip_master_stimulus.svh"
+`include "axi_vip_slave_basic_stimulus.svh"
 
 axi_transaction wr_tran;
 bit [32-1:0] data = 0;
@@ -13,8 +15,21 @@ initial begin
     mst_agent = new("config master vip agent",DUT.axi_vip_config.inst.IF);
     mst_agent.start_master();
 
-    write(0, 'hF0F0F0F0);
-    read(0, data);
+    // Write some stuff to config register
+    write('0, 32'hF0F0F0F0);
+    read('0, data);
+
+    // // Read status register
+    // read('h04, data);
+    
+    // Write to policy register
+    write('h40, 32'hFFFFFFFF);
+    read('h40, data);
+   
+    fork
+      mst_start_stimulus();
+      slv_start_stimulus();
+    join;
 
 end
       

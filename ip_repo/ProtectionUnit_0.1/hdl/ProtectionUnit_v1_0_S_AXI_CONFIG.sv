@@ -123,24 +123,20 @@ module ProtectionUnit_v1_0_S_AXI_CONFIG #(
     logic write;
   } policy_entry_t;
   
+  // policy_reg_t and policy_reg_union_t are declare one byte wider than RegisterWidth.
+  // This is done to account for the case when NumDomains = 16.
+  // In this case the reserved meber should have a width of 0. This is not possible. 
   typedef struct packed {
-    policy_entry_t [15:NumDomains] reserved;
+    policy_entry_t [19:NumDomains] reserved;
     policy_entry_t [NumDomains-1:0] entry;
   } policy_reg_t;  
   localparam policy_reg_t POLICY_REG_RST = '0;
 
   typedef union packed { 
     policy_reg_t register;
-    logic [BytesPerRegister-1:0][7:0] bytes;
-    logic [RegisterWidth-1:0] bits;
+    logic [BytesPerRegister:0][7:0] bytes;
+    logic [RegisterWidth+7:0] bits;
   } policy_reg_union_t;
-
-      
-  // initial begin
-  //   assert ($bits(status_reg_t) == RegisterWidth);
-  //   assert ($bits(ctrl_reg_t) == RegisterWidth);
-  //   assert ($bits(policy_reg_t) == RegisterWidth);
-  // end
   
   // Enum that indexes register type/region
   typedef enum logic[1:0] {
@@ -300,11 +296,11 @@ module ProtectionUnit_v1_0_S_AXI_CONFIG #(
   end
 
   // Create registers
-  for (genvar i = 0; i < AxiStrbWidth; i++) begin
+  for (genvar i = 0; i < AxiStrbWidth; i++) begin: gen_ctrl_reg
     `FFL(ctrl_reg_q.bytes[i], axi_req_i.w.data[i*8+:8], ctrl_reg_update[i], CTRL_REG_RST[i*8+:8], clk_i, rst_ni)
   end
-  for (genvar i = 0; i < AxiStrbWidth; i++) begin
-   for (genvar j = 0; j < NumMemRegions; j++) begin
+  for (genvar j = 0; j < NumMemRegions; j++) begin: gen_policy_reg
+    for (genvar i = 0; i < AxiStrbWidth; i++) begin
      `FFL(policy_reg_q[j].bytes[i], policy_reg_w_data[i*8+:8], policy_reg_update[j][i], POLICY_REG_RST[i*8+:8], clk_i, rst_ni)
    end
   end

@@ -7,6 +7,9 @@
 	module ProtectionUnit_v1_0 #
 	(
 		// Users to add parameters here
+		// TODO: add to wrapper
+		parameter integer NUM_MEM_REGIONS	= 2,
+		parameter integer NUM_DOMAINS		= 2,
 
 		// User parameters ends
 		// Do not modify the parameters beyond this line
@@ -17,7 +20,7 @@
 		parameter integer C_S_AXI_CONFIG_ADDR_WIDTH	= 8,
 
 		// Parameters of Axi Slave Bus Interface S_AXI
-		parameter integer C_S_AXI_ID_WIDTH	= 1,
+		parameter integer C_S_AXI_ID_WIDTH		= 1,
 		parameter integer C_S_AXI_DATA_WIDTH	= 32,
 		parameter integer C_S_AXI_ADDR_WIDTH	= 6,
 		parameter integer C_S_AXI_AWUSER_WIDTH	= 0,
