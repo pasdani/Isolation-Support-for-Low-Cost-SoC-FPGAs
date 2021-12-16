@@ -14,7 +14,6 @@
 
 module ProtectionUnit_v1_0_S_AXI_CONFIG #(
     /// Number of configurable memory regions
-    /// TODO: Add in interfacae version
     parameter int unsigned NumMemRegions  = 32'd2,
     /// Number of configurable domains (max. 16)
     parameter int unsigned NumDomains = 32'd2,
@@ -52,7 +51,7 @@ module ProtectionUnit_v1_0_S_AXI_CONFIG #(
     /// AXI4-Lite slave response
     output resp_lite_t axi_resp_o,
     // Configured policy
-    output logic [NumMemRegions-1 :0][NumDomains-1 :0][1:0] policy_o
+    output pu_pkg::policy_entry_t [NumMemRegions-1 :0][NumDomains-1 :0] policy_o
     /// TODO: add various ctrl outputs
     /// TODO: add various status inputs
   );
@@ -123,24 +122,20 @@ module ProtectionUnit_v1_0_S_AXI_CONFIG #(
     logic write;
   } policy_entry_t;
   
+  // policy_reg_t and policy_reg_union_t are declare one byte wider than RegisterWidth.
+  // This is done to account for the case when NumDomains = 16.
+  // In this case the reserved meber should have a width of 0. This is not possible. 
   typedef struct packed {
-    policy_entry_t [15:NumDomains] reserved;
+    policy_entry_t [19:NumDomains] reserved;
     policy_entry_t [NumDomains-1:0] entry;
   } policy_reg_t;  
   localparam policy_reg_t POLICY_REG_RST = '0;
 
   typedef union packed { 
     policy_reg_t register;
-    logic [BytesPerRegister-1:0][7:0] bytes;
-    logic [RegisterWidth-1:0] bits;
+    logic [BytesPerRegister:0][7:0] bytes;
+    logic [RegisterWidth+7:0] bits;
   } policy_reg_union_t;
-
-      
-  // initial begin
-  //   assert ($bits(status_reg_t) == RegisterWidth);
-  //   assert ($bits(ctrl_reg_t) == RegisterWidth);
-  //   assert ($bits(policy_reg_t) == RegisterWidth);
-  // end
   
   // Enum that indexes register type/region
   typedef enum logic[1:0] {
@@ -300,11 +295,11 @@ module ProtectionUnit_v1_0_S_AXI_CONFIG #(
   end
 
   // Create registers
-  for (genvar i = 0; i < AxiStrbWidth; i++) begin
+  for (genvar i = 0; i < AxiStrbWidth; i++) begin: gen_ctrl_reg
     `FFL(ctrl_reg_q.bytes[i], axi_req_i.w.data[i*8+:8], ctrl_reg_update[i], CTRL_REG_RST[i*8+:8], clk_i, rst_ni)
   end
-  for (genvar i = 0; i < AxiStrbWidth; i++) begin
-   for (genvar j = 0; j < NumMemRegions; j++) begin
+  for (genvar j = 0; j < NumMemRegions; j++) begin: gen_policy_reg
+    for (genvar i = 0; i < AxiStrbWidth; i++) begin
      `FFL(policy_reg_q[j].bytes[i], policy_reg_w_data[i*8+:8], policy_reg_update[j][i], POLICY_REG_RST[i*8+:8], clk_i, rst_ni)
    end
   end
@@ -399,14 +394,17 @@ endmodule
 ///
 /// See the documentation of the main module for the definition of ports and parameters.
 module ProtectionUnit_v1_0_S_AXI_CONFIG_intf #(
-  parameter int unsigned                AXI_ADDR_WIDTH = 32'd7,
-  parameter int unsigned                AXI_DATA_WIDTH = 32'd32,
-  parameter bit                         PRIV_PROT_ONLY = 1'd0,
-  parameter bit                         SECU_PROT_ONLY = 1'd0
+  parameter int unsigned NumMemRegions  = 32'd16,
+  parameter int unsigned NumDomains     = 32'd16,
+  parameter int unsigned AXI_ADDR_WIDTH = 32'd7,
+  parameter int unsigned AXI_DATA_WIDTH = 32'd32,
+  parameter bit          PRIV_PROT_ONLY = 1'd0,
+  parameter bit          SECU_PROT_ONLY = 1'd0
 ) (
-  input  logic                      clk_i,
-  input  logic                      rst_ni,
-  AXI_LITE.Slave                    slv
+  input  logic                                                        clk_i,
+  input  logic                                                        rst_ni,
+  AXI_LITE.Slave                                                      slv,  
+  output pu_pkg::policy_entry_t [NumMemRegions-1 :0][NumDomains-1 :0] policy_o
 );
 
   typedef logic [AXI_ADDR_WIDTH-1:0]   addr_t;
@@ -427,6 +425,8 @@ module ProtectionUnit_v1_0_S_AXI_CONFIG_intf #(
   `AXI_LITE_ASSIGN_FROM_RESP(slv, axi_lite_resp)
 
   ProtectionUnit_v1_0_S_AXI_CONFIG #(
+    .NumMemRegions( NumMemRegions  ),
+    .NumDomains   ( NumDomains     ),
     .AxiAddrWidth ( AXI_ADDR_WIDTH ),
     .AxiDataWidth ( AXI_DATA_WIDTH ),
     .PrivProtOnly ( PRIV_PROT_ONLY ),
@@ -437,7 +437,8 @@ module ProtectionUnit_v1_0_S_AXI_CONFIG_intf #(
     .clk_i,
     .rst_ni,
     .axi_req_i   ( axi_lite_req  ),
-    .axi_resp_o  ( axi_lite_resp )
+    .axi_resp_o  ( axi_lite_resp ),
+    .policy_o
   );
 
   // // Validate parameters.

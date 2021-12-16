@@ -7,6 +7,9 @@
 	module ProtectionUnit_v1_0 #
 	(
 		// Users to add parameters here
+		// TODO: add to wrapper
+		parameter integer NUM_MEM_REGIONS	= 2,
+		parameter integer NUM_DOMAINS		= 2,
 
 		// User parameters ends
 		// Do not modify the parameters beyond this line
@@ -17,7 +20,7 @@
 		parameter integer C_S_AXI_CONFIG_ADDR_WIDTH	= 8,
 
 		// Parameters of Axi Slave Bus Interface S_AXI
-		parameter integer C_S_AXI_ID_WIDTH	= 1,
+		parameter integer C_S_AXI_ID_WIDTH		= 1,
 		parameter integer C_S_AXI_DATA_WIDTH	= 32,
 		parameter integer C_S_AXI_ADDR_WIDTH	= 6,
 		parameter integer C_S_AXI_AWUSER_WIDTH	= 0,
@@ -46,14 +49,62 @@
 		AXI_BUS.Master master
 	);
 
-// Instantiation of Axi Bus Interface S_AXI_CONFIG  
+	pu_pkg::policy_entry_t [NUM_MEM_REGIONS-1 :0][NUM_DOMAINS-1 :0] policy;
+
+	// Instantiation of Axi Bus Interface S_AXI_CONFIG  
 	ProtectionUnit_v1_0_S_AXI_CONFIG_intf # (
+		.NumMemRegions (NUM_MEM_REGIONS),
+		.NumDomains	   (NUM_DOMAINS),
 		.AXI_ADDR_WIDTH(C_S_AXI_CONFIG_ADDR_WIDTH),
 		.AXI_DATA_WIDTH(C_S_AXI_CONFIG_DATA_WIDTH)
 	) ProtectionUnit_v1_0_S_AXI_CONFIG_inst (
 		.clk_i(aclk),
 		.rst_ni(aresetn),
-		.slv(conf)
+		.slv(conf),
+		.policy_o(policy)
+	);
+
+	logic aw_granted_d, aw_granted_q;
+	logic ar_granted_d, ar_granted_q;
+
+	always_ff @( posedge (aclk) or negedge (aresetn)) begin : latch_decisions
+		if (!aresetn) begin
+			aw_granted_q <= '0;
+			ar_granted_q <= '0;
+		end else begin
+			aw_granted_q <= (slave.aw_ready && slave.aw_valid) ? aw_granted_d : aw_granted_q;
+			ar_granted_q <= (slave.ar_ready && slave.ar_valid) ? ar_granted_d : ar_granted_q;
+		end
+	end
+
+	PolicyCheck #(
+		.NUM_MEM_REGIONS	( NUM_MEM_REGIONS	 ),
+    	.NUM_DOMAINS		( NUM_DOMAINS		 ),
+    	.ID_WIDTH			( C_S_AXI_ID_WIDTH	 ),
+    	.ADDR_WIDTH			( C_M_AXI_ADDR_WIDTH )
+	) PolicyCheck_aw_inst (
+		.POLICY		( policy			),	
+		.ID			( slave.aw_id 		),
+		.ADDR		( slave.aw_addr 	),	
+		.LEN		( slave.aw_len 		),	
+		.SIZE		( slave.aw_size 	),	
+		.READ_WRITE	( 1'b1 				),		
+		.GRANTED	( aw_granted_d		)
+	);
+
+	PolicyCheck #(
+		.NUM_MEM_REGIONS	( NUM_MEM_REGIONS	 ),
+    	.NUM_DOMAINS		( NUM_DOMAINS		 ),
+    	.ID_WIDTH			( C_S_AXI_ID_WIDTH	 ),
+    	.ADDR_WIDTH			( C_M_AXI_ADDR_WIDTH )
+	) PolicyCheck_ar_inst (
+		.POLICY		( policy			),	
+		.ID			( slave.ar_id 		),
+		.ADDR		( slave.ar_addr 	),	
+		.LEN		( slave.ar_len 		),	
+		.SIZE		( slave.ar_size 	),	
+		.READ_WRITE	( 1'b0 				),		
+		.GRANTED	( ar_granted_d		)
 	);
 
 	AXI_BUS err_path();
@@ -75,11 +126,10 @@
 		.SPILL_AR(1'b1),
 		.SPILL_R(1'b0)		 
 	) axi_demux_inst (
-		// TODO: wire up decision logic
-		.slv_aw_select_i('0),
-		.slv_ar_select_i('0),
+		.slv_aw_select_i(aw_granted_q),
+		.slv_ar_select_i(ar_granted_q),
 		.slv(slave),
-		.mst('{master, err_path}),
+		.mst('{err_path, master}),
 		.clk_i(aclk),
 		.rst_ni(aresetn)
 	);
