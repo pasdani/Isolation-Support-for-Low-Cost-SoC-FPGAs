@@ -78,15 +78,7 @@
     <FileSet Name="sources_1" Type="DesignSrcs" RelSrcDir="$PSRCDIR/sources_1" RelGenDir="$PGENDIR/sources_1">
       <Filter Type="Srcs"/>
       <File Path="$PPRDIR/ProtectionUnit_0.1/hdl/ProtectionUnit_pkg.sv">
-      <File Path="$PPRDIR/ProtectionUnit_0.1/hdl/ProtectionUnit_v1_0_wrapper.v">
         <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-        <FileInfo>
-          <Attr Name="AutoDisabled" Val="1"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
@@ -96,7 +88,6 @@
         <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="AutoDisabled" Val="1"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
@@ -115,16 +106,12 @@
       </File>
       <File Path="$PPRDIR/ProtectionUnit_0.1/lib/axi/include/axi/assign.svh">
         <FileInfo>
-          <Attr Name="AutoDisabled" Val="1"/>
-          <Attr Name="AutoDisabled" Val="1"/>
-          <Attr Name="AutoDisabled" Val="1"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
       <File Path="$PPRDIR/ProtectionUnit_0.1/hdl/ProtectionUnit_v1_0.sv">
         <FileInfo>
-          <Attr Name="AutoDisabled" Val="1"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
@@ -132,14 +119,12 @@
       </File>
       <File Path="$PPRDIR/ProtectionUnit_0.1/lib/common_cells/include/common_cells/registers.svh">
         <FileInfo>
-          <Attr Name="AutoDisabled" Val="1"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
       <File Path="$PPRDIR/ProtectionUnit_0.1/hdl/ProtectionUnit_v1_0_S_AXI_CONFIG.sv">
         <FileInfo>
-          <Attr Name="AutoDisabled" Val="1"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
@@ -147,7 +132,6 @@
       </File>
       <File Path="$PPRDIR/ProtectionUnit_0.1/lib/common_cells/src/cf_math_pkg.sv">
         <FileInfo>
-          <Attr Name="AutoDisabled" Val="1"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
@@ -155,7 +139,6 @@
       </File>
       <File Path="$PPRDIR/ProtectionUnit_0.1/lib/common_cells/src/addr_decode.sv">
         <FileInfo>
-          <Attr Name="AutoDisabled" Val="1"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
@@ -163,7 +146,6 @@
       </File>
       <File Path="$PPRDIR/ProtectionUnit_0.1/lib/axi/src/axi_atop_filter.sv">
         <FileInfo>
-          <Attr Name="AutoDisabled" Val="1"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
@@ -171,7 +153,6 @@
       </File>
       <File Path="$PPRDIR/ProtectionUnit_0.1/lib/axi/src/axi_demux.sv">
         <FileInfo>
-          <Attr Name="AutoDisabled" Val="1"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
@@ -179,7 +160,6 @@
       </File>
       <File Path="$PPRDIR/ProtectionUnit_0.1/lib/axi/src/axi_err_slv.sv">
         <FileInfo>
-          <Attr Name="AutoDisabled" Val="1"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
@@ -187,7 +167,6 @@
       </File>
       <File Path="$PPRDIR/ProtectionUnit_0.1/hdl/axi_err_slv_intf.sv">
         <FileInfo>
-          <Attr Name="AutoDisabled" Val="1"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
@@ -195,7 +174,6 @@
       </File>
       <File Path="$PPRDIR/ProtectionUnit_0.1/lib/axi/src/axi_intf.sv">
         <FileInfo>
-          <Attr Name="AutoDisabled" Val="1"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
@@ -203,7 +181,6 @@
       </File>
       <File Path="$PPRDIR/ProtectionUnit_0.1/lib/common_cells/src/counter.sv">
         <FileInfo>
-          <Attr Name="AutoDisabled" Val="1"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
@@ -211,7 +188,6 @@
       </File>
       <File Path="$PPRDIR/ProtectionUnit_0.1/lib/common_cells/src/delta_counter.sv">
         <FileInfo>
-          <Attr Name="AutoDisabled" Val="1"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
@@ -219,7 +195,6 @@
       </File>
       <File Path="$PPRDIR/ProtectionUnit_0.1/lib/common_cells/src/fifo_v3.sv">
         <FileInfo>
-          <Attr Name="AutoDisabled" Val="1"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
@@ -227,7 +202,6 @@
       </File>
       <File Path="$PPRDIR/ProtectionUnit_0.1/lib/common_cells/src/lzc.sv">
         <FileInfo>
-          <Attr Name="AutoDisabled" Val="1"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
@@ -235,7 +209,6 @@
       </File>
       <File Path="$PPRDIR/ProtectionUnit_0.1/lib/common_cells/src/rr_arb_tree.sv">
         <FileInfo>
-          <Attr Name="AutoDisabled" Val="1"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
@@ -243,7 +216,6 @@
       </File>
       <File Path="$PPRDIR/ProtectionUnit_0.1/lib/common_cells/src/spill_register.sv">
         <FileInfo>
-          <Attr Name="AutoDisabled" Val="1"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
@@ -251,7 +223,13 @@
       </File>
       <File Path="$PPRDIR/ProtectionUnit_0.1/lib/common_cells/src/spill_register_flushable.sv">
         <FileInfo>
-          <Attr Name="AutoDisabled" Val="1"/>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/ProtectionUnit_0.1/hdl/ProtectionUnit_v1_0_wrapper.v">
+        <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
@@ -1434,18 +1412,25 @@
     </FileSet>
     <FileSet Name="ProtectionUnit_tb" Type="SimulationSrcs" RelSrcDir="$PSRCDIR/ProtectionUnit_tb" RelGenDir="$PGENDIR/ProtectionUnit_tb">
       <Filter Type="Srcs"/>
+      <File Path="$PSRCDIR/ProtectionUnit_tb/bd/ProtectionUnit_tb/ProtectionUnit_tb.bd">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
       <File Path="$PPRDIR/ProtectionUnit_0.1/tb/ProtectionUnit/axi_transactions.svh">
         <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
+      <File Path="$PPRDIR/ProtectionUnit_0.1/tb/ProtectionUnit/axi_vip_slave_basic_stimulus.svh">
         <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PPRDIR/ProtectionUnit_0.1/tb/ProtectionUnit/axi_vip_slave_basic_stimulus.svh">
       <File Path="$PPRDIR/ProtectionUnit_0.1/tb/ProtectionUnit/axi_vip_master_stimulus.svh">
         <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
@@ -1459,19 +1444,11 @@
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
       <File Path="$PPRDIR/ProtectionUnit_0.1/tb/ProtectionUnit/ProtectionUnit_tb_0_behav.wcfg">
         <FileInfo>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PSRCDIR/ProtectionUnit_tb/bd/ProtectionUnit_tb/ProtectionUnit_tb.bd">
-          <Attr Name="AutoDisabled" Val="1"/>
       <Config>
         <Option Name="DesignMode" Val="RTL"/>
         <Option Name="TopModule" Val="ProtectionUnit_tb_0"/>
@@ -1517,7 +1494,6 @@
         <Option Name="PamPseudoTop" Val="pseudo_tb"/>
         <Option Name="SrcSet" Val="sources_1"/>
         <Option Name="XSimWcfgFile" Val="$PPRDIR/ProtectionUnit_0.1/tb/PolicyCheck/PolicyCheck_tb_behav.wcfg"/>
-          <Attr Name="AutoDisabled" Val="1"/>
         <Option Name="xsim.elaborate.xelab.more_options" Val="-cc gcc"/>
       </Config>
     </FileSet>
