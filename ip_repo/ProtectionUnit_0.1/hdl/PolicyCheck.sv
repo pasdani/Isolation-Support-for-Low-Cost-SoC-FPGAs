@@ -3,9 +3,9 @@
 `include "axi/typedef.svh"
 
 module PolicyCheck #(
-    parameter int unsigned NUM_MEM_REGIONS = 32'd1,
+    parameter int unsigned NUM_MEM_REGIONS = 32'd16,
     parameter int unsigned MAX_NUM_MEM_REGIONS = 32'd16,
-    parameter int unsigned NUM_DOMAINS = 32'd1,
+    parameter int unsigned NUM_DOMAINS = 32'd16,
     parameter int unsigned MAX_NUM_DOMAINS = 32'd16,
     parameter int unsigned ID_WIDTH = 32'd16,
     parameter int unsigned ADDR_WIDTH = 32'd32,
@@ -135,26 +135,23 @@ localparam int unsigned mem_region_lsbs [0 : MAX_NUM_MEM_REGIONS-1] = '{
 addr_t offset;
 addr_t addr_last;
 
-always_comb begin : match_mem_regions
+always_comb begin    
     offset = ((LEN + 1) << SIZE) - 1;
     addr_last = ADDR + offset;
-
-    mem_region_matches = '{default: '0};
-
-    foreach (mem_region_matches[i]) begin
-        // If none of the bits are significant, always match
-        if (mem_region_lsbs[i] >= ADDR_WIDTH)
-            mem_region_matches[i] = 1'b1;
-        // An address matches a region
-        else if (
-            // 1. The significant bits match and            
-            (mem_regions[i][ADDR_WIDTH - 1 : mem_region_lsbs[i]] == ADDR[ADDR_WIDTH - 1 : mem_region_lsbs[i]]) &&
-            // 2. The offset of the last addressed byte doesn't reach into the significant bits
-            (addr_last[ADDR_WIDTH - 1 : mem_region_lsbs[i]] == ADDR[ADDR_WIDTH - 1 : mem_region_lsbs[i]])
-        ) 
-            mem_region_matches[i] = 1'b1;
-    end
 end
+
+genvar i;
+generate
+    for (i = 0; i < NUM_MEM_REGIONS ; i++ ) begin
+        always_comb begin : match_memory_regions            
+            mem_region_matches[i] = (mem_region_lsbs[i] >= ADDR_WIDTH) ||
+                                    // 1. The significant bits match and 
+                                    ((mem_regions[i][ADDR_WIDTH - 1 : mem_region_lsbs[i]] == ADDR[ADDR_WIDTH - 1 : mem_region_lsbs[i]]) &&
+                                    // 2. The offset of the last addressed byte doesn't reach into the significant bits
+                                    (addr_last[ADDR_WIDTH - 1 : mem_region_lsbs[i]] == ADDR[ADDR_WIDTH - 1 : mem_region_lsbs[i]]));
+        end
+    end    
+endgenerate
 
 // Match domains
 logic domain_matches [0 : NUM_DOMAINS-1];
