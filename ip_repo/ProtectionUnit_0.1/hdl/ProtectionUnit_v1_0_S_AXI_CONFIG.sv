@@ -14,7 +14,6 @@
 
 module ProtectionUnit_v1_0_S_AXI_CONFIG #(
     /// Number of configurable memory regions
-    /// TODO: Add in interfacae version
     parameter int unsigned NumMemRegions  = 32'd2,
     /// Number of configurable domains (max. 16)
     parameter int unsigned NumDomains = 32'd2,
@@ -52,7 +51,7 @@ module ProtectionUnit_v1_0_S_AXI_CONFIG #(
     /// AXI4-Lite slave response
     output resp_lite_t axi_resp_o,
     // Configured policy
-    output logic [NumMemRegions-1 :0][NumDomains-1 :0][1:0] policy_o
+    output pu_pkg::policy_entry_t [NumMemRegions-1 :0][NumDomains-1 :0] policy_o
     /// TODO: add various ctrl outputs
     /// TODO: add various status inputs
   );
@@ -390,19 +389,22 @@ module ProtectionUnit_v1_0_S_AXI_CONFIG #(
 endmodule
 
 
-`include "../lib/axi/include/axi/assign.svh"
+`include "axi/assign.svh"
 /// Interface variant of [`axi_lite_regs`](module.axi_lite_regs).
 ///
 /// See the documentation of the main module for the definition of ports and parameters.
 module ProtectionUnit_v1_0_S_AXI_CONFIG_intf #(
-  parameter int unsigned                AXI_ADDR_WIDTH = 32'd7,
-  parameter int unsigned                AXI_DATA_WIDTH = 32'd32,
-  parameter bit                         PRIV_PROT_ONLY = 1'd0,
-  parameter bit                         SECU_PROT_ONLY = 1'd0
+  parameter int unsigned NumMemRegions  = 32'd2,
+  parameter int unsigned NumDomains     = 32'd2,
+  parameter int unsigned AXI_ADDR_WIDTH = 32'd7,
+  parameter int unsigned AXI_DATA_WIDTH = 32'd32,
+  parameter bit          PRIV_PROT_ONLY = 1'd0,
+  parameter bit          SECU_PROT_ONLY = 1'd0
 ) (
-  input  logic                      clk_i,
-  input  logic                      rst_ni,
-  AXI_LITE.Slave                    slv
+  input  logic                                                        clk_i,
+  input  logic                                                        rst_ni,
+  AXI_LITE.Slave                                                      slv,  
+  output pu_pkg::policy_entry_t [NumMemRegions-1 :0][NumDomains-1 :0] policy_o
 );
 
   typedef logic [AXI_ADDR_WIDTH-1:0]   addr_t;
@@ -423,6 +425,8 @@ module ProtectionUnit_v1_0_S_AXI_CONFIG_intf #(
   `AXI_LITE_ASSIGN_FROM_RESP(slv, axi_lite_resp)
 
   ProtectionUnit_v1_0_S_AXI_CONFIG #(
+    .NumMemRegions( NumMemRegions  ),
+    .NumDomains   ( NumDomains     ),
     .AxiAddrWidth ( AXI_ADDR_WIDTH ),
     .AxiDataWidth ( AXI_DATA_WIDTH ),
     .PrivProtOnly ( PRIV_PROT_ONLY ),
@@ -433,7 +437,8 @@ module ProtectionUnit_v1_0_S_AXI_CONFIG_intf #(
     .clk_i,
     .rst_ni,
     .axi_req_i   ( axi_lite_req  ),
-    .axi_resp_o  ( axi_lite_resp )
+    .axi_resp_o  ( axi_lite_resp ),
+    .policy_o
   );
 
   // // Validate parameters.

@@ -1,8 +1,11 @@
+
 `timescale 1ns / 1ps
+import axi_vip_pkg::*;
+
 module ProtectionUnit_tb_0(
     );
 
-ProtectionUnit_VIP_tb DUT();
+ProtectionUnit_tb DUT();
 
 `include "axi_transactions.svh"
 `include "axi_vip_master_stimulus.svh"
@@ -12,8 +15,8 @@ axi_transaction wr_tran;
 bit [32-1:0] data = 0;
 
 initial begin
-    mst_agent = new("config master vip agent",DUT.axi_vip_config.inst.IF);
-    mst_agent.start_master();
+    config_agent = new("config master vip agent",DUT.axi_vip_config.inst.IF);
+    config_agent.start_master();
 
     // Write some stuff to config register
     write('0, 32'hF0F0F0F0);

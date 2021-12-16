@@ -49,14 +49,62 @@
 		AXI_BUS.Master master
 	);
 
-// Instantiation of Axi Bus Interface S_AXI_CONFIG  
+	pu_pkg::policy_entry_t [NUM_MEM_REGIONS-1 :0][NUM_DOMAINS-1 :0] policy;
+
+	// Instantiation of Axi Bus Interface S_AXI_CONFIG  
 	ProtectionUnit_v1_0_S_AXI_CONFIG_intf # (
+		.NumMemRegions (NUM_MEM_REGIONS),
+		.NumDomains	   (NUM_DOMAINS),
 		.AXI_ADDR_WIDTH(C_S_AXI_CONFIG_ADDR_WIDTH),
 		.AXI_DATA_WIDTH(C_S_AXI_CONFIG_DATA_WIDTH)
 	) ProtectionUnit_v1_0_S_AXI_CONFIG_inst (
 		.clk_i(aclk),
 		.rst_ni(aresetn),
-		.slv(conf)
+		.slv(conf),
+		.policy_o(policy)
+	);
+
+	logic aw_granted_d, aw_granted_q;
+	logic ar_granted_d, ar_granted_q;
+
+	always_ff @( posedge (aclk) or negedge (aresetn)) begin : latch_decisions
+		if (!aresetn) begin
+			aw_granted_q <= '0;
+			ar_granted_q <= '0;
+		end else begin
+			aw_granted_q <= (slave.aw_ready && slave.aw_valid) ? aw_granted_d : aw_granted_q;
+			ar_granted_q <= (slave.ar_ready && slave.ar_valid) ? ar_granted_d : ar_granted_q;
+		end
+	end
+
+	PolicyCheck #(
+		.NUM_MEM_REGIONS	( NUM_MEM_REGIONS	 ),
+    	.NUM_DOMAINS		( NUM_DOMAINS		 ),
+    	.ID_WIDTH			( C_S_AXI_ID_WIDTH	 ),
+    	.ADDR_WIDTH			( C_M_AXI_ADDR_WIDTH )
+	) PolicyCheck_aw_inst (
+		.POLICY		( policy			),	
+		.ID			( slave.aw_id 		),
+		.ADDR		( slave.aw_addr 	),	
+		.LEN		( slave.aw_len 		),	
+		.SIZE		( slave.aw_size 	),	
+		.READ_WRITE	( 1'b1 				),		
+		.GRANTED	( aw_granted_d		)
+	);
+
+	PolicyCheck #(
+		.NUM_MEM_REGIONS	( NUM_MEM_REGIONS	 ),
+    	.NUM_DOMAINS		( NUM_DOMAINS		 ),
+    	.ID_WIDTH			( C_S_AXI_ID_WIDTH	 ),
+    	.ADDR_WIDTH			( C_M_AXI_ADDR_WIDTH )
+	) PolicyCheck_ar_inst (
+		.POLICY		( policy			),	
+		.ID			( slave.ar_id 		),
+		.ADDR		( slave.ar_addr 	),	
+		.LEN		( slave.ar_len 		),	
+		.SIZE		( slave.ar_size 	),	
+		.READ_WRITE	( 1'b0 				),		
+		.GRANTED	( ar_granted_d		)
 	);
 
 	AXI_BUS err_path();
@@ -78,12 +126,12 @@
 		.SPILL_AR(1'b1),
 		.SPILL_R(1'b0)		 
 	) axi_demux_inst (
-		// TODO: wire up decision logic
-		.slv_aw_select_i('0),
-		.slv_ar_select_i('0),
+		.slv_aw_select_i(aw_granted_q),
+		.slv_ar_select_i(ar_granted_q),
 		.slv(slave),
-		.mst('{master, err_path}),
-		.*
+		.mst('{err_path, master}),
+		.clk_i(aclk),
+		.rst_ni(aresetn)
 	);
 
 // 	module axi_demux_intf #(
@@ -126,7 +174,8 @@
 		.ATOPs(1'b0)
 	) axi_err_slv_inst (
 		.slv(err_path),
-		.*
+		.clk_i(aclk),
+		.rst_ni(aresetn)
 	);
 
 	
@@ -302,29 +351,28 @@
 		.AXI_DATA_WIDTH(C_S_AXI_CONFIG_DATA_WIDTH)
 	) conf();
 
-	assign conf.aw_addr =		s_axi_config_awaddr;		// input
-	assign conf.aw_prot =		s_axi_config_awprot;		// input
-	assign conf.aw_valid =		s_axi_config_awvalid;		// input
-	assign conf.aw_ready =		s_axi_config_awready;		// output
+	assign conf.aw_addr =			s_axi_config_awaddr;	// input
+	assign conf.aw_prot =			s_axi_config_awprot;	// input
+	assign conf.aw_valid =			s_axi_config_awvalid;	// input
+	assign s_axi_config_awready = 	conf.aw_ready;			// output
+
+	assign conf.w_data =			s_axi_config_wdata;		// input
+	assign conf.w_strb =			s_axi_config_wstrb;		// input
+	assign conf.w_valid =			s_axi_config_wvalid;	// input
+	assign s_axi_config_wready = 	conf.w_ready;			// output
+
+	assign s_axi_config_bresp = 	conf.b_resp;			// output
+	assign s_axi_config_bvalid = 	conf.b_valid;			// output
+	assign conf.b_ready =			s_axi_config_bready;	// input
 	
-	assign conf.w_data =		s_axi_config_wdata;			// input
-	assign conf.w_strb =		s_axi_config_wstrb;			// input
-	assign conf.w_valid =		s_axi_config_wvalid;		// input
-	assign conf.w_ready =		s_axi_config_wready;		// output
-	
-	assign conf.b_resp =		s_axi_config_bresp;			// output
-	assign conf.b_valid =		s_axi_config_bvalid;		// output
-	assign conf.b_ready =		s_axi_config_bready;		// input
-	
-	assign conf.ar_addr =		s_axi_config_araddr;		// input
-	assign conf.ar_prot =		s_axi_config_arprot;		// input
-	assign conf.ar_valid =		s_axi_config_arvalid;		// input
-	assign conf.ar_ready =		s_axi_config_arready;		// output
-	
-	assign conf.r_data =		s_axi_config_rdata;			// output
-	assign conf.r_resp =		s_axi_config_rresp;			// output
-	assign conf.r_valid =		s_axi_config_rvalid;		// output
-	assign conf.r_ready =		s_axi_config_rready;		// input
+	assign conf.ar_addr =			s_axi_config_araddr;	// input
+	assign conf.ar_prot =			s_axi_config_arprot;	// input
+	assign conf.ar_valid =			s_axi_config_arvalid;	// input
+	assign s_axi_config_arready = 	conf.ar_ready;			// output
+	assign s_axi_config_rdata = 	conf.r_data;			// output
+	assign s_axi_config_rresp = 	conf.r_resp;			// output
+	assign s_axi_config_rvalid = 	conf.r_valid;			// output
+	assign conf.r_ready =			s_axi_config_rready;	// input
 
 	
 	// Create and map Axi Slave Bus Interface S_AXI
@@ -346,17 +394,17 @@
 	assign slave.aw_region = 	s_axi_awregion;	// input
 	assign slave.aw_user = 		s_axi_awuser;	// input
 	assign slave.aw_valid = 	s_axi_awvalid;	// input
-	assign slave.aw_ready = 	s_axi_awready;	// output
+	assign s_axi_awready = 		slave.aw_ready;	// output
 	assign slave.w_data = 		s_axi_wdata;	// input
 	assign slave.w_strb = 		s_axi_wstrb;	// input
 	assign slave.w_last = 		s_axi_wlast;	// input
 	assign slave.w_user = 		s_axi_wuser;	// input
 	assign slave.w_valid = 		s_axi_wvalid;	// input
-	assign slave.w_ready = 		s_axi_wready;	// output
-	assign slave.b_id = 		s_axi_bid;		// output
-	assign slave.b_resp = 		s_axi_bresp;	// output
-	assign slave.b_user = 		s_axi_buser;	// output
-	assign slave.b_valid = 		s_axi_bvalid;	// output
+	assign s_axi_wready = 		slave.w_ready;	// output
+	assign s_axi_bid = 			slave.b_id;		// output
+	assign s_axi_bresp = 		slave.b_resp;	// output
+	assign s_axi_buser = 		slave.b_user;	// output
+	assign s_axi_bvalid = 		slave.b_valid;	// output
 	assign slave.b_ready = 		s_axi_bready;	// input
 	assign slave.ar_id = 		s_axi_arid;		// input
 	assign slave.ar_addr = 		s_axi_araddr;	// input
@@ -370,13 +418,13 @@
 	assign slave.ar_region = 	s_axi_arregion;	// input
 	assign slave.ar_user = 		s_axi_aruser;	// input
 	assign slave.ar_valid = 	s_axi_arvalid;	// input
-	assign slave.ar_ready = 	s_axi_arready;	// output
-	assign slave.r_id = 		s_axi_rid;		// output
-	assign slave.r_data = 		s_axi_rdata;	// output
-	assign slave.r_resp = 		s_axi_rresp;	// output
-	assign slave.r_last = 		s_axi_rlast;	// output
-	assign slave.r_user = 		s_axi_ruser;	// output
-	assign slave.r_valid = 		s_axi_rvalid;	// output
+	assign s_axi_arready = 		slave.ar_ready;	// output
+	assign s_axi_rid = 			slave.r_id;		// output
+	assign s_axi_rdata = 		slave.r_data;	// output
+	assign s_axi_rresp = 		slave.r_resp;	// output
+	assign s_axi_rlast = 		slave.r_last;	// output
+	assign s_axi_ruser = 		slave.r_user;	// output
+	assign s_axi_rvalid = 		slave.r_valid;	// output
 	assign slave.r_ready = 		s_axi_rready;	// input
 
 	// Create and map Axi Master Bus Interface M_AXI
@@ -386,63 +434,55 @@
 		.AXI_DATA_WIDTH(C_M_AXI_DATA_WIDTH)
 	) master();
 
-	assign master.aw_id = m_axi_awid; 			// output
-	assign master.aw_addr = m_axi_awaddr; 		// output
-	assign master.aw_len = m_axi_awlen; 		// output
-	assign master.aw_size = m_axi_awsize; 		// output
-	assign master.aw_burst = m_axi_awburst; 	// output
-	assign master.aw_lock = m_axi_awlock; 		// output
-	assign master.aw_cache = m_axi_awcache; 	// output
-	assign master.aw_prot = m_axi_awprot; 		// output
-	assign master.aw_qos = m_axi_awqos; 		// output
-	assign master.aw_user = m_axi_awuser; 		// output
-	assign master.aw_valid = m_axi_awvalid; 	// output
-	assign master.aw_ready = m_axi_awready; 	// input
-	assign master.w_data = m_axi_wdata; 		// output
-	assign master.w_strb = m_axi_wstrb; 		// output
-	assign master.w_last = m_axi_wlast; 		// output
-	assign master.w_user = m_axi_wuser; 		// output
-	assign master.w_valid = m_axi_wvalid; 		// output
-	assign master.w_ready = m_axi_wready; 		// input
-	assign master.b_id = m_axi_bid; 			// input
-	assign master.b_resp = m_axi_bresp; 		// input
-	assign master.b_user = m_axi_buser; 		// input
-	assign master.b_valid = m_axi_bvalid; 		// input
-	assign master.b_ready = m_axi_bready; 		// output
-	assign master.ar_id = m_axi_arid; 			// output
-	assign master.ar_addr = m_axi_araddr; 		// output
-	assign master.ar_len = m_axi_arlen; 		// output
-	assign master.ar_size = m_axi_arsize; 		// output
-	assign master.ar_burst = m_axi_arburst; 	// output
-	assign master.ar_lock = m_axi_arlock; 		// output
-	assign master.ar_cache = m_axi_arcache; 	// output
-	assign master.ar_prot = m_axi_arprot; 		// output
-	assign master.ar_qos = m_axi_arqos; 		// output
-	assign master.ar_user = m_axi_aruser; 		// output
-	assign master.ar_valid = m_axi_arvalid; 	// output
-	assign master.ar_ready = m_axi_arready; 	// input
-	assign master.r_id = m_axi_rid; 			// input
-	assign master.r_data = m_axi_rdata; 		// input
-	assign master.r_resp = m_axi_rresp; 		// input
-	assign master.r_last = m_axi_rlast; 		// input
-	assign master.r_user = m_axi_ruser; 		// input
-	assign master.r_valid = m_axi_rvalid; 		// input
-	assign master.r_ready = m_axi_rready;		// output
+	assign m_axi_awid = 		master.aw_id;		// output
+	assign m_axi_awaddr = 		master.aw_addr;		// output
+	assign m_axi_awlen = 		master.aw_len;		// output
+	assign m_axi_awsize = 		master.aw_size;		// output
+	assign m_axi_awburst = 		master.aw_burst;	// output
+	assign m_axi_awlock = 		master.aw_lock;		// output
+	assign m_axi_awcache = 		master.aw_cache;	// output
+	assign m_axi_awprot = 		master.aw_prot;		// output
+	assign m_axi_awqos = 		master.aw_qos;		// output
+	assign m_axi_awuser = 		master.aw_user;		// output
+	assign m_axi_awvalid = 		master.aw_valid;	// output
+	assign master.aw_ready =	m_axi_awready; 		// input
+	assign m_axi_wdata = 		master.w_data;		// output
+	assign m_axi_wstrb = 		master.w_strb;		// output
+	assign m_axi_wlast = 		master.w_last;		// output
+	assign m_axi_wuser = 		master.w_user;		// output
+	assign m_axi_wvalid = 		master.w_valid;		// output
+	assign master.w_ready = 	m_axi_wready; 		// input
+	assign master.b_id = 		m_axi_bid; 			// input
+	assign master.b_resp = 		m_axi_bresp; 		// input
+	assign master.b_user = 		m_axi_buser; 		// input
+	assign master.b_valid = 	m_axi_bvalid; 		// input
+	assign m_axi_bready = 		master.b_ready;		// output
+	assign m_axi_arid = 		master.ar_id;		// output
+	assign m_axi_araddr = 		master.ar_addr;		// output
+	assign m_axi_arlen = 		master.ar_len;		// output
+	assign m_axi_arsize = 		master.ar_size;		// output
+	assign m_axi_arburst = 		master.ar_burst;	// output
+	assign m_axi_arlock = 		master.ar_lock;		// output
+	assign m_axi_arcache = 		master.ar_cache;	// output
+	assign m_axi_arprot = 		master.ar_prot;		// output
+	assign m_axi_arqos = 		master.ar_qos;		// output
+	assign m_axi_aruser = 		master.ar_user;		// output
+	assign m_axi_arvalid = 		master.ar_valid;	// output
+	assign master.ar_ready = 	m_axi_arready; 		// input
+	assign master.r_id = 		m_axi_rid; 			// input
+	assign master.r_data = 		m_axi_rdata; 		// input
+	assign master.r_resp = 		m_axi_rresp; 		// input
+	assign master.r_last = 		m_axi_rlast; 		// input
+	assign master.r_user = 		m_axi_ruser; 		// input
+	assign master.r_valid = 	m_axi_rvalid; 		// input
+	assign m_axi_rready = 		master.r_ready;		// output
 	
 	ProtectionUnit_v1_0 ProtectionUnit_v1_0_inst(
 	   .aclk,
 	   .aresetn,
-	   .conf(conf.Slave),
+	   .conf(conf),
 	   .slave(slave),
 	   .master(master)
 	);
 
-//  	req_lite_t  axi_lite_req;
-//  	resp_lite_t axi_lite_resp;
-
-//  	`AXI_LITE_ASSIGN_TO_REQ(axi_lite_req, slv)
-//  	`AXI_LITE_ASSIGN_FROM_RESP(slv, axi_lite_resp)
-
-
-	//TODO: map ports
 endmodule
