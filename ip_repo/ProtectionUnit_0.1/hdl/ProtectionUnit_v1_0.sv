@@ -15,31 +15,21 @@
 		// Do not modify the parameters beyond this line
 
 
-		// Parameters of Axi Slave Bus Interface S_AXI_CONFIG
-		parameter integer C_S_AXI_CONFIG_DATA_WIDTH	= 32,
-		parameter integer C_S_AXI_CONFIG_ADDR_WIDTH	= 8,
+		// Parameters of Axi Slave Bus Interface AXI_CONFIG
+		parameter integer AXI_CONFIG_DATA_WIDTH	= 32,
+		parameter integer AXI_CONFIG_ADDR_WIDTH	= 8,
 
-		// Parameters of Axi Slave Bus Interface S_AXI
-		parameter integer C_S_AXI_ID_WIDTH		= 1,
-		parameter integer C_S_AXI_DATA_WIDTH	= 32,
-		parameter integer C_S_AXI_ADDR_WIDTH	= 6,
-		parameter integer C_S_AXI_AWUSER_WIDTH	= 0,
-		parameter integer C_S_AXI_ARUSER_WIDTH	= 0,
-		parameter integer C_S_AXI_WUSER_WIDTH	= 0,
-		parameter integer C_S_AXI_RUSER_WIDTH	= 0,
-		parameter integer C_S_AXI_BUSER_WIDTH	= 0,
-
-		// Parameters of Axi Master Bus Interface M_AXI
-		parameter  C_M_AXI_TARGET_SLAVE_BASE_ADDR	= 32'h40000000,
-		parameter integer C_M_AXI_BURST_LEN	= 16,
-		parameter integer C_M_AXI_ID_WIDTH	= 1,
-		parameter integer C_M_AXI_ADDR_WIDTH	= 32,
-		parameter integer C_M_AXI_DATA_WIDTH	= 32,
-		parameter integer C_M_AXI_AWUSER_WIDTH	= 0,
-		parameter integer C_M_AXI_ARUSER_WIDTH	= 0,
-		parameter integer C_M_AXI_WUSER_WIDTH	= 0,
-		parameter integer C_M_AXI_RUSER_WIDTH	= 0,
-		parameter integer C_M_AXI_BUSER_WIDTH	= 0
+		// Parameters of Axi Pass Through AXI_PT
+		parameter  AXI_PT_TARGET_SLAVE_BASE_ADDR	= 32'h40000000,
+		parameter integer AXI_PT_BURST_LEN	= 16,
+		parameter integer AXI_PT_ID_WIDTH		= 1,
+		parameter integer AXI_PT_DATA_WIDTH	= 32,
+		parameter integer AXI_PT_ADDR_WIDTH	= 6,
+		parameter integer AXI_PT_AWUSER_WIDTH	= 0,
+		parameter integer AXI_PT_ARUSER_WIDTH	= 0,
+		parameter integer AXI_PT_WUSER_WIDTH	= 0,
+		parameter integer AXI_PT_RUSER_WIDTH	= 0,
+		parameter integer AXI_PT_BUSER_WIDTH	= 0
 	)
 	(
 		input wire aclk,
@@ -51,13 +41,13 @@
 
 	pu_pkg::policy_entry_t [NUM_MEM_REGIONS-1 :0][NUM_DOMAINS-1 :0] policy;
 
-	// Instantiation of Axi Bus Interface S_AXI_CONFIG  
-	ProtectionUnit_v1_0_S_AXI_CONFIG_intf # (
+	// Instantiation of Axi Bus Interface AXI_CONFIG  
+	ProtectionUnit_v1_0_AXI_CONFIG_intf # (
 		.NumMemRegions (NUM_MEM_REGIONS),
 		.NumDomains	   (NUM_DOMAINS),
-		.AXI_ADDR_WIDTH(C_S_AXI_CONFIG_ADDR_WIDTH),
-		.AXI_DATA_WIDTH(C_S_AXI_CONFIG_DATA_WIDTH)
-	) ProtectionUnit_v1_0_S_AXI_CONFIG_inst (
+		.AXI_ADDR_WIDTH(AXI_CONFIG_ADDR_WIDTH),
+		.AXI_DATA_WIDTH(AXI_CONFIG_DATA_WIDTH)
+	) ProtectionUnit_v1_0_AXI_CONFIG_inst (
 		.clk_i(aclk),
 		.rst_ni(aresetn),
 		.slv(conf),
@@ -80,8 +70,8 @@
 	PolicyCheck #(
 		.NUM_MEM_REGIONS	( NUM_MEM_REGIONS	 ),
     	.NUM_DOMAINS		( NUM_DOMAINS		 ),
-    	.ID_WIDTH			( C_S_AXI_ID_WIDTH	 ),
-    	.ADDR_WIDTH			( C_M_AXI_ADDR_WIDTH )
+    	.ID_WIDTH			( AXI_PT_ID_WIDTH	 ),
+    	.ADDR_WIDTH			( AXI_PT_ADDR_WIDTH )
 	) PolicyCheck_aw_inst (
 		.POLICY		( policy			),	
 		.ID			( slave.aw_id 		),
@@ -95,8 +85,8 @@
 	PolicyCheck #(
 		.NUM_MEM_REGIONS	( NUM_MEM_REGIONS	 ),
     	.NUM_DOMAINS		( NUM_DOMAINS		 ),
-    	.ID_WIDTH			( C_S_AXI_ID_WIDTH	 ),
-    	.ADDR_WIDTH			( C_M_AXI_ADDR_WIDTH )
+    	.ID_WIDTH			( AXI_PT_ID_WIDTH	 ),
+    	.ADDR_WIDTH			( AXI_PT_ADDR_WIDTH )
 	) PolicyCheck_ar_inst (
 		.POLICY		( policy			),	
 		.ID			( slave.ar_id 		),
@@ -110,14 +100,14 @@
 	AXI_BUS err_path();
 
 	axi_demux_intf #(
-		.AXI_ID_WIDTH(C_S_AXI_ID_WIDTH),
-		.AXI_ADDR_WIDTH(C_S_AXI_ADDR_WIDTH),
-		.AXI_DATA_WIDTH(C_S_AXI_DATA_WIDTH),
-		.AXI_USER_WIDTH(C_M_AXI_AWUSER_WIDTH),
+		.AXI_ID_WIDTH(AXI_PT_ID_WIDTH),
+		.AXI_ADDR_WIDTH(AXI_PT_ADDR_WIDTH),
+		.AXI_DATA_WIDTH(AXI_PT_DATA_WIDTH),
+		.AXI_USER_WIDTH(AXI_PT_AWUSER_WIDTH),
 		 // TODO: reconsider paramter choices below
 		.NO_MST_PORTS(32'd2),
 		.MAX_TRANS(32'd8),
-		.AXI_LOOK_BITS(C_S_AXI_ID_WIDTH),
+		.AXI_LOOK_BITS(AXI_PT_ID_WIDTH),
 		.UNIQUE_IDS(1'b0),
 		.FALL_THROUGH(1'b0),
 		.SPILL_AW(1'b1),
@@ -165,11 +155,11 @@
 	
 
 	axi_err_slv_intf #(
-		.AxiIdWidth(C_S_AXI_ID_WIDTH),
-		.AxiAddrWidth(C_S_AXI_ADDR_WIDTH),
-		.AxiUserWidth(C_M_AXI_AWUSER_WIDTH),
+		.AxiIdWidth(AXI_PT_ID_WIDTH),
+		.AxiAddrWidth(AXI_PT_ADDR_WIDTH),
+		.AxiUserWidth(AXI_PT_AWUSER_WIDTH),
 		.Resp(axi_pkg::RESP_DECERR),
-		.RespWidth(C_S_AXI_DATA_WIDTH),
+		.RespWidth(AXI_PT_DATA_WIDTH),
 		.RespData('0),
 		.ATOPs(1'b0)
 	) axi_err_slv_inst (
@@ -202,280 +192,270 @@
 
 	module ProtectionUnit_v1_0_verilog #
 	(
-		// Parameters of Axi Slave Bus Interface S_AXI_CONFIG
-		parameter integer C_S_AXI_CONFIG_DATA_WIDTH	= 32,
-		parameter integer C_S_AXI_CONFIG_ADDR_WIDTH	= 8,
+		// Parameters of Axi Slave Bus Interface AXI_CONFIG
+		parameter integer AXI_CONFIG_DATA_WIDTH	= 32,
+		parameter integer AXI_CONFIG_ADDR_WIDTH	= 8,
 
-		// Parameters of Axi Slave Bus Interface S_AXI
-		parameter integer C_S_AXI_ID_WIDTH	= 2,
-		parameter integer C_S_AXI_DATA_WIDTH	= 32,
-		parameter integer C_S_AXI_ADDR_WIDTH	= 6,
-		parameter integer C_S_AXI_AWUSER_WIDTH	= 0,
-		parameter integer C_S_AXI_ARUSER_WIDTH	= 0,
-		parameter integer C_S_AXI_WUSER_WIDTH	= 0,
-		parameter integer C_S_AXI_RUSER_WIDTH	= 0,
-		parameter integer C_S_AXI_BUSER_WIDTH	= 0,
-
-		// Parameters of Axi Master Bus Interface M_AXI
-		parameter  C_M_AXI_TARGET_SLAVE_BASE_ADDR	= 32'h40000000,
-		parameter integer C_M_AXI_BURST_LEN	= 16,
-		parameter integer C_M_AXI_ID_WIDTH	= 1,
-		parameter integer C_M_AXI_ADDR_WIDTH	= 32,
-		parameter integer C_M_AXI_DATA_WIDTH	= 32,
-		parameter integer C_M_AXI_AWUSER_WIDTH	= 0,
-		parameter integer C_M_AXI_ARUSER_WIDTH	= 0,
-		parameter integer C_M_AXI_WUSER_WIDTH	= 0,
-		parameter integer C_M_AXI_RUSER_WIDTH	= 0,
-		parameter integer C_M_AXI_BUSER_WIDTH	= 0
+		// Parameters of Axi Pass Through AXI_PT
+		parameter  AXI_PT_TARGET_SLAVE_BASE_ADDR	= 32'h40000000,
+		parameter integer AXI_PT_BURST_LEN	= 16,
+		parameter integer AXI_PT_ID_WIDTH	= 2,
+		parameter integer AXI_PT_DATA_WIDTH	= 32,
+		parameter integer AXI_PT_ADDR_WIDTH	= 6,
+		parameter integer AXI_PT_AWUSER_WIDTH	= 0,
+		parameter integer AXI_PT_ARUSER_WIDTH	= 0,
+		parameter integer AXI_PT_WUSER_WIDTH	= 0,
+		parameter integer AXI_PT_RUSER_WIDTH	= 0,
+		parameter integer AXI_PT_BUSER_WIDTH	= 0
 	)
 	(
 		input wire  aclk,
 		input wire  aresetn,
 
-		// Ports of Axi Slave Bus Interface S_AXI_CONFIG
-		input wire [C_S_AXI_CONFIG_ADDR_WIDTH-1 : 0] 	 s_axi_config_awaddr,
-		input wire [2 : 0] 								 s_axi_config_awprot,
-		input wire  									 s_axi_config_awvalid,
-		output wire  									 s_axi_config_awready,
-		input wire [C_S_AXI_CONFIG_DATA_WIDTH-1 : 0] 	 s_axi_config_wdata,
-		input wire [(C_S_AXI_CONFIG_DATA_WIDTH/8)-1 : 0] s_axi_config_wstrb,
-		input wire  									 s_axi_config_wvalid,
-		output wire  									 s_axi_config_wready,
-		output wire [1 : 0] 							 s_axi_config_bresp,
-		output wire  									 s_axi_config_bvalid,
-		input wire  									 s_axi_config_bready,
-		input wire [C_S_AXI_CONFIG_ADDR_WIDTH-1 : 0] 	 s_axi_config_araddr,
-		input wire [2 : 0] 								 s_axi_config_arprot,
-		input wire  									 s_axi_config_arvalid,
-		output wire  									 s_axi_config_arready,
-		output wire [C_S_AXI_CONFIG_DATA_WIDTH-1 : 0] 	 s_axi_config_rdata,
-		output wire [1 : 0] 							 s_axi_config_rresp,
-		output wire  									 s_axi_config_rvalid,
-		input wire  									 s_axi_config_rready,
+		// Ports of Axi Slave Bus Interface AXI_CONFIG
+		input wire [AXI_CONFIG_ADDR_WIDTH-1 : 0] 	 	AXI_CONFIG_awaddr,
+		input wire [2 : 0] 								AXI_CONFIG_awprot,
+		input wire  									AXI_CONFIG_awvalid,
+		output wire  									AXI_CONFIG_awready,
+		input wire [AXI_CONFIG_DATA_WIDTH-1 : 0] 	 	AXI_CONFIG_wdata,
+		input wire [(AXI_CONFIG_DATA_WIDTH/8)-1 : 0] 	AXI_CONFIG_wstrb,
+		input wire  									AXI_CONFIG_wvalid,
+		output wire  									AXI_CONFIG_wready,
+		output wire [1 : 0] 							AXI_CONFIG_bresp,
+		output wire  									AXI_CONFIG_bvalid,
+		input wire  									AXI_CONFIG_bready,
+		input wire [AXI_CONFIG_ADDR_WIDTH-1 : 0] 	 	AXI_CONFIG_araddr,
+		input wire [2 : 0] 								AXI_CONFIG_arprot,
+		input wire  									AXI_CONFIG_arvalid,
+		output wire  									AXI_CONFIG_arready,
+		output wire [AXI_CONFIG_DATA_WIDTH-1 : 0] 	 	AXI_CONFIG_rdata,
+		output wire [1 : 0] 							AXI_CONFIG_rresp,
+		output wire  									AXI_CONFIG_rvalid,
+		input wire  									AXI_CONFIG_rready,
 
-		// Ports of Axi Slave Bus Interface S_AXI
-		input wire [C_S_AXI_ID_WIDTH-1 : 0] 		s_axi_awid,
-		input wire [C_S_AXI_ADDR_WIDTH-1 : 0] 		s_axi_awaddr,
-		input wire [7 : 0] 							s_axi_awlen,
-		input wire [2 : 0] 							s_axi_awsize,
-		input wire [1 : 0] 							s_axi_awburst,
-		input wire  								s_axi_awlock,
-		input wire [3 : 0] 							s_axi_awcache,
-		input wire [2 : 0] 							s_axi_awprot,
-		input wire [3 : 0] 							s_axi_awqos,
-		input wire [3 : 0] 							s_axi_awregion,
-		input wire [C_S_AXI_AWUSER_WIDTH-1 : 0] 	s_axi_awuser,
-		input wire  								s_axi_awvalid,
-		output wire  								s_axi_awready,
-		input wire [C_S_AXI_DATA_WIDTH-1 : 0] 		s_axi_wdata,
-		input wire [(C_S_AXI_DATA_WIDTH/8)-1 : 0] 	s_axi_wstrb,
-		input wire  								s_axi_wlast,
-		input wire [C_S_AXI_WUSER_WIDTH-1 : 0] 		s_axi_wuser,
-		input wire  								s_axi_wvalid,
-		output wire  								s_axi_wready,
-		output wire [C_S_AXI_ID_WIDTH-1 : 0] 		s_axi_bid,
-		output wire [1 : 0] 						s_axi_bresp,
-		output wire [C_S_AXI_BUSER_WIDTH-1 : 0] 	s_axi_buser,
-		output wire  								s_axi_bvalid,
-		input wire  								s_axi_bready,
-		input wire [C_S_AXI_ID_WIDTH-1 : 0] 		s_axi_arid,
-		input wire [C_S_AXI_ADDR_WIDTH-1 : 0] 		s_axi_araddr,
-		input wire [7 : 0] 							s_axi_arlen,
-		input wire [2 : 0] 							s_axi_arsize,
-		input wire [1 : 0] 							s_axi_arburst,
-		input wire  								s_axi_arlock,
-		input wire [3 : 0] 							s_axi_arcache,
-		input wire [2 : 0] 							s_axi_arprot,
-		input wire [3 : 0] 							s_axi_arqos,
-		input wire [3 : 0] 							s_axi_arregion,
-		input wire [C_S_AXI_ARUSER_WIDTH-1 : 0] 	s_axi_aruser,
-		input wire  								s_axi_arvalid,
-		output wire  								s_axi_arready,
-		output wire [C_S_AXI_ID_WIDTH-1 : 0] 		s_axi_rid,
-		output wire [C_S_AXI_DATA_WIDTH-1 : 0] 		s_axi_rdata,
-		output wire [1 : 0] 						s_axi_rresp,
-		output wire  								s_axi_rlast,
-		output wire [C_S_AXI_RUSER_WIDTH-1 : 0] 	s_axi_ruser,
-		output wire  								s_axi_rvalid,
-		input wire  								s_axi_rready,
+		// Ports of Axi Slave Bus Interface AXI_PT
+		input wire [AXI_PT_ID_WIDTH-1 : 0] 			S_AXI_PT_awid,
+		input wire [AXI_PT_ADDR_WIDTH-1 : 0] 		S_AXI_PT_awaddr,
+		input wire [7 : 0] 							S_AXI_PT_awlen,
+		input wire [2 : 0] 							S_AXI_PT_awsize,
+		input wire [1 : 0] 							S_AXI_PT_awburst,
+		input wire  								S_AXI_PT_awlock,
+		input wire [3 : 0] 							S_AXI_PT_awcache,
+		input wire [2 : 0] 							S_AXI_PT_awprot,
+		input wire [3 : 0] 							S_AXI_PT_awqos,
+		input wire [3 : 0] 							S_AXI_PT_awregion,
+		input wire [AXI_PT_AWUSER_WIDTH-1 : 0] 		S_AXI_PT_awuser,
+		input wire  								S_AXI_PT_awvalid,
+		output wire  								S_AXI_PT_awready,
+		input wire [AXI_PT_DATA_WIDTH-1 : 0] 		S_AXI_PT_wdata,
+		input wire [(AXI_PT_DATA_WIDTH/8)-1 : 0]	S_AXI_PT_wstrb,
+		input wire  								S_AXI_PT_wlast,
+		input wire [AXI_PT_WUSER_WIDTH-1 : 0] 		S_AXI_PT_wuser,
+		input wire  								S_AXI_PT_wvalid,
+		output wire  								S_AXI_PT_wready,
+		output wire [AXI_PT_ID_WIDTH-1 : 0] 		S_AXI_PT_bid,
+		output wire [1 : 0] 						S_AXI_PT_bresp,
+		output wire [AXI_PT_BUSER_WIDTH-1 : 0] 		S_AXI_PT_buser,
+		output wire  								S_AXI_PT_bvalid,
+		input wire  								S_AXI_PT_bready,
+		input wire [AXI_PT_ID_WIDTH-1 : 0] 			S_AXI_PT_arid,
+		input wire [AXI_PT_ADDR_WIDTH-1 : 0] 		S_AXI_PT_araddr,
+		input wire [7 : 0] 							S_AXI_PT_arlen,
+		input wire [2 : 0] 							S_AXI_PT_arsize,
+		input wire [1 : 0] 							S_AXI_PT_arburst,
+		input wire  								S_AXI_PT_arlock,
+		input wire [3 : 0] 							S_AXI_PT_arcache,
+		input wire [2 : 0] 							S_AXI_PT_arprot,
+		input wire [3 : 0] 							S_AXI_PT_arqos,
+		input wire [3 : 0] 							S_AXI_PT_arregion,
+		input wire [AXI_PT_ARUSER_WIDTH-1 : 0] 		S_AXI_PT_aruser,
+		input wire  								S_AXI_PT_arvalid,
+		output wire  								S_AXI_PT_arready,
+		output wire [AXI_PT_ID_WIDTH-1 : 0] 		S_AXI_PT_rid,
+		output wire [AXI_PT_DATA_WIDTH-1 : 0] 		S_AXI_PT_rdata,
+		output wire [1 : 0] 						S_AXI_PT_rresp,
+		output wire  								S_AXI_PT_rlast,
+		output wire [AXI_PT_RUSER_WIDTH-1 : 0] 		S_AXI_PT_ruser,
+		output wire  								S_AXI_PT_rvalid,
+		input wire  								S_AXI_PT_rready,
 
-		// Ports of Axi Master Bus Interface M_AXI
-		output wire [C_M_AXI_ID_WIDTH-1 : 0] 		m_axi_awid,
-		output wire [C_M_AXI_ADDR_WIDTH-1 : 0] 		m_axi_awaddr,
-		output wire [7 : 0] 						m_axi_awlen,
-		output wire [2 : 0] 						m_axi_awsize,
-		output wire [1 : 0] 						m_axi_awburst,
-		output wire  								m_axi_awlock,
-		output wire [3 : 0] 						m_axi_awcache,
-		output wire [2 : 0] 						m_axi_awprot,
-		output wire [3 : 0] 						m_axi_awqos,
-		output wire [C_M_AXI_AWUSER_WIDTH-1 : 0] 	m_axi_awuser,
-		output wire  								m_axi_awvalid,
-		input wire  								m_axi_awready,
-		output wire [C_M_AXI_DATA_WIDTH-1 : 0] 		m_axi_wdata,
-		output wire [C_M_AXI_DATA_WIDTH/8-1 : 0] 	m_axi_wstrb,
-		output wire  								m_axi_wlast,
-		output wire [C_M_AXI_WUSER_WIDTH-1 : 0] 	m_axi_wuser,
-		output wire  								m_axi_wvalid,
-		input wire  								m_axi_wready,
-		input wire [C_M_AXI_ID_WIDTH-1 : 0] 		m_axi_bid,
-		input wire [1 : 0] 							m_axi_bresp,
-		input wire [C_M_AXI_BUSER_WIDTH-1 : 0] 		m_axi_buser,
-		input wire  								m_axi_bvalid,
-		output wire  								m_axi_bready,
-		output wire [C_M_AXI_ID_WIDTH-1 : 0] 		m_axi_arid,
-		output wire [C_M_AXI_ADDR_WIDTH-1 : 0] 		m_axi_araddr,
-		output wire [7 : 0] 						m_axi_arlen,
-		output wire [2 : 0] 						m_axi_arsize,
-		output wire [1 : 0] 						m_axi_arburst,
-		output wire  								m_axi_arlock,
-		output wire [3 : 0] 						m_axi_arcache,
-		output wire [2 : 0] 						m_axi_arprot,
-		output wire [3 : 0] 						m_axi_arqos,
-		output wire [C_M_AXI_ARUSER_WIDTH-1 : 0] 	m_axi_aruser,
-		output wire  								m_axi_arvalid,
-		input wire  								m_axi_arready,
-		input wire [C_M_AXI_ID_WIDTH-1 : 0] 		m_axi_rid,
-		input wire [C_M_AXI_DATA_WIDTH-1 : 0] 		m_axi_rdata,
-		input wire [1 : 0] 							m_axi_rresp,
-		input wire  								m_axi_rlast,
-		input wire [C_M_AXI_RUSER_WIDTH-1 : 0] 		m_axi_ruser,
-		input wire  								m_axi_rvalid,
-		output wire  								m_axi_rready
+		// Ports of Axi Master Bus Interface AXI_PT
+		output wire [AXI_PT_ID_WIDTH-1 : 0] 		M_AXI_PT_awid,
+		output wire [AXI_PT_ADDR_WIDTH-1 : 0] 		M_AXI_PT_awaddr,
+		output wire [7 : 0] 						M_AXI_PT_awlen,
+		output wire [2 : 0] 						M_AXI_PT_awsize,
+		output wire [1 : 0] 						M_AXI_PT_awburst,
+		output wire  								M_AXI_PT_awlock,
+		output wire [3 : 0] 						M_AXI_PT_awcache,
+		output wire [2 : 0] 						M_AXI_PT_awprot,
+		output wire [3 : 0] 						M_AXI_PT_awqos,
+		output wire [AXI_PT_AWUSER_WIDTH-1 : 0] 	M_AXI_PT_awuser,
+		output wire  								M_AXI_PT_awvalid,
+		input wire  								M_AXI_PT_awready,
+		output wire [AXI_PT_DATA_WIDTH-1 : 0] 		M_AXI_PT_wdata,
+		output wire [AXI_PT_DATA_WIDTH/8-1 : 0] 	M_AXI_PT_wstrb,
+		output wire  								M_AXI_PT_wlast,
+		output wire [AXI_PT_WUSER_WIDTH-1 : 0] 		M_AXI_PT_wuser,
+		output wire  								M_AXI_PT_wvalid,
+		input wire  								M_AXI_PT_wready,
+		input wire [AXI_PT_ID_WIDTH-1 : 0] 			M_AXI_PT_bid,
+		input wire [1 : 0] 							M_AXI_PT_bresp,
+		input wire [AXI_PT_BUSER_WIDTH-1 : 0] 		M_AXI_PT_buser,
+		input wire  								M_AXI_PT_bvalid,
+		output wire  								M_AXI_PT_bready,
+		output wire [AXI_PT_ID_WIDTH-1 : 0] 		M_AXI_PT_arid,
+		output wire [AXI_PT_ADDR_WIDTH-1 : 0] 		M_AXI_PT_araddr,
+		output wire [7 : 0] 						M_AXI_PT_arlen,
+		output wire [2 : 0] 						M_AXI_PT_arsize,
+		output wire [1 : 0] 						M_AXI_PT_arburst,
+		output wire  								M_AXI_PT_arlock,
+		output wire [3 : 0] 						M_AXI_PT_arcache,
+		output wire [2 : 0] 						M_AXI_PT_arprot,
+		output wire [3 : 0] 						M_AXI_PT_arqos,
+		output wire [AXI_PT_ARUSER_WIDTH-1 : 0] 	M_AXI_PT_aruser,
+		output wire  								M_AXI_PT_arvalid,
+		input wire  								M_AXI_PT_arready,
+		input wire [AXI_PT_ID_WIDTH-1 : 0] 			M_AXI_PT_rid,
+		input wire [AXI_PT_DATA_WIDTH-1 : 0] 		M_AXI_PT_rdata,
+		input wire [1 : 0] 							M_AXI_PT_rresp,
+		input wire  								M_AXI_PT_rlast,
+		input wire [AXI_PT_RUSER_WIDTH-1 : 0] 		M_AXI_PT_ruser,
+		input wire  								M_AXI_PT_rvalid,
+		output wire  								M_AXI_PT_rready
 	);
 	
-	// Ports of Axi Slave Bus Interface S_AXI_CONFIG
+	// Ports of Axi Slave Bus Interface AXI_CONFIG
 
 	AXI_LITE #(
-		.AXI_ADDR_WIDTH(C_S_AXI_CONFIG_ADDR_WIDTH),
-		.AXI_DATA_WIDTH(C_S_AXI_CONFIG_DATA_WIDTH)
+		.AXI_ADDR_WIDTH(AXI_CONFIG_ADDR_WIDTH),
+		.AXI_DATA_WIDTH(AXI_CONFIG_DATA_WIDTH)
 	) conf();
 
-	assign conf.aw_addr =			s_axi_config_awaddr;	// input
-	assign conf.aw_prot =			s_axi_config_awprot;	// input
-	assign conf.aw_valid =			s_axi_config_awvalid;	// input
-	assign s_axi_config_awready = 	conf.aw_ready;			// output
+	assign conf.aw_addr =			AXI_CONFIG_awaddr;	// input
+	assign conf.aw_prot =			AXI_CONFIG_awprot;	// input
+	assign conf.aw_valid =			AXI_CONFIG_awvalid;	// input
+	assign AXI_CONFIG_awready = 	conf.aw_ready;			// output
 
-	assign conf.w_data =			s_axi_config_wdata;		// input
-	assign conf.w_strb =			s_axi_config_wstrb;		// input
-	assign conf.w_valid =			s_axi_config_wvalid;	// input
-	assign s_axi_config_wready = 	conf.w_ready;			// output
+	assign conf.w_data =			AXI_CONFIG_wdata;		// input
+	assign conf.w_strb =			AXI_CONFIG_wstrb;		// input
+	assign conf.w_valid =			AXI_CONFIG_wvalid;	// input
+	assign AXI_CONFIG_wready = 	conf.w_ready;			// output
 
-	assign s_axi_config_bresp = 	conf.b_resp;			// output
-	assign s_axi_config_bvalid = 	conf.b_valid;			// output
-	assign conf.b_ready =			s_axi_config_bready;	// input
+	assign AXI_CONFIG_bresp = 	conf.b_resp;			// output
+	assign AXI_CONFIG_bvalid = 	conf.b_valid;			// output
+	assign conf.b_ready =			AXI_CONFIG_bready;	// input
 	
-	assign conf.ar_addr =			s_axi_config_araddr;	// input
-	assign conf.ar_prot =			s_axi_config_arprot;	// input
-	assign conf.ar_valid =			s_axi_config_arvalid;	// input
-	assign s_axi_config_arready = 	conf.ar_ready;			// output
-	assign s_axi_config_rdata = 	conf.r_data;			// output
-	assign s_axi_config_rresp = 	conf.r_resp;			// output
-	assign s_axi_config_rvalid = 	conf.r_valid;			// output
-	assign conf.r_ready =			s_axi_config_rready;	// input
+	assign conf.ar_addr =			AXI_CONFIG_araddr;	// input
+	assign conf.ar_prot =			AXI_CONFIG_arprot;	// input
+	assign conf.ar_valid =			AXI_CONFIG_arvalid;	// input
+	assign AXI_CONFIG_arready = 	conf.ar_ready;			// output
+	assign AXI_CONFIG_rdata = 	conf.r_data;			// output
+	assign AXI_CONFIG_rresp = 	conf.r_resp;			// output
+	assign AXI_CONFIG_rvalid = 	conf.r_valid;			// output
+	assign conf.r_ready =			AXI_CONFIG_rready;	// input
 
 	
-	// Create and map Axi Slave Bus Interface S_AXI
+	// Create and map Axi Slave Bus Interface AXI_PT
 
 	AXI_BUS #(
-		.AXI_ADDR_WIDTH(C_S_AXI_ADDR_WIDTH),
-		.AXI_DATA_WIDTH(C_S_AXI_DATA_WIDTH)
+		.AXI_ADDR_WIDTH(AXI_PT_ADDR_WIDTH),
+		.AXI_DATA_WIDTH(AXI_PT_DATA_WIDTH)
 	) slave();
 	
-	assign slave.aw_id = 		s_axi_awid;		// input
-	assign slave.aw_addr = 		s_axi_awaddr;	// input
-	assign slave.aw_len = 		s_axi_awlen;	// input
-	assign slave.aw_size = 		s_axi_awsize;	// input
-	assign slave.aw_burst = 	s_axi_awburst;	// input
-	assign slave.aw_lock = 		s_axi_awlock;	// input
-	assign slave.aw_cache = 	s_axi_awcache;	// input
-	assign slave.aw_prot = 		s_axi_awprot;	// input
-	assign slave.aw_qos = 		s_axi_awqos;	// input
-	assign slave.aw_region = 	s_axi_awregion;	// input
-	assign slave.aw_user = 		s_axi_awuser;	// input
-	assign slave.aw_valid = 	s_axi_awvalid;	// input
-	assign s_axi_awready = 		slave.aw_ready;	// output
-	assign slave.w_data = 		s_axi_wdata;	// input
-	assign slave.w_strb = 		s_axi_wstrb;	// input
-	assign slave.w_last = 		s_axi_wlast;	// input
-	assign slave.w_user = 		s_axi_wuser;	// input
-	assign slave.w_valid = 		s_axi_wvalid;	// input
-	assign s_axi_wready = 		slave.w_ready;	// output
-	assign s_axi_bid = 			slave.b_id;		// output
-	assign s_axi_bresp = 		slave.b_resp;	// output
-	assign s_axi_buser = 		slave.b_user;	// output
-	assign s_axi_bvalid = 		slave.b_valid;	// output
-	assign slave.b_ready = 		s_axi_bready;	// input
-	assign slave.ar_id = 		s_axi_arid;		// input
-	assign slave.ar_addr = 		s_axi_araddr;	// input
-	assign slave.ar_len = 		s_axi_arlen;	// input
-	assign slave.ar_size = 		s_axi_arsize;	// input
-	assign slave.ar_burst = 	s_axi_arburst;	// input
-	assign slave.ar_lock = 		s_axi_arlock;	// input
-	assign slave.ar_cache = 	s_axi_arcache;	// input
-	assign slave.ar_prot = 		s_axi_arprot;	// input
-	assign slave.ar_qos = 		s_axi_arqos;	// input
-	assign slave.ar_region = 	s_axi_arregion;	// input
-	assign slave.ar_user = 		s_axi_aruser;	// input
-	assign slave.ar_valid = 	s_axi_arvalid;	// input
-	assign s_axi_arready = 		slave.ar_ready;	// output
-	assign s_axi_rid = 			slave.r_id;		// output
-	assign s_axi_rdata = 		slave.r_data;	// output
-	assign s_axi_rresp = 		slave.r_resp;	// output
-	assign s_axi_rlast = 		slave.r_last;	// output
-	assign s_axi_ruser = 		slave.r_user;	// output
-	assign s_axi_rvalid = 		slave.r_valid;	// output
-	assign slave.r_ready = 		s_axi_rready;	// input
+	assign slave.aw_id = 		S_AXI_PT_awid;		// input
+	assign slave.aw_addr = 		S_AXI_PT_awaddr;	// input
+	assign slave.aw_len = 		S_AXI_PT_awlen;		// input
+	assign slave.aw_size = 		S_AXI_PT_awsize;	// input
+	assign slave.aw_burst = 	S_AXI_PT_awburst;	// input
+	assign slave.aw_lock = 		S_AXI_PT_awlock;	// input
+	assign slave.aw_cache = 	S_AXI_PT_awcache;	// input
+	assign slave.aw_prot = 		S_AXI_PT_awprot;	// input
+	assign slave.aw_qos = 		S_AXI_PT_awqos;		// input
+	assign slave.aw_region = 	S_AXI_PT_awregion;	// input
+	assign slave.aw_user = 		S_AXI_PT_awuser;	// input
+	assign slave.aw_valid = 	S_AXI_PT_awvalid;	// input
+	assign S_AXI_PT_awready = 	slave.aw_ready;		// output
+	assign slave.w_data = 		S_AXI_PT_wdata;		// input
+	assign slave.w_strb = 		S_AXI_PT_wstrb;		// input
+	assign slave.w_last = 		S_AXI_PT_wlast;		// input
+	assign slave.w_user = 		S_AXI_PT_wuser;		// input
+	assign slave.w_valid = 		S_AXI_PT_wvalid;	// input
+	assign S_AXI_PT_wready = 	slave.w_ready;		// output
+	assign S_AXI_PT_bid = 		slave.b_id;			// output
+	assign S_AXI_PT_bresp = 	slave.b_resp;		// output
+	assign S_AXI_PT_buser = 	slave.b_user;		// output
+	assign S_AXI_PT_bvalid = 	slave.b_valid;		// output
+	assign slave.b_ready = 		S_AXI_PT_bready;	// input
+	assign slave.ar_id = 		S_AXI_PT_arid;		// input
+	assign slave.ar_addr = 		S_AXI_PT_araddr;	// input
+	assign slave.ar_len = 		S_AXI_PT_arlen;		// input
+	assign slave.ar_size = 		S_AXI_PT_arsize;	// input
+	assign slave.ar_burst = 	S_AXI_PT_arburst;	// input
+	assign slave.ar_lock = 		S_AXI_PT_arlock;	// input
+	assign slave.ar_cache = 	S_AXI_PT_arcache;	// input
+	assign slave.ar_prot = 		S_AXI_PT_arprot;	// input
+	assign slave.ar_qos = 		S_AXI_PT_arqos;		// input
+	assign slave.ar_region = 	S_AXI_PT_arregion;	// input
+	assign slave.ar_user = 		S_AXI_PT_aruser;	// input
+	assign slave.ar_valid = 	S_AXI_PT_arvalid;	// input
+	assign S_AXI_PT_arready = 	slave.ar_ready;		// output
+	assign S_AXI_PT_rid = 		slave.r_id;			// output
+	assign S_AXI_PT_rdata = 	slave.r_data;		// output
+	assign S_AXI_PT_rresp = 	slave.r_resp;		// output
+	assign S_AXI_PT_rlast = 	slave.r_last;		// output
+	assign S_AXI_PT_ruser = 	slave.r_user;		// output
+	assign S_AXI_PT_rvalid = 	slave.r_valid;		// output
+	assign slave.r_ready = 		S_AXI_PT_rready;	// input
 
-	// Create and map Axi Master Bus Interface M_AXI
+	// Create and map Axi Master Bus Interface AXI_PT
 
 	AXI_BUS #(
-		.AXI_ADDR_WIDTH(C_M_AXI_ADDR_WIDTH),
-		.AXI_DATA_WIDTH(C_M_AXI_DATA_WIDTH)
+		.AXI_ADDR_WIDTH(AXI_PT_ADDR_WIDTH),
+		.AXI_DATA_WIDTH(AXI_PT_DATA_WIDTH)
 	) master();
 
-	assign m_axi_awid = 		master.aw_id;		// output
-	assign m_axi_awaddr = 		master.aw_addr;		// output
-	assign m_axi_awlen = 		master.aw_len;		// output
-	assign m_axi_awsize = 		master.aw_size;		// output
-	assign m_axi_awburst = 		master.aw_burst;	// output
-	assign m_axi_awlock = 		master.aw_lock;		// output
-	assign m_axi_awcache = 		master.aw_cache;	// output
-	assign m_axi_awprot = 		master.aw_prot;		// output
-	assign m_axi_awqos = 		master.aw_qos;		// output
-	assign m_axi_awuser = 		master.aw_user;		// output
-	assign m_axi_awvalid = 		master.aw_valid;	// output
-	assign master.aw_ready =	m_axi_awready; 		// input
-	assign m_axi_wdata = 		master.w_data;		// output
-	assign m_axi_wstrb = 		master.w_strb;		// output
-	assign m_axi_wlast = 		master.w_last;		// output
-	assign m_axi_wuser = 		master.w_user;		// output
-	assign m_axi_wvalid = 		master.w_valid;		// output
-	assign master.w_ready = 	m_axi_wready; 		// input
-	assign master.b_id = 		m_axi_bid; 			// input
-	assign master.b_resp = 		m_axi_bresp; 		// input
-	assign master.b_user = 		m_axi_buser; 		// input
-	assign master.b_valid = 	m_axi_bvalid; 		// input
-	assign m_axi_bready = 		master.b_ready;		// output
-	assign m_axi_arid = 		master.ar_id;		// output
-	assign m_axi_araddr = 		master.ar_addr;		// output
-	assign m_axi_arlen = 		master.ar_len;		// output
-	assign m_axi_arsize = 		master.ar_size;		// output
-	assign m_axi_arburst = 		master.ar_burst;	// output
-	assign m_axi_arlock = 		master.ar_lock;		// output
-	assign m_axi_arcache = 		master.ar_cache;	// output
-	assign m_axi_arprot = 		master.ar_prot;		// output
-	assign m_axi_arqos = 		master.ar_qos;		// output
-	assign m_axi_aruser = 		master.ar_user;		// output
-	assign m_axi_arvalid = 		master.ar_valid;	// output
-	assign master.ar_ready = 	m_axi_arready; 		// input
-	assign master.r_id = 		m_axi_rid; 			// input
-	assign master.r_data = 		m_axi_rdata; 		// input
-	assign master.r_resp = 		m_axi_rresp; 		// input
-	assign master.r_last = 		m_axi_rlast; 		// input
-	assign master.r_user = 		m_axi_ruser; 		// input
-	assign master.r_valid = 	m_axi_rvalid; 		// input
-	assign m_axi_rready = 		master.r_ready;		// output
+	assign M_AXI_PT_awid = 		master.aw_id;		// output
+	assign M_AXI_PT_awaddr = 	master.aw_addr;		// output
+	assign M_AXI_PT_awlen = 	master.aw_len;		// output
+	assign M_AXI_PT_awsize = 	master.aw_size;		// output
+	assign M_AXI_PT_awburst = 	master.aw_burst;	// output
+	assign M_AXI_PT_awlock = 	master.aw_lock;		// output
+	assign M_AXI_PT_awcache = 	master.aw_cache;	// output
+	assign M_AXI_PT_awprot = 	master.aw_prot;		// output
+	assign M_AXI_PT_awqos = 	master.aw_qos;		// output
+	assign M_AXI_PT_awuser = 	master.aw_user;		// output
+	assign M_AXI_PT_awvalid = 	master.aw_valid;	// output
+	assign master.aw_ready =	M_AXI_PT_awready; 	// input
+	assign M_AXI_PT_wdata = 	master.w_data;		// output
+	assign M_AXI_PT_wstrb = 	master.w_strb;		// output
+	assign M_AXI_PT_wlast = 	master.w_last;		// output
+	assign M_AXI_PT_wuser = 	master.w_user;		// output
+	assign M_AXI_PT_wvalid = 	master.w_valid;		// output
+	assign master.w_ready = 	M_AXI_PT_wready; 	// input
+	assign master.b_id = 		M_AXI_PT_bid; 		// input
+	assign master.b_resp = 		M_AXI_PT_bresp; 	// input
+	assign master.b_user = 		M_AXI_PT_buser; 	// input
+	assign master.b_valid = 	M_AXI_PT_bvalid; 	// input
+	assign M_AXI_PT_bready = 	master.b_ready;		// output
+	assign M_AXI_PT_arid = 		master.ar_id;		// output
+	assign M_AXI_PT_araddr = 	master.ar_addr;		// output
+	assign M_AXI_PT_arlen = 	master.ar_len;		// output
+	assign M_AXI_PT_arsize = 	master.ar_size;		// output
+	assign M_AXI_PT_arburst = 	master.ar_burst;	// output
+	assign M_AXI_PT_arlock = 	master.ar_lock;		// output
+	assign M_AXI_PT_arcache = 	master.ar_cache;	// output
+	assign M_AXI_PT_arprot = 	master.ar_prot;		// output
+	assign M_AXI_PT_arqos = 	master.ar_qos;		// output
+	assign M_AXI_PT_aruser = 	master.ar_user;		// output
+	assign M_AXI_PT_arvalid = 	master.ar_valid;	// output
+	assign master.ar_ready = 	M_AXI_PT_arready; 	// input
+	assign master.r_id = 		M_AXI_PT_rid; 		// input
+	assign master.r_data = 		M_AXI_PT_rdata; 	// input
+	assign master.r_resp = 		M_AXI_PT_rresp; 	// input
+	assign master.r_last = 		M_AXI_PT_rlast; 	// input
+	assign master.r_user = 		M_AXI_PT_ruser; 	// input
+	assign master.r_valid = 	M_AXI_PT_rvalid; 	// input
+	assign M_AXI_PT_rready = 	master.r_ready;		// output
 	
 	ProtectionUnit_v1_0 ProtectionUnit_v1_0_inst(
 	   .aclk,

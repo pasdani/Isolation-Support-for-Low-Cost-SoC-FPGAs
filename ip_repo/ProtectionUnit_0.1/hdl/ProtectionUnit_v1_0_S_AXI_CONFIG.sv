@@ -12,7 +12,7 @@
 // Implementation based on https://github.com/pulp-platform/axi/blob/master/src/axi_lite_regs.sv
 
 
-module ProtectionUnit_v1_0_S_AXI_CONFIG #(
+module ProtectionUnit_v1_0_AXI_CONFIG #(
     /// Number of configurable memory regions
     parameter int unsigned NumMemRegions  = 32'd2,
     /// Number of configurable domains (max. 16)
@@ -393,7 +393,7 @@ endmodule
 /// Interface variant of [`axi_lite_regs`](module.axi_lite_regs).
 ///
 /// See the documentation of the main module for the definition of ports and parameters.
-module ProtectionUnit_v1_0_S_AXI_CONFIG_intf #(
+module ProtectionUnit_v1_0_AXI_CONFIG_intf #(
   parameter int unsigned NumMemRegions  = 32'd2,
   parameter int unsigned NumDomains     = 32'd2,
   parameter int unsigned AXI_ADDR_WIDTH = 32'd7,
@@ -424,7 +424,7 @@ module ProtectionUnit_v1_0_S_AXI_CONFIG_intf #(
   `AXI_LITE_ASSIGN_TO_REQ(axi_lite_req, slv)
   `AXI_LITE_ASSIGN_FROM_RESP(slv, axi_lite_resp)
 
-  ProtectionUnit_v1_0_S_AXI_CONFIG #(
+  ProtectionUnit_v1_0_AXI_CONFIG #(
     .NumMemRegions( NumMemRegions  ),
     .NumDomains   ( NumDomains     ),
     .AxiAddrWidth ( AXI_ADDR_WIDTH ),
@@ -433,7 +433,7 @@ module ProtectionUnit_v1_0_S_AXI_CONFIG_intf #(
     .SecuProtOnly ( SECU_PROT_ONLY ),
     .req_lite_t   ( req_lite_t     ),
     .resp_lite_t  ( resp_lite_t    )
-  ) i_ProtectionUnit_v1_0_S_AXI_CONFIG (
+  ) i_ProtectionUnit_v1_0_AXI_CONFIG (
     .clk_i,
     .rst_ni,
     .axi_req_i   ( axi_lite_req  ),
