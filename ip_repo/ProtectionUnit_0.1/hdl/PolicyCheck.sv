@@ -148,12 +148,14 @@ end
 genvar i;
 generate
     for (i = 0; i < NUM_MEM_REGIONS ; i++ ) begin
-        always_comb begin : match_memory_regions            
-            mem_region_matches[i] = (MEM_REGION_LSBS[i] >= ADDR_WIDTH) ||
-                                    // 1. The significant bits match and 
-                                    ((MEM_REGIONS[i][ADDR_WIDTH - 1 : MEM_REGION_LSBS[i]] == ADDR[ADDR_WIDTH - 1 : MEM_REGION_LSBS[i]]) &&
-                                    // 2. The offset of the last addressed byte doesn't reach into the significant bits
-                                    (addr_last[ADDR_WIDTH - 1 : MEM_REGION_LSBS[i]] == ADDR[ADDR_WIDTH - 1 : MEM_REGION_LSBS[i]]));
+        if (MEM_REGION_LSBS[i] >= ADDR_WIDTH) begin
+            assign mem_region_matches[i] = 1'b1;
+        end else begin                
+            assign mem_region_matches[i] = 
+                // 1. The significant bits match and 
+                (MEM_REGIONS[i][ADDR_WIDTH - 1 : MEM_REGION_LSBS[i]] == ADDR[ADDR_WIDTH - 1 : MEM_REGION_LSBS[i]]) &&
+                // 2. The offset of the last addressed byte doesn't reach into the significant bits
+                (MEM_REGIONS[i][ADDR_WIDTH - 1 : MEM_REGION_LSBS[i]] == addr_last[ADDR_WIDTH - 1 : MEM_REGION_LSBS[i]]);
         end
     end    
 endgenerate

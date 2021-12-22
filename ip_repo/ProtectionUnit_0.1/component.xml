@@ -936,13 +936,27 @@
       <spirit:name>AXI_CONFIG</spirit:name>
       <spirit:addressBlock>
         <spirit:name>reg0</spirit:name>
-        <spirit:baseAddress spirit:format="bitString" spirit:resolve="user" spirit:bitStringLength="32">0</spirit:baseAddress>
+        <spirit:baseAddress spirit:format="bitString" spirit:resolve="user" spirit:bitStringLength="32">0x00</spirit:baseAddress>
         <spirit:range spirit:format="long" spirit:resolve="dependent" spirit:dependency="pow(2,(spirit:decode(id(&apos;MODELPARAM_VALUE.AXI_CONFIG_ADDR_WIDTH&apos;)) - 1) + 1)" spirit:minimum="4096" spirit:rangeType="long">4096</spirit:range>
         <spirit:width spirit:format="long" spirit:resolve="dependent" spirit:dependency="(spirit:decode(id(&apos;MODELPARAM_VALUE.AXI_CONFIG_DATA_WIDTH&apos;)) - 1) + 1">32</spirit:width>
         <spirit:usage>register</spirit:usage>
         <spirit:register>
           <spirit:name>config_reg</spirit:name>
+          <spirit:displayName>Configuration Register</spirit:displayName>
           <spirit:addressOffset>0</spirit:addressOffset>
+          <spirit:size spirit:format="long">1</spirit:size>
+        </spirit:register>
+        <spirit:register>
+          <spirit:name>status_reg</spirit:name>
+          <spirit:displayName>Status Register</spirit:displayName>
+          <spirit:addressOffset>8</spirit:addressOffset>
+          <spirit:size spirit:format="long">1</spirit:size>
+        </spirit:register>
+        <spirit:register>
+          <spirit:name>policy_regs</spirit:name>
+          <spirit:displayName>Policy Registers</spirit:displayName>
+          <spirit:description>There is a 32-bit policy register for each memory region. A memory region can be accessible by up to 16 domains. The acces to a memory region controled by two bits for each momory region and domain. The more signifcation bit representing read permisson and the less significant one pressenting write permission. The pairs start from the least significant bits with domain 0.</spirit:description>
+          <spirit:addressOffset>64</spirit:addressOffset>
           <spirit:size spirit:format="long">1</spirit:size>
         </spirit:register>
       </spirit:addressBlock>
@@ -955,26 +969,6 @@
         <spirit:range spirit:format="long" spirit:resolve="dependent" spirit:dependency="pow(2,(spirit:decode(id(&apos;MODELPARAM_VALUE.AXI_PT_ADDR_WIDTH&apos;)) - 1) + 1)" spirit:minimum="4096" spirit:rangeType="long">4096</spirit:range>
         <spirit:width spirit:format="long" spirit:resolve="dependent" spirit:dependency="(spirit:decode(id(&apos;MODELPARAM_VALUE.AXI_PT_DATA_WIDTH&apos;)) - 1) + 1">32</spirit:width>
         <spirit:usage>register</spirit:usage>
-      </spirit:addressBlock>
-    </spirit:memoryMap>
-    <spirit:memoryMap>
-      <spirit:name>TEST</spirit:name>
-      <spirit:addressBlock>
-        <spirit:name>TEST</spirit:name>
-        <spirit:baseAddress spirit:format="long">0</spirit:baseAddress>
-        <spirit:range spirit:format="long">4096</spirit:range>
-        <spirit:width spirit:format="long">0</spirit:width>
-        <spirit:register>
-          <spirit:name>TEST</spirit:name>
-          <spirit:addressOffset>0</spirit:addressOffset>
-          <spirit:size spirit:format="long">1</spirit:size>
-          <spirit:parameters>
-            <spirit:parameter>
-              <spirit:name>TEST</spirit:name>
-              <spirit:value/>
-            </spirit:parameter>
-          </spirit:parameters>
-        </spirit:register>
       </spirit:addressBlock>
     </spirit:memoryMap>
   </spirit:memoryMaps>
@@ -1033,7 +1027,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>211ab85e</spirit:value>
+            <spirit:value>5c0af3a4</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -1048,7 +1042,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>211ab85e</spirit:value>
+            <spirit:value>5c0af3a4</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -1063,7 +1057,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>ec7c3afa</spirit:value>
+            <spirit:value>3ba5cdbb</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -1637,6 +1631,13 @@
             <spirit:defaultValue spirit:format="long">0</spirit:defaultValue>
           </spirit:driver>
         </spirit:wire>
+        <spirit:vendorExtensions>
+          <xilinx:portInfo>
+            <xilinx:enablement>
+              <xilinx:isEnabled xilinx:resolve="dependent" xilinx:id="PORT_ENABLEMENT.S_AXI_PT_awuser" xilinx:dependency="$AXI_PT_AWUSER_WIDTH > 0">false</xilinx:isEnabled>
+            </xilinx:enablement>
+          </xilinx:portInfo>
+        </spirit:vendorExtensions>
       </spirit:port>
       <spirit:port>
         <spirit:name>S_AXI_PT_awvalid</spirit:name>
@@ -1742,6 +1743,13 @@
             <spirit:defaultValue spirit:format="long">0</spirit:defaultValue>
           </spirit:driver>
         </spirit:wire>
+        <spirit:vendorExtensions>
+          <xilinx:portInfo>
+            <xilinx:enablement>
+              <xilinx:isEnabled xilinx:resolve="dependent" xilinx:id="PORT_ENABLEMENT.S_AXI_PT_wuser" xilinx:dependency="$AXI_PT_WUSER_WIDTH > 0">false</xilinx:isEnabled>
+            </xilinx:enablement>
+          </xilinx:portInfo>
+        </spirit:vendorExtensions>
       </spirit:port>
       <spirit:port>
         <spirit:name>S_AXI_PT_wvalid</spirit:name>
@@ -1822,6 +1830,13 @@
             </spirit:wireTypeDef>
           </spirit:wireTypeDefs>
         </spirit:wire>
+        <spirit:vendorExtensions>
+          <xilinx:portInfo>
+            <xilinx:enablement>
+              <xilinx:isEnabled xilinx:resolve="dependent" xilinx:id="PORT_ENABLEMENT.S_AXI_PT_buser" xilinx:dependency="$AXI_PT_BUSER_WIDTH > 0">false</xilinx:isEnabled>
+            </xilinx:enablement>
+          </xilinx:portInfo>
+        </spirit:vendorExtensions>
       </spirit:port>
       <spirit:port>
         <spirit:name>S_AXI_PT_bvalid</spirit:name>
@@ -2064,6 +2079,13 @@
             <spirit:defaultValue spirit:format="long">0</spirit:defaultValue>
           </spirit:driver>
         </spirit:wire>
+        <spirit:vendorExtensions>
+          <xilinx:portInfo>
+            <xilinx:enablement>
+              <xilinx:isEnabled xilinx:resolve="dependent" xilinx:id="PORT_ENABLEMENT.S_AXI_PT_aruser" xilinx:dependency="$AXI_PT_ARUSER_WIDTH > 0">false</xilinx:isEnabled>
+            </xilinx:enablement>
+          </xilinx:portInfo>
+        </spirit:vendorExtensions>
       </spirit:port>
       <spirit:port>
         <spirit:name>S_AXI_PT_arvalid</spirit:name>
@@ -2174,6 +2196,13 @@
             </spirit:wireTypeDef>
           </spirit:wireTypeDefs>
         </spirit:wire>
+        <spirit:vendorExtensions>
+          <xilinx:portInfo>
+            <xilinx:enablement>
+              <xilinx:isEnabled xilinx:resolve="dependent" xilinx:id="PORT_ENABLEMENT.S_AXI_PT_ruser" xilinx:dependency="$AXI_PT_RUSER_WIDTH > 0">false</xilinx:isEnabled>
+            </xilinx:enablement>
+          </xilinx:portInfo>
+        </spirit:vendorExtensions>
       </spirit:port>
       <spirit:port>
         <spirit:name>S_AXI_PT_rvalid</spirit:name>
@@ -2369,6 +2398,13 @@
             </spirit:wireTypeDef>
           </spirit:wireTypeDefs>
         </spirit:wire>
+        <spirit:vendorExtensions>
+          <xilinx:portInfo>
+            <xilinx:enablement>
+              <xilinx:isEnabled xilinx:resolve="dependent" xilinx:id="PORT_ENABLEMENT.M_AXI_PT_awuser" xilinx:dependency="$AXI_PT_AWUSER_WIDTH > 0">false</xilinx:isEnabled>
+            </xilinx:enablement>
+          </xilinx:portInfo>
+        </spirit:vendorExtensions>
       </spirit:port>
       <spirit:port>
         <spirit:name>M_AXI_PT_awvalid</spirit:name>
@@ -2462,6 +2498,13 @@
             </spirit:wireTypeDef>
           </spirit:wireTypeDefs>
         </spirit:wire>
+        <spirit:vendorExtensions>
+          <xilinx:portInfo>
+            <xilinx:enablement>
+              <xilinx:isEnabled xilinx:resolve="dependent" xilinx:id="PORT_ENABLEMENT.M_AXI_PT_wuser" xilinx:dependency="$AXI_PT_WUSER_WIDTH > 0">false</xilinx:isEnabled>
+            </xilinx:enablement>
+          </xilinx:portInfo>
+        </spirit:vendorExtensions>
       </spirit:port>
       <spirit:port>
         <spirit:name>M_AXI_PT_wvalid</spirit:name>
@@ -2551,6 +2594,13 @@
             <spirit:defaultValue spirit:format="long">0</spirit:defaultValue>
           </spirit:driver>
         </spirit:wire>
+        <spirit:vendorExtensions>
+          <xilinx:portInfo>
+            <xilinx:enablement>
+              <xilinx:isEnabled xilinx:resolve="dependent" xilinx:id="PORT_ENABLEMENT.M_AXI_PT_buser" xilinx:dependency="$AXI_PT_BUSER_WIDTH > 0">false</xilinx:isEnabled>
+            </xilinx:enablement>
+          </xilinx:portInfo>
+        </spirit:vendorExtensions>
       </spirit:port>
       <spirit:port>
         <spirit:name>M_AXI_PT_bvalid</spirit:name>
@@ -2746,6 +2796,13 @@
             </spirit:wireTypeDef>
           </spirit:wireTypeDefs>
         </spirit:wire>
+        <spirit:vendorExtensions>
+          <xilinx:portInfo>
+            <xilinx:enablement>
+              <xilinx:isEnabled xilinx:resolve="dependent" xilinx:id="PORT_ENABLEMENT.M_AXI_PT_aruser" xilinx:dependency="$AXI_PT_ARUSER_WIDTH > 0">false</xilinx:isEnabled>
+            </xilinx:enablement>
+          </xilinx:portInfo>
+        </spirit:vendorExtensions>
       </spirit:port>
       <spirit:port>
         <spirit:name>M_AXI_PT_arvalid</spirit:name>
@@ -2871,6 +2928,13 @@
             <spirit:defaultValue spirit:format="long">0</spirit:defaultValue>
           </spirit:driver>
         </spirit:wire>
+        <spirit:vendorExtensions>
+          <xilinx:portInfo>
+            <xilinx:enablement>
+              <xilinx:isEnabled xilinx:resolve="dependent" xilinx:id="PORT_ENABLEMENT.M_AXI_PT_ruser" xilinx:dependency="$AXI_PT_RUSER_WIDTH > 0">false</xilinx:isEnabled>
+            </xilinx:enablement>
+          </xilinx:portInfo>
+        </spirit:vendorExtensions>
       </spirit:port>
       <spirit:port>
         <spirit:name>M_AXI_PT_rvalid</spirit:name>
@@ -2906,7 +2970,7 @@
       <spirit:modelParameter xsi:type="spirit:nameValueTypeType" spirit:dataType="integer">
         <spirit:name>NUM_MEM_REGIONS</spirit:name>
         <spirit:displayName>Num Mem Regions</spirit:displayName>
-        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.NUM_MEM_REGIONS">1</spirit:value>
+        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.NUM_MEM_REGIONS">2</spirit:value>
         <spirit:vendorExtensions>
           <xilinx:parameterInfo>
             <xilinx:enablement>
@@ -2989,13 +3053,6 @@
         <spirit:name>MEM_REGION_1</spirit:name>
         <spirit:displayName>Mem Region 1</spirit:displayName>
         <spirit:value spirit:format="bitString" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.MEM_REGION_1" spirit:bitStringLength="32">0x00000000</spirit:value>
-        <spirit:vendorExtensions>
-          <xilinx:parameterInfo>
-            <xilinx:enablement>
-              <xilinx:isEnabled xilinx:id="MODELPARAM_ENABLEMENT.MEM_REGION_1">false</xilinx:isEnabled>
-            </xilinx:enablement>
-          </xilinx:parameterInfo>
-        </spirit:vendorExtensions>
       </spirit:modelParameter>
       <spirit:modelParameter spirit:dataType="integer">
         <spirit:name>MEM_REGION_2</spirit:name>
@@ -3174,13 +3231,6 @@
         <spirit:name>MEM_REGION_1_LSB</spirit:name>
         <spirit:displayName>Mem Region 1 Lsb</spirit:displayName>
         <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.MEM_REGION_1_LSB">0</spirit:value>
-        <spirit:vendorExtensions>
-          <xilinx:parameterInfo>
-            <xilinx:enablement>
-              <xilinx:isEnabled xilinx:id="MODELPARAM_ENABLEMENT.MEM_REGION_1_LSB">false</xilinx:isEnabled>
-            </xilinx:enablement>
-          </xilinx:parameterInfo>
-        </spirit:vendorExtensions>
       </spirit:modelParameter>
       <spirit:modelParameter spirit:dataType="integer">
         <spirit:name>MEM_REGION_2_LSB</spirit:name>
@@ -3860,7 +3910,7 @@
       <spirit:file>
         <spirit:name>hdl/ProtectionUnit_v1_0_wrapper.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
-        <spirit:userFileType>CHECKSUM_a1336ab8</spirit:userFileType>
+        <spirit:userFileType>CHECKSUM_f86c08db</spirit:userFileType>
       </spirit:file>
     </spirit:fileSet>
     <spirit:fileSet>
@@ -4069,7 +4119,7 @@
     <spirit:parameter>
       <spirit:name>NUM_MEM_REGIONS</spirit:name>
       <spirit:displayName>Num Mem Regions</spirit:displayName>
-      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.NUM_MEM_REGIONS" spirit:minimum="1" spirit:maximum="16" spirit:rangeType="long">1</spirit:value>
+      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.NUM_MEM_REGIONS" spirit:minimum="1" spirit:maximum="16" spirit:rangeType="long">2</spirit:value>
       <spirit:vendorExtensions>
         <xilinx:parameterInfo>
           <xilinx:enablement>
@@ -4162,7 +4212,7 @@
       <spirit:vendorExtensions>
         <xilinx:parameterInfo>
           <xilinx:enablement>
-            <xilinx:isEnabled xilinx:resolve="generated" xilinx:id="PARAM_ENABLEMENT.MEM_REGION_1">false</xilinx:isEnabled>
+            <xilinx:isEnabled xilinx:resolve="generated" xilinx:id="PARAM_ENABLEMENT.MEM_REGION_1">true</xilinx:isEnabled>
           </xilinx:enablement>
         </xilinx:parameterInfo>
       </spirit:vendorExtensions>
@@ -4338,7 +4388,7 @@
     <spirit:parameter>
       <spirit:name>MEM_REGION_0_LSB</spirit:name>
       <spirit:displayName>LSB</spirit:displayName>
-      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.MEM_REGION_0_LSB" spirit:minimum="0" spirit:maximum="32" spirit:rangeType="long">0</spirit:value>
+      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.MEM_REGION_0_LSB" spirit:bitStringLength="32" spirit:minimum="0" spirit:maximum="32" spirit:rangeType="long">0</spirit:value>
       <spirit:vendorExtensions>
         <xilinx:parameterInfo>
           <xilinx:enablement>
@@ -4350,11 +4400,11 @@
     <spirit:parameter>
       <spirit:name>MEM_REGION_1_LSB</spirit:name>
       <spirit:displayName>LSB</spirit:displayName>
-      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.MEM_REGION_1_LSB" spirit:minimum="0" spirit:maximum="32" spirit:rangeType="long">0</spirit:value>
+      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.MEM_REGION_1_LSB" spirit:bitStringLength="32" spirit:minimum="0" spirit:maximum="32" spirit:rangeType="long">0</spirit:value>
       <spirit:vendorExtensions>
         <xilinx:parameterInfo>
           <xilinx:enablement>
-            <xilinx:isEnabled xilinx:resolve="generated" xilinx:id="PARAM_ENABLEMENT.MEM_REGION_1_LSB">false</xilinx:isEnabled>
+            <xilinx:isEnabled xilinx:resolve="generated" xilinx:id="PARAM_ENABLEMENT.MEM_REGION_1_LSB">true</xilinx:isEnabled>
           </xilinx:enablement>
         </xilinx:parameterInfo>
       </spirit:vendorExtensions>
@@ -4362,7 +4412,7 @@
     <spirit:parameter>
       <spirit:name>MEM_REGION_2_LSB</spirit:name>
       <spirit:displayName>LSB</spirit:displayName>
-      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.MEM_REGION_2_LSB" spirit:minimum="0" spirit:maximum="32" spirit:rangeType="long">0</spirit:value>
+      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.MEM_REGION_2_LSB" spirit:bitStringLength="32" spirit:minimum="0" spirit:maximum="32" spirit:rangeType="long">0</spirit:value>
       <spirit:vendorExtensions>
         <xilinx:parameterInfo>
           <xilinx:enablement>
@@ -4374,7 +4424,7 @@
     <spirit:parameter>
       <spirit:name>MEM_REGION_3_LSB</spirit:name>
       <spirit:displayName>LSB</spirit:displayName>
-      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.MEM_REGION_3_LSB" spirit:minimum="0" spirit:maximum="32" spirit:rangeType="long">0</spirit:value>
+      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.MEM_REGION_3_LSB" spirit:bitStringLength="32" spirit:minimum="0" spirit:maximum="32" spirit:rangeType="long">0</spirit:value>
       <spirit:vendorExtensions>
         <xilinx:parameterInfo>
           <xilinx:enablement>
@@ -4386,7 +4436,7 @@
     <spirit:parameter>
       <spirit:name>MEM_REGION_4_LSB</spirit:name>
       <spirit:displayName>LSB</spirit:displayName>
-      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.MEM_REGION_4_LSB" spirit:minimum="0" spirit:maximum="32" spirit:rangeType="long">0</spirit:value>
+      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.MEM_REGION_4_LSB" spirit:bitStringLength="32" spirit:minimum="0" spirit:maximum="32" spirit:rangeType="long">0</spirit:value>
       <spirit:vendorExtensions>
         <xilinx:parameterInfo>
           <xilinx:enablement>
@@ -4398,7 +4448,7 @@
     <spirit:parameter>
       <spirit:name>MEM_REGION_5_LSB</spirit:name>
       <spirit:displayName>LSB</spirit:displayName>
-      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.MEM_REGION_5_LSB" spirit:minimum="0" spirit:maximum="32" spirit:rangeType="long">0</spirit:value>
+      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.MEM_REGION_5_LSB" spirit:bitStringLength="32" spirit:minimum="0" spirit:maximum="32" spirit:rangeType="long">0</spirit:value>
       <spirit:vendorExtensions>
         <xilinx:parameterInfo>
           <xilinx:enablement>
@@ -4410,7 +4460,7 @@
     <spirit:parameter>
       <spirit:name>MEM_REGION_6_LSB</spirit:name>
       <spirit:displayName>LSB</spirit:displayName>
-      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.MEM_REGION_6_LSB" spirit:minimum="0" spirit:maximum="32" spirit:rangeType="long">0</spirit:value>
+      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.MEM_REGION_6_LSB" spirit:bitStringLength="32" spirit:minimum="0" spirit:maximum="32" spirit:rangeType="long">0</spirit:value>
       <spirit:vendorExtensions>
         <xilinx:parameterInfo>
           <xilinx:enablement>
@@ -4422,7 +4472,7 @@
     <spirit:parameter>
       <spirit:name>MEM_REGION_7_LSB</spirit:name>
       <spirit:displayName>LSB</spirit:displayName>
-      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.MEM_REGION_7_LSB" spirit:minimum="0" spirit:maximum="32" spirit:rangeType="long">0</spirit:value>
+      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.MEM_REGION_7_LSB" spirit:bitStringLength="32" spirit:minimum="0" spirit:maximum="32" spirit:rangeType="long">0</spirit:value>
       <spirit:vendorExtensions>
         <xilinx:parameterInfo>
           <xilinx:enablement>
@@ -4434,7 +4484,7 @@
     <spirit:parameter>
       <spirit:name>MEM_REGION_8_LSB</spirit:name>
       <spirit:displayName>LSB</spirit:displayName>
-      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.MEM_REGION_8_LSB" spirit:minimum="0" spirit:maximum="32" spirit:rangeType="long">0</spirit:value>
+      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.MEM_REGION_8_LSB" spirit:bitStringLength="32" spirit:minimum="0" spirit:maximum="32" spirit:rangeType="long">0</spirit:value>
       <spirit:vendorExtensions>
         <xilinx:parameterInfo>
           <xilinx:enablement>
@@ -4446,7 +4496,7 @@
     <spirit:parameter>
       <spirit:name>MEM_REGION_9_LSB</spirit:name>
       <spirit:displayName>LSB</spirit:displayName>
-      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.MEM_REGION_9_LSB" spirit:minimum="0" spirit:maximum="32" spirit:rangeType="long">0</spirit:value>
+      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.MEM_REGION_9_LSB" spirit:bitStringLength="32" spirit:minimum="0" spirit:maximum="32" spirit:rangeType="long">0</spirit:value>
       <spirit:vendorExtensions>
         <xilinx:parameterInfo>
           <xilinx:enablement>
@@ -4458,7 +4508,7 @@
     <spirit:parameter>
       <spirit:name>MEM_REGION_10_LSB</spirit:name>
       <spirit:displayName>LSB</spirit:displayName>
-      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.MEM_REGION_10_LSB" spirit:minimum="0" spirit:maximum="32" spirit:rangeType="long">0</spirit:value>
+      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.MEM_REGION_10_LSB" spirit:bitStringLength="32" spirit:minimum="0" spirit:maximum="32" spirit:rangeType="long">0</spirit:value>
       <spirit:vendorExtensions>
         <xilinx:parameterInfo>
           <xilinx:enablement>
@@ -4470,7 +4520,7 @@
     <spirit:parameter>
       <spirit:name>MEM_REGION_11_LSB</spirit:name>
       <spirit:displayName>LSB</spirit:displayName>
-      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.MEM_REGION_11_LSB" spirit:minimum="0" spirit:maximum="32" spirit:rangeType="long">0</spirit:value>
+      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.MEM_REGION_11_LSB" spirit:bitStringLength="32" spirit:minimum="0" spirit:maximum="32" spirit:rangeType="long">0</spirit:value>
       <spirit:vendorExtensions>
         <xilinx:parameterInfo>
           <xilinx:enablement>
@@ -4482,7 +4532,7 @@
     <spirit:parameter>
       <spirit:name>MEM_REGION_12_LSB</spirit:name>
       <spirit:displayName>LSB</spirit:displayName>
-      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.MEM_REGION_12_LSB" spirit:minimum="0" spirit:maximum="32" spirit:rangeType="long">0</spirit:value>
+      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.MEM_REGION_12_LSB" spirit:bitStringLength="32" spirit:minimum="0" spirit:maximum="32" spirit:rangeType="long">0</spirit:value>
       <spirit:vendorExtensions>
         <xilinx:parameterInfo>
           <xilinx:enablement>
@@ -4494,7 +4544,7 @@
     <spirit:parameter>
       <spirit:name>MEM_REGION_13_LSB</spirit:name>
       <spirit:displayName>LSB</spirit:displayName>
-      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.MEM_REGION_13_LSB" spirit:minimum="0" spirit:maximum="32" spirit:rangeType="long">0</spirit:value>
+      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.MEM_REGION_13_LSB" spirit:bitStringLength="32" spirit:minimum="0" spirit:maximum="32" spirit:rangeType="long">0</spirit:value>
       <spirit:vendorExtensions>
         <xilinx:parameterInfo>
           <xilinx:enablement>
@@ -4506,7 +4556,7 @@
     <spirit:parameter>
       <spirit:name>MEM_REGION_14_LSB</spirit:name>
       <spirit:displayName>LSB</spirit:displayName>
-      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.MEM_REGION_14_LSB" spirit:minimum="0" spirit:maximum="32" spirit:rangeType="long">0</spirit:value>
+      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.MEM_REGION_14_LSB" spirit:bitStringLength="32" spirit:minimum="0" spirit:maximum="32" spirit:rangeType="long">0</spirit:value>
       <spirit:vendorExtensions>
         <xilinx:parameterInfo>
           <xilinx:enablement>
@@ -4518,7 +4568,7 @@
     <spirit:parameter>
       <spirit:name>MEM_REGION_15_LSB</spirit:name>
       <spirit:displayName>LSB</spirit:displayName>
-      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.MEM_REGION_15_LSB" spirit:minimum="0" spirit:maximum="32" spirit:rangeType="long">0</spirit:value>
+      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.MEM_REGION_15_LSB" spirit:bitStringLength="32" spirit:minimum="0" spirit:maximum="32" spirit:rangeType="long">0</spirit:value>
       <spirit:vendorExtensions>
         <xilinx:parameterInfo>
           <xilinx:enablement>
@@ -4921,8 +4971,8 @@
         <xilinx:taxonomy>/AXI_Infrastructure</xilinx:taxonomy>
       </xilinx:taxonomies>
       <xilinx:displayName>ProtectionUnit_v0.1</xilinx:displayName>
-      <xilinx:coreRevision>40</xilinx:coreRevision>
-      <xilinx:coreCreationDateTime>2021-12-19T19:15:50Z</xilinx:coreCreationDateTime>
+      <xilinx:coreRevision>55</xilinx:coreRevision>
+      <xilinx:coreCreationDateTime>2021-12-22T16:05:25Z</xilinx:coreCreationDateTime>
       <xilinx:tags>
         <xilinx:tag xilinx:name="ui.data.coregen.dd@4c191b71_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
         <xilinx:tag xilinx:name="ui.data.coregen.dd@d0163d0_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
@@ -5697,17 +5747,253 @@
         <xilinx:tag xilinx:name="ui.data.coregen.dd@607c72b6_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
         <xilinx:tag xilinx:name="ui.data.coregen.dd@36241f0d_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
         <xilinx:tag xilinx:name="ui.data.coregen.dd@149def01_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@26a33ed8_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@34f2f67f_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@42bec35b_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@620f73ce_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@78b9ae2e_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@b1d6b6f_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6cff9694_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@514679b7_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@209280a2_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7624d047_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2f7e699f_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6d9eb2f7_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@29a5b310_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5b580d0_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5eb0df8a_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@35173d4c_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4e09f20c_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4f69d56a_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@75074d9f_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4e9b40c9_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@15432ae0_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7b8492f7_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@65193a78_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@769fe072_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3598cc00_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4cb6b424_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@781a8557_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@39505d08_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@67b621e0_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5dc25982_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@bbe7788_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@421d6ee_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@48498f06_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7976054c_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@da41797_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6993f91d_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6de7bf3c_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2949bf84_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@69a0aa7d_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4bcb109d_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@636fd324_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@48a84db1_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@674cc8a9_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@76e8999e_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1be1e04a_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1e11725f_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@21875265_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1c703a21_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5b79366c_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@55ceae35_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7f43ce3f_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4988c48e_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@d61af76_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2b68fdf1_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@b062557_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4aacdb9e_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7be854e4_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1963f599_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@b55a1c4_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5814b341_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@15d7844c_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@66d4f7e0_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@143681d0_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2309de6e_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@53c5581_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@56d4dbf9_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@416d4684_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@755e621f_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@15b5324f_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5ce1737c_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@21763736_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1d592f8b_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@66085fe5_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@e2f7c21_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3968678e_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5c91892_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6029f9ec_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@790dc685_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@52f6045c_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@64fe7e60_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4d322251_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4b678391_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@36fa8474_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@73528e4e_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6074f7ff_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@51533842_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6fe68ebb_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@513059de_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6637d849_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5e9b9088_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2a524523_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@20c30e79_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@60973095_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@41fb3d5c_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1677264_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@202e1cfa_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@539c588d_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3ebdd133_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2635bbfc_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@220e427_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@792585c1_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4eb26ff2_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@11ce0de7_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@a89aea3_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7e27d7ef_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@61da031b_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7d0f8eab_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5173e527_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3cb8f03_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@56e80d86_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2ae1b20e_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4cb54af0_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@40e240da_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@54e3fc9b_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2562b3d8_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2f32ae20_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@30ee7a8b_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1006561d_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4a56f6af_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7ecaca6c_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@294f08e1_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7f2246ac_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@303e3b8f_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6a7bb307_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4e72814f_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@78e2b5ca_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@46a9a06_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@11297f0e_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@67786b3b_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6d504a84_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@14e68db3_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@23f058c1_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5c8a03f5_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@25e6077d_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5ee07172_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@220c40d0_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@613124c6_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5b880fb9_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@748536e0_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5e15a371_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@15c2ff60_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@18f2907c_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@210b4890_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@24213ecb_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1e3a0d6b_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@13156ce7_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@25eac4ee_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4aa28034_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@14fcbbed_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3c27f331_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3abcbffa_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2b013083_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@15834dcd_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4d7eadae_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7aed9cbd_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@12b7a93b_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6af68ba5_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@257f3464_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3742c37c_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@125f3173_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@a84f676_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@38ba2fa_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7f325891_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@76030608_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5754c722_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2d406557_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@397b3573_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3f0cbd84_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@62374f19_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@bfa430_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3863035f_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@613c6e97_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@52af5c20_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@16cde304_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6e5fc00c_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2ae88f93_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6657d9b1_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7cbd2d21_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1a1a153e_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7c3bd7b0_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@25d7d2f8_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1810cf94_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2c370595_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1286b0ff_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3e8f02dd_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7a5bf139_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@315f26dc_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2c72fe5a_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@20f292fc_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@667e8f0b_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@513cfd0d_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7b5ca08f_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@27d59a97_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@e33f17e_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@40fdfb0f_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@72ca4f74_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4ce462c3_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2153744a_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2392b545_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4595a1b_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3deb5a3_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@40bdc9a6_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5632d3fc_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5d4f6244_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@30f6a433_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3d608aab_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3ed989c5_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2e532912_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@65eda4d5_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2cb30b63_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6aa52351_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4fb96254_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@319b017f_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@343f9bc8_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1e1696aa_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1eb1a1ac_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6336b269_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@37dbc4f2_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@51573e14_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@700adad7_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2c84cc4f_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@d8f59b5_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@e36ad07_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1d276134_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2aa09cfe_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@28ea38c3_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@62a0b600_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@dbbce0c_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5e202adc_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@41751b4_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7be3da5a_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@69daa405_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@73cef5ee_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5a3658a6_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@437f92ff_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7889c453_ARCHIVE_LOCATION">c:/dev/mthesishwisolotion/ip_repo/ProtectionUnit_0.1</xilinx:tag>
       </xilinx:tags>
     </xilinx:coreExtensions>
     <xilinx:packagingInfo>
       <xilinx:xilinxVersion>2020.2</xilinx:xilinxVersion>
       <xilinx:checksum xilinx:scope="busInterfaces" xilinx:value="9b34bcef"/>
       <xilinx:checksum xilinx:scope="addressSpaces" xilinx:value="0a400245"/>
-      <xilinx:checksum xilinx:scope="memoryMaps" xilinx:value="c86d3601"/>
-      <xilinx:checksum xilinx:scope="fileGroups" xilinx:value="652142c7"/>
-      <xilinx:checksum xilinx:scope="ports" xilinx:value="a932f06f"/>
-      <xilinx:checksum xilinx:scope="hdlParameters" xilinx:value="e65ef0f0"/>
-      <xilinx:checksum xilinx:scope="parameters" xilinx:value="7f92db82"/>
+      <xilinx:checksum xilinx:scope="memoryMaps" xilinx:value="213f8b1d"/>
+      <xilinx:checksum xilinx:scope="fileGroups" xilinx:value="2859712a"/>
+      <xilinx:checksum xilinx:scope="ports" xilinx:value="26bb99a9"/>
+      <xilinx:checksum xilinx:scope="hdlParameters" xilinx:value="13b46c09"/>
+      <xilinx:checksum xilinx:scope="parameters" xilinx:value="2ec7855c"/>
     </xilinx:packagingInfo>
   </spirit:vendorExtensions>
 </spirit:component>

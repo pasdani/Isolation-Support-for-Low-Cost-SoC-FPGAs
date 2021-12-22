@@ -133,9 +133,10 @@
 		.slv_aw_select_i(aw_granted_q),
 		.slv_ar_select_i(ar_granted_q),
 		.slv(slave),
-		.mst('{err_path, master}),
+		.mst('{master, err_path}),
 		.clk_i(aclk),
-		.rst_ni(aresetn)
+		.rst_ni(aresetn),
+		.test_i(1'b0)
 	);
 
 // 	module axi_demux_intf #(
@@ -179,7 +180,8 @@
 	) axi_err_slv_inst (
 		.slv(err_path),
 		.clk_i(aclk),
-		.rst_ni(aresetn)
+		.rst_ni(aresetn),
+		.test_i(1'b0)
 	);
 
 	
@@ -445,7 +447,9 @@
 
 	AXI_BUS #(
 		.AXI_ADDR_WIDTH(AXI_PT_ADDR_WIDTH),
-		.AXI_DATA_WIDTH(AXI_PT_DATA_WIDTH)
+		.AXI_DATA_WIDTH(AXI_PT_DATA_WIDTH),
+		.AXI_ID_WIDTH(AXI_PT_ID_WIDTH),
+		.AXI_USER_WIDTH(AXI_PT_AWUSER_WIDTH)
 	) slave();
 	
 	assign slave.aw_id = 		S_AXI_PT_awid;		// input
@@ -497,7 +501,9 @@
 
 	AXI_BUS #(
 		.AXI_ADDR_WIDTH(AXI_PT_ADDR_WIDTH),
-		.AXI_DATA_WIDTH(AXI_PT_DATA_WIDTH)
+		.AXI_DATA_WIDTH(AXI_PT_DATA_WIDTH),
+		.AXI_ID_WIDTH(AXI_PT_ID_WIDTH),
+		.AXI_USER_WIDTH(AXI_PT_AWUSER_WIDTH)
 	) master();
 
 	assign M_AXI_PT_awid = 		master.aw_id;		// output
