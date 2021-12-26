@@ -123,11 +123,11 @@
 		.MAX_TRANS(32'd8),
 		.AXI_LOOK_BITS(AXI_PT_ID_WIDTH),
 		.UNIQUE_IDS(1'b0),
-		.FALL_THROUGH(1'b0),
-		.SPILL_AW(1'b1),
+		.FALL_THROUGH(1'b1),
+		.SPILL_AW(1'b0),
 		.SPILL_W(1'b0),
 		.SPILL_B(1'b0),
-		.SPILL_AR(1'b1),
+		.SPILL_AR(1'b0),
 		.SPILL_R(1'b0)		 
 	) axi_demux_inst (
 		.slv_aw_select_i(aw_granted_q),
