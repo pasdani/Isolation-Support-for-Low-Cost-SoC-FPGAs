@@ -284,7 +284,15 @@ module ProtectionUnit_v1_0_AXI_CONFIG #(
   end
 
   assign r_valid             = axi_req_i.ar_valid; // to spill register
-  assign axi_resp_o.ar_ready = r_ready;            // from spill register
+
+  // AXI Specification A3.1.2
+  // All ready and valid signals must be deasserted durign reset.
+  // These signals can be driven high no earlier than at a rising ACLK edge after ARESETn is HIGH.
+  logic rst_n;
+  always_ff @( posedge clk_i ) begin : delay_rst
+    rst_n <= rst_ni;
+  end
+  assign axi_resp_o.ar_ready = r_ready && rst_n;            // from spill register
 
 
   // Mask unused bits for writing to policy registers
