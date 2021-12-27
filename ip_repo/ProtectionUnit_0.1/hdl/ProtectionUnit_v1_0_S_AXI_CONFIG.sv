@@ -51,7 +51,7 @@ module ProtectionUnit_v1_0_AXI_CONFIG #(
     /// AXI4-Lite slave response
     output resp_lite_t axi_resp_o,
     // Configured policy
-    output pu_pkg::policy_entry_t [NumMemRegions-1 :0][NumDomains-1 :0] policy_o
+    output pu_pkg::policy_entry_t [0 : NumMemRegions-1][NumDomains-1 :0] policy_o
     /// TODO: add various ctrl outputs
     /// TODO: add various status inputs
   );
@@ -179,11 +179,11 @@ module ProtectionUnit_v1_0_AXI_CONFIG #(
   // Register array declarations
   ctrl_reg_union_t                        ctrl_reg_q;
   status_reg_union_t                      status_reg_q;
-  policy_reg_union_t [NumMemRegions-1:0]  policy_reg_q;
+  policy_reg_union_t [0 : NumMemRegions-1]  policy_reg_q;
 
   // Update signals for writeable registers
   logic  [AxiStrbWidth-1:0]                     ctrl_reg_update;
-  logic  [NumMemRegions-1:0][AxiStrbWidth-1:0]  policy_reg_update;
+  logic  [0 : NumMemRegions-1][AxiStrbWidth-1:0]  policy_reg_update;
 
 
   // Write logic
@@ -404,7 +404,7 @@ module ProtectionUnit_v1_0_AXI_CONFIG_intf #(
   input  logic                                                        clk_i,
   input  logic                                                        rst_ni,
   AXI_LITE.Slave                                                      slv,  
-  output pu_pkg::policy_entry_t [NumMemRegions-1 :0][NumDomains-1 :0] policy_o
+  output pu_pkg::policy_entry_t [0 : NumMemRegions-1][NumDomains-1 :0] policy_o
 );
 
   typedef logic [AXI_ADDR_WIDTH-1:0]   addr_t;

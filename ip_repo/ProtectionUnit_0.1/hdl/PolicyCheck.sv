@@ -83,7 +83,7 @@ module PolicyCheck #(
     //                                     DOMAIN_14_MASK =    16'hFFFF,
     //                                     DOMAIN_15_MASK =    16'hFFFF
 ) (
-    input   pu_pkg::policy_entry_t [0 : NUM_MEM_REGIONS-1][0 : NUM_DOMAINS-1]   POLICY,
+    input   pu_pkg::policy_entry_t [0 : NUM_MEM_REGIONS-1][NUM_DOMAINS-1 : 0]   POLICY,
     input   logic [ID_WIDTH-1 : 0]                                              ID,
     input   logic [ADDR_WIDTH-1 : 0]                                            ADDR,
     input   axi_pkg::len_t                                                      LEN,
@@ -161,7 +161,7 @@ generate
 endgenerate
 
 // Match domains
-logic domain_matches [0 : NUM_DOMAINS-1];
+logic domain_matches [NUM_DOMAINS-1 : 0];
 
 // localparam id_t DOMAIN_IDS [0 : MAX_NUM_DOMAINS-1] = '{
 //     DOMAIN_0_ID,
