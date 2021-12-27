@@ -156,19 +156,19 @@ module ProtectionUnit_v1_0_AXI_CONFIG #(
   assign addr_map[ctrl] = axi_rule_t'{
            idx:        ctrl,
            start_addr: addr_t'('h00),
-           end_addr:   addr_t'('h00 + BytesPerRegister)
+           end_addr:   addr_t'('h00 + BytesPerRegister - 1)
          };
 
   assign addr_map[status] = axi_rule_t'{
            idx:        status,
            start_addr: addr_t'('h04),
-           end_addr:   addr_t'('h04 + BytesPerRegister)
+           end_addr:   addr_t'('h04 + BytesPerRegister - 1)
          };
 
   assign addr_map[policy] = axi_rule_t'{
            idx:        policy,
            start_addr: addr_t'('h40),
-           end_addr:   addr_t'('h40 + (NumMemRegions * BytesPerRegister))
+           end_addr:   addr_t'('h40 + (NumMemRegions * BytesPerRegister) - 1)
          };
 
   // Channel definitions for spill register
