@@ -6,6 +6,11 @@ source [file join [file dirname [file dirname [info script]]] gui/ProtectionUnit
 proc init_gui { IPINST } {
   ipgui::add_param $IPINST -name "Component_Name"
   #Adding Page
+  set AXI_Parameters [ipgui::add_page $IPINST -name "AXI Parameters"]
+  ipgui::add_param $IPINST -name "C_S_AXI_PT_ID_WIDTH" -parent ${AXI_Parameters}
+  ipgui::add_param $IPINST -name "C_S_AXI_PT_ADDR_WIDTH" -parent ${AXI_Parameters}
+
+  #Adding Page
   set Domains [ipgui::add_page $IPINST -name "Domains"]
   ipgui::add_static_text $IPINST -name "Domain Description" -parent ${Domains} -text {Domains are used to differentiate different masters based on thier AXI ID. 
 
@@ -1382,93 +1387,93 @@ proc validate_PARAM_VALUE.AXI_CONFIG_DATA_WIDTH { PARAM_VALUE.AXI_CONFIG_DATA_WI
 	return true
 }
 
-proc update_PARAM_VALUE.AXI_PT_ADDR_WIDTH { PARAM_VALUE.AXI_PT_ADDR_WIDTH } {
-	# Procedure called to update AXI_PT_ADDR_WIDTH when any of the dependent parameters in the arguments change
+proc update_PARAM_VALUE.C_M_AXI_PT_TARGET_SLAVE_BASE_ADDR { PARAM_VALUE.C_M_AXI_PT_TARGET_SLAVE_BASE_ADDR } {
+	# Procedure called to update C_M_AXI_PT_TARGET_SLAVE_BASE_ADDR when any of the dependent parameters in the arguments change
 }
 
-proc validate_PARAM_VALUE.AXI_PT_ADDR_WIDTH { PARAM_VALUE.AXI_PT_ADDR_WIDTH } {
-	# Procedure called to validate AXI_PT_ADDR_WIDTH
+proc validate_PARAM_VALUE.C_M_AXI_PT_TARGET_SLAVE_BASE_ADDR { PARAM_VALUE.C_M_AXI_PT_TARGET_SLAVE_BASE_ADDR } {
+	# Procedure called to validate C_M_AXI_PT_TARGET_SLAVE_BASE_ADDR
 	return true
 }
 
-proc update_PARAM_VALUE.AXI_PT_ARUSER_WIDTH { PARAM_VALUE.AXI_PT_ARUSER_WIDTH } {
-	# Procedure called to update AXI_PT_ARUSER_WIDTH when any of the dependent parameters in the arguments change
+proc update_PARAM_VALUE.C_S_AXI_PT_ADDR_WIDTH { PARAM_VALUE.C_S_AXI_PT_ADDR_WIDTH } {
+	# Procedure called to update C_S_AXI_PT_ADDR_WIDTH when any of the dependent parameters in the arguments change
 }
 
-proc validate_PARAM_VALUE.AXI_PT_ARUSER_WIDTH { PARAM_VALUE.AXI_PT_ARUSER_WIDTH } {
-	# Procedure called to validate AXI_PT_ARUSER_WIDTH
+proc validate_PARAM_VALUE.C_S_AXI_PT_ADDR_WIDTH { PARAM_VALUE.C_S_AXI_PT_ADDR_WIDTH } {
+	# Procedure called to validate C_S_AXI_PT_ADDR_WIDTH
 	return true
 }
 
-proc update_PARAM_VALUE.AXI_PT_AWUSER_WIDTH { PARAM_VALUE.AXI_PT_AWUSER_WIDTH } {
-	# Procedure called to update AXI_PT_AWUSER_WIDTH when any of the dependent parameters in the arguments change
+proc update_PARAM_VALUE.C_S_AXI_PT_ARUSER_WIDTH { PARAM_VALUE.C_S_AXI_PT_ARUSER_WIDTH } {
+	# Procedure called to update C_S_AXI_PT_ARUSER_WIDTH when any of the dependent parameters in the arguments change
 }
 
-proc validate_PARAM_VALUE.AXI_PT_AWUSER_WIDTH { PARAM_VALUE.AXI_PT_AWUSER_WIDTH } {
-	# Procedure called to validate AXI_PT_AWUSER_WIDTH
+proc validate_PARAM_VALUE.C_S_AXI_PT_ARUSER_WIDTH { PARAM_VALUE.C_S_AXI_PT_ARUSER_WIDTH } {
+	# Procedure called to validate C_S_AXI_PT_ARUSER_WIDTH
 	return true
 }
 
-proc update_PARAM_VALUE.AXI_PT_BURST_LEN { PARAM_VALUE.AXI_PT_BURST_LEN } {
-	# Procedure called to update AXI_PT_BURST_LEN when any of the dependent parameters in the arguments change
+proc update_PARAM_VALUE.C_S_AXI_PT_AWUSER_WIDTH { PARAM_VALUE.C_S_AXI_PT_AWUSER_WIDTH } {
+	# Procedure called to update C_S_AXI_PT_AWUSER_WIDTH when any of the dependent parameters in the arguments change
 }
 
-proc validate_PARAM_VALUE.AXI_PT_BURST_LEN { PARAM_VALUE.AXI_PT_BURST_LEN } {
-	# Procedure called to validate AXI_PT_BURST_LEN
+proc validate_PARAM_VALUE.C_S_AXI_PT_AWUSER_WIDTH { PARAM_VALUE.C_S_AXI_PT_AWUSER_WIDTH } {
+	# Procedure called to validate C_S_AXI_PT_AWUSER_WIDTH
 	return true
 }
 
-proc update_PARAM_VALUE.AXI_PT_BUSER_WIDTH { PARAM_VALUE.AXI_PT_BUSER_WIDTH } {
-	# Procedure called to update AXI_PT_BUSER_WIDTH when any of the dependent parameters in the arguments change
+proc update_PARAM_VALUE.C_S_AXI_PT_BURST_LEN { PARAM_VALUE.C_S_AXI_PT_BURST_LEN } {
+	# Procedure called to update C_S_AXI_PT_BURST_LEN when any of the dependent parameters in the arguments change
 }
 
-proc validate_PARAM_VALUE.AXI_PT_BUSER_WIDTH { PARAM_VALUE.AXI_PT_BUSER_WIDTH } {
-	# Procedure called to validate AXI_PT_BUSER_WIDTH
+proc validate_PARAM_VALUE.C_S_AXI_PT_BURST_LEN { PARAM_VALUE.C_S_AXI_PT_BURST_LEN } {
+	# Procedure called to validate C_S_AXI_PT_BURST_LEN
 	return true
 }
 
-proc update_PARAM_VALUE.AXI_PT_DATA_WIDTH { PARAM_VALUE.AXI_PT_DATA_WIDTH } {
-	# Procedure called to update AXI_PT_DATA_WIDTH when any of the dependent parameters in the arguments change
+proc update_PARAM_VALUE.C_S_AXI_PT_BUSER_WIDTH { PARAM_VALUE.C_S_AXI_PT_BUSER_WIDTH } {
+	# Procedure called to update C_S_AXI_PT_BUSER_WIDTH when any of the dependent parameters in the arguments change
 }
 
-proc validate_PARAM_VALUE.AXI_PT_DATA_WIDTH { PARAM_VALUE.AXI_PT_DATA_WIDTH } {
-	# Procedure called to validate AXI_PT_DATA_WIDTH
+proc validate_PARAM_VALUE.C_S_AXI_PT_BUSER_WIDTH { PARAM_VALUE.C_S_AXI_PT_BUSER_WIDTH } {
+	# Procedure called to validate C_S_AXI_PT_BUSER_WIDTH
 	return true
 }
 
-proc update_PARAM_VALUE.AXI_PT_ID_WIDTH { PARAM_VALUE.AXI_PT_ID_WIDTH } {
-	# Procedure called to update AXI_PT_ID_WIDTH when any of the dependent parameters in the arguments change
+proc update_PARAM_VALUE.C_S_AXI_PT_DATA_WIDTH { PARAM_VALUE.C_S_AXI_PT_DATA_WIDTH } {
+	# Procedure called to update C_S_AXI_PT_DATA_WIDTH when any of the dependent parameters in the arguments change
 }
 
-proc validate_PARAM_VALUE.AXI_PT_ID_WIDTH { PARAM_VALUE.AXI_PT_ID_WIDTH } {
-	# Procedure called to validate AXI_PT_ID_WIDTH
+proc validate_PARAM_VALUE.C_S_AXI_PT_DATA_WIDTH { PARAM_VALUE.C_S_AXI_PT_DATA_WIDTH } {
+	# Procedure called to validate C_S_AXI_PT_DATA_WIDTH
 	return true
 }
 
-proc update_PARAM_VALUE.AXI_PT_RUSER_WIDTH { PARAM_VALUE.AXI_PT_RUSER_WIDTH } {
-	# Procedure called to update AXI_PT_RUSER_WIDTH when any of the dependent parameters in the arguments change
+proc update_PARAM_VALUE.C_S_AXI_PT_ID_WIDTH { PARAM_VALUE.C_S_AXI_PT_ID_WIDTH } {
+	# Procedure called to update C_S_AXI_PT_ID_WIDTH when any of the dependent parameters in the arguments change
 }
 
-proc validate_PARAM_VALUE.AXI_PT_RUSER_WIDTH { PARAM_VALUE.AXI_PT_RUSER_WIDTH } {
-	# Procedure called to validate AXI_PT_RUSER_WIDTH
+proc validate_PARAM_VALUE.C_S_AXI_PT_ID_WIDTH { PARAM_VALUE.C_S_AXI_PT_ID_WIDTH } {
+	# Procedure called to validate C_S_AXI_PT_ID_WIDTH
 	return true
 }
 
-proc update_PARAM_VALUE.AXI_PT_TARGET_SLAVE_BASE_ADDR { PARAM_VALUE.AXI_PT_TARGET_SLAVE_BASE_ADDR } {
-	# Procedure called to update AXI_PT_TARGET_SLAVE_BASE_ADDR when any of the dependent parameters in the arguments change
+proc update_PARAM_VALUE.C_S_AXI_PT_RUSER_WIDTH { PARAM_VALUE.C_S_AXI_PT_RUSER_WIDTH } {
+	# Procedure called to update C_S_AXI_PT_RUSER_WIDTH when any of the dependent parameters in the arguments change
 }
 
-proc validate_PARAM_VALUE.AXI_PT_TARGET_SLAVE_BASE_ADDR { PARAM_VALUE.AXI_PT_TARGET_SLAVE_BASE_ADDR } {
-	# Procedure called to validate AXI_PT_TARGET_SLAVE_BASE_ADDR
+proc validate_PARAM_VALUE.C_S_AXI_PT_RUSER_WIDTH { PARAM_VALUE.C_S_AXI_PT_RUSER_WIDTH } {
+	# Procedure called to validate C_S_AXI_PT_RUSER_WIDTH
 	return true
 }
 
-proc update_PARAM_VALUE.AXI_PT_WUSER_WIDTH { PARAM_VALUE.AXI_PT_WUSER_WIDTH } {
-	# Procedure called to update AXI_PT_WUSER_WIDTH when any of the dependent parameters in the arguments change
+proc update_PARAM_VALUE.C_S_AXI_PT_WUSER_WIDTH { PARAM_VALUE.C_S_AXI_PT_WUSER_WIDTH } {
+	# Procedure called to update C_S_AXI_PT_WUSER_WIDTH when any of the dependent parameters in the arguments change
 }
 
-proc validate_PARAM_VALUE.AXI_PT_WUSER_WIDTH { PARAM_VALUE.AXI_PT_WUSER_WIDTH } {
-	# Procedure called to validate AXI_PT_WUSER_WIDTH
+proc validate_PARAM_VALUE.C_S_AXI_PT_WUSER_WIDTH { PARAM_VALUE.C_S_AXI_PT_WUSER_WIDTH } {
+	# Procedure called to validate C_S_AXI_PT_WUSER_WIDTH
 	return true
 }
 
@@ -1545,56 +1550,6 @@ proc update_MODELPARAM_VALUE.AXI_CONFIG_DATA_WIDTH { MODELPARAM_VALUE.AXI_CONFIG
 proc update_MODELPARAM_VALUE.AXI_CONFIG_ADDR_WIDTH { MODELPARAM_VALUE.AXI_CONFIG_ADDR_WIDTH PARAM_VALUE.AXI_CONFIG_ADDR_WIDTH } {
 	# Procedure called to set VHDL generic/Verilog parameter value(s) based on TCL parameter value
 	set_property value [get_property value ${PARAM_VALUE.AXI_CONFIG_ADDR_WIDTH}] ${MODELPARAM_VALUE.AXI_CONFIG_ADDR_WIDTH}
-}
-
-proc update_MODELPARAM_VALUE.AXI_PT_TARGET_SLAVE_BASE_ADDR { MODELPARAM_VALUE.AXI_PT_TARGET_SLAVE_BASE_ADDR PARAM_VALUE.AXI_PT_TARGET_SLAVE_BASE_ADDR } {
-	# Procedure called to set VHDL generic/Verilog parameter value(s) based on TCL parameter value
-	set_property value [get_property value ${PARAM_VALUE.AXI_PT_TARGET_SLAVE_BASE_ADDR}] ${MODELPARAM_VALUE.AXI_PT_TARGET_SLAVE_BASE_ADDR}
-}
-
-proc update_MODELPARAM_VALUE.AXI_PT_BURST_LEN { MODELPARAM_VALUE.AXI_PT_BURST_LEN PARAM_VALUE.AXI_PT_BURST_LEN } {
-	# Procedure called to set VHDL generic/Verilog parameter value(s) based on TCL parameter value
-	set_property value [get_property value ${PARAM_VALUE.AXI_PT_BURST_LEN}] ${MODELPARAM_VALUE.AXI_PT_BURST_LEN}
-}
-
-proc update_MODELPARAM_VALUE.AXI_PT_ID_WIDTH { MODELPARAM_VALUE.AXI_PT_ID_WIDTH PARAM_VALUE.AXI_PT_ID_WIDTH } {
-	# Procedure called to set VHDL generic/Verilog parameter value(s) based on TCL parameter value
-	set_property value [get_property value ${PARAM_VALUE.AXI_PT_ID_WIDTH}] ${MODELPARAM_VALUE.AXI_PT_ID_WIDTH}
-}
-
-proc update_MODELPARAM_VALUE.AXI_PT_DATA_WIDTH { MODELPARAM_VALUE.AXI_PT_DATA_WIDTH PARAM_VALUE.AXI_PT_DATA_WIDTH } {
-	# Procedure called to set VHDL generic/Verilog parameter value(s) based on TCL parameter value
-	set_property value [get_property value ${PARAM_VALUE.AXI_PT_DATA_WIDTH}] ${MODELPARAM_VALUE.AXI_PT_DATA_WIDTH}
-}
-
-proc update_MODELPARAM_VALUE.AXI_PT_ADDR_WIDTH { MODELPARAM_VALUE.AXI_PT_ADDR_WIDTH PARAM_VALUE.AXI_PT_ADDR_WIDTH } {
-	# Procedure called to set VHDL generic/Verilog parameter value(s) based on TCL parameter value
-	set_property value [get_property value ${PARAM_VALUE.AXI_PT_ADDR_WIDTH}] ${MODELPARAM_VALUE.AXI_PT_ADDR_WIDTH}
-}
-
-proc update_MODELPARAM_VALUE.AXI_PT_AWUSER_WIDTH { MODELPARAM_VALUE.AXI_PT_AWUSER_WIDTH PARAM_VALUE.AXI_PT_AWUSER_WIDTH } {
-	# Procedure called to set VHDL generic/Verilog parameter value(s) based on TCL parameter value
-	set_property value [get_property value ${PARAM_VALUE.AXI_PT_AWUSER_WIDTH}] ${MODELPARAM_VALUE.AXI_PT_AWUSER_WIDTH}
-}
-
-proc update_MODELPARAM_VALUE.AXI_PT_ARUSER_WIDTH { MODELPARAM_VALUE.AXI_PT_ARUSER_WIDTH PARAM_VALUE.AXI_PT_ARUSER_WIDTH } {
-	# Procedure called to set VHDL generic/Verilog parameter value(s) based on TCL parameter value
-	set_property value [get_property value ${PARAM_VALUE.AXI_PT_ARUSER_WIDTH}] ${MODELPARAM_VALUE.AXI_PT_ARUSER_WIDTH}
-}
-
-proc update_MODELPARAM_VALUE.AXI_PT_WUSER_WIDTH { MODELPARAM_VALUE.AXI_PT_WUSER_WIDTH PARAM_VALUE.AXI_PT_WUSER_WIDTH } {
-	# Procedure called to set VHDL generic/Verilog parameter value(s) based on TCL parameter value
-	set_property value [get_property value ${PARAM_VALUE.AXI_PT_WUSER_WIDTH}] ${MODELPARAM_VALUE.AXI_PT_WUSER_WIDTH}
-}
-
-proc update_MODELPARAM_VALUE.AXI_PT_RUSER_WIDTH { MODELPARAM_VALUE.AXI_PT_RUSER_WIDTH PARAM_VALUE.AXI_PT_RUSER_WIDTH } {
-	# Procedure called to set VHDL generic/Verilog parameter value(s) based on TCL parameter value
-	set_property value [get_property value ${PARAM_VALUE.AXI_PT_RUSER_WIDTH}] ${MODELPARAM_VALUE.AXI_PT_RUSER_WIDTH}
-}
-
-proc update_MODELPARAM_VALUE.AXI_PT_BUSER_WIDTH { MODELPARAM_VALUE.AXI_PT_BUSER_WIDTH PARAM_VALUE.AXI_PT_BUSER_WIDTH } {
-	# Procedure called to set VHDL generic/Verilog parameter value(s) based on TCL parameter value
-	set_property value [get_property value ${PARAM_VALUE.AXI_PT_BUSER_WIDTH}] ${MODELPARAM_VALUE.AXI_PT_BUSER_WIDTH}
 }
 
 proc update_MODELPARAM_VALUE.MEM_REGION_0 { MODELPARAM_VALUE.MEM_REGION_0 PARAM_VALUE.MEM_REGION_0 } {
@@ -1915,5 +1870,55 @@ proc update_MODELPARAM_VALUE.DOMAIN_14_MASK { MODELPARAM_VALUE.DOMAIN_14_MASK PA
 proc update_MODELPARAM_VALUE.DOMAIN_15_MASK { MODELPARAM_VALUE.DOMAIN_15_MASK PARAM_VALUE.DOMAIN_15_MASK } {
 	# Procedure called to set VHDL generic/Verilog parameter value(s) based on TCL parameter value
 	set_property value [get_property value ${PARAM_VALUE.DOMAIN_15_MASK}] ${MODELPARAM_VALUE.DOMAIN_15_MASK}
+}
+
+proc update_MODELPARAM_VALUE.C_S_AXI_PT_ID_WIDTH { MODELPARAM_VALUE.C_S_AXI_PT_ID_WIDTH PARAM_VALUE.C_S_AXI_PT_ID_WIDTH } {
+	# Procedure called to set VHDL generic/Verilog parameter value(s) based on TCL parameter value
+	set_property value [get_property value ${PARAM_VALUE.C_S_AXI_PT_ID_WIDTH}] ${MODELPARAM_VALUE.C_S_AXI_PT_ID_WIDTH}
+}
+
+proc update_MODELPARAM_VALUE.C_S_AXI_PT_AWUSER_WIDTH { MODELPARAM_VALUE.C_S_AXI_PT_AWUSER_WIDTH PARAM_VALUE.C_S_AXI_PT_AWUSER_WIDTH } {
+	# Procedure called to set VHDL generic/Verilog parameter value(s) based on TCL parameter value
+	set_property value [get_property value ${PARAM_VALUE.C_S_AXI_PT_AWUSER_WIDTH}] ${MODELPARAM_VALUE.C_S_AXI_PT_AWUSER_WIDTH}
+}
+
+proc update_MODELPARAM_VALUE.C_S_AXI_PT_ARUSER_WIDTH { MODELPARAM_VALUE.C_S_AXI_PT_ARUSER_WIDTH PARAM_VALUE.C_S_AXI_PT_ARUSER_WIDTH } {
+	# Procedure called to set VHDL generic/Verilog parameter value(s) based on TCL parameter value
+	set_property value [get_property value ${PARAM_VALUE.C_S_AXI_PT_ARUSER_WIDTH}] ${MODELPARAM_VALUE.C_S_AXI_PT_ARUSER_WIDTH}
+}
+
+proc update_MODELPARAM_VALUE.C_S_AXI_PT_WUSER_WIDTH { MODELPARAM_VALUE.C_S_AXI_PT_WUSER_WIDTH PARAM_VALUE.C_S_AXI_PT_WUSER_WIDTH } {
+	# Procedure called to set VHDL generic/Verilog parameter value(s) based on TCL parameter value
+	set_property value [get_property value ${PARAM_VALUE.C_S_AXI_PT_WUSER_WIDTH}] ${MODELPARAM_VALUE.C_S_AXI_PT_WUSER_WIDTH}
+}
+
+proc update_MODELPARAM_VALUE.C_S_AXI_PT_RUSER_WIDTH { MODELPARAM_VALUE.C_S_AXI_PT_RUSER_WIDTH PARAM_VALUE.C_S_AXI_PT_RUSER_WIDTH } {
+	# Procedure called to set VHDL generic/Verilog parameter value(s) based on TCL parameter value
+	set_property value [get_property value ${PARAM_VALUE.C_S_AXI_PT_RUSER_WIDTH}] ${MODELPARAM_VALUE.C_S_AXI_PT_RUSER_WIDTH}
+}
+
+proc update_MODELPARAM_VALUE.C_S_AXI_PT_BUSER_WIDTH { MODELPARAM_VALUE.C_S_AXI_PT_BUSER_WIDTH PARAM_VALUE.C_S_AXI_PT_BUSER_WIDTH } {
+	# Procedure called to set VHDL generic/Verilog parameter value(s) based on TCL parameter value
+	set_property value [get_property value ${PARAM_VALUE.C_S_AXI_PT_BUSER_WIDTH}] ${MODELPARAM_VALUE.C_S_AXI_PT_BUSER_WIDTH}
+}
+
+proc update_MODELPARAM_VALUE.C_M_AXI_PT_TARGET_SLAVE_BASE_ADDR { MODELPARAM_VALUE.C_M_AXI_PT_TARGET_SLAVE_BASE_ADDR PARAM_VALUE.C_M_AXI_PT_TARGET_SLAVE_BASE_ADDR } {
+	# Procedure called to set VHDL generic/Verilog parameter value(s) based on TCL parameter value
+	set_property value [get_property value ${PARAM_VALUE.C_M_AXI_PT_TARGET_SLAVE_BASE_ADDR}] ${MODELPARAM_VALUE.C_M_AXI_PT_TARGET_SLAVE_BASE_ADDR}
+}
+
+proc update_MODELPARAM_VALUE.C_S_AXI_PT_BURST_LEN { MODELPARAM_VALUE.C_S_AXI_PT_BURST_LEN PARAM_VALUE.C_S_AXI_PT_BURST_LEN } {
+	# Procedure called to set VHDL generic/Verilog parameter value(s) based on TCL parameter value
+	set_property value [get_property value ${PARAM_VALUE.C_S_AXI_PT_BURST_LEN}] ${MODELPARAM_VALUE.C_S_AXI_PT_BURST_LEN}
+}
+
+proc update_MODELPARAM_VALUE.C_S_AXI_PT_DATA_WIDTH { MODELPARAM_VALUE.C_S_AXI_PT_DATA_WIDTH PARAM_VALUE.C_S_AXI_PT_DATA_WIDTH } {
+	# Procedure called to set VHDL generic/Verilog parameter value(s) based on TCL parameter value
+	set_property value [get_property value ${PARAM_VALUE.C_S_AXI_PT_DATA_WIDTH}] ${MODELPARAM_VALUE.C_S_AXI_PT_DATA_WIDTH}
+}
+
+proc update_MODELPARAM_VALUE.C_S_AXI_PT_ADDR_WIDTH { MODELPARAM_VALUE.C_S_AXI_PT_ADDR_WIDTH PARAM_VALUE.C_S_AXI_PT_ADDR_WIDTH } {
+	# Procedure called to set VHDL generic/Verilog parameter value(s) based on TCL parameter value
+	set_property value [get_property value ${PARAM_VALUE.C_S_AXI_PT_ADDR_WIDTH}] ${MODELPARAM_VALUE.C_S_AXI_PT_ADDR_WIDTH}
 }
 
