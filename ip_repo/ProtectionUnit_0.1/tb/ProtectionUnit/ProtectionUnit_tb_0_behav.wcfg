@@ -20,14 +20,14 @@
    </db_ref_list>
    <zoom_setting>
       <ZoomStartTime time="0fs"></ZoomStartTime>
-      <ZoomEndTime time="667242fs"></ZoomEndTime>
-      <Cursor1Time time="253448fs"></Cursor1Time>
+      <ZoomEndTime time="1805001fs"></ZoomEndTime>
+      <Cursor1Time time="605000fs"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="273"></NameColumnWidth>
-      <ValueColumnWidth column_width="103"></ValueColumnWidth>
+      <ValueColumnWidth column_width="98"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="32" />
+   <WVObjectSize size="19" />
    <wvobject fp_name="/ProtectionUnit_tb_0/DUT/sim_clk_gen_0/clk" type="logic">
       <obj_property name="ElementShortName">clk</obj_property>
       <obj_property name="ObjectShortName">clk</obj_property>
@@ -62,6 +62,7 @@
       <obj_property name="Render_Data">/ProtectionUnit_tb_0/DUT/ProtectionUnit_0/S_AXI_PT.readWriteSummary</obj_property>
       <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
       <obj_property name="CellHeight">36</obj_property>
+      <obj_property name="isExpanded"></obj_property>
    </wvobject>
    <wvobject fp_name="/ProtectionUnit_tb_0/DUT/ProtectionUnit_0/M_AXI_PT" type="protoinst">
       <obj_property name="children_use_element_short_name">true</obj_property>
@@ -84,151 +85,52 @@
       <obj_property name="ElementShortName">slv_ar_select_i[0:0]</obj_property>
       <obj_property name="ObjectShortName">slv_ar_select_i[0:0]</obj_property>
    </wvobject>
+   <wvobject fp_name="/ProtectionUnit_tb_0/DUT/ProtectionUnit_0/inst/ProtectionUnit_v1_0_verilog_inst/ProtectionUnit_v1_0_inst/aw_granted_d" type="logic">
+      <obj_property name="ElementShortName">aw_granted_d</obj_property>
+      <obj_property name="ObjectShortName">aw_granted_d</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ProtectionUnit_tb_0/DUT/ProtectionUnit_0/inst/ProtectionUnit_v1_0_verilog_inst/ProtectionUnit_v1_0_inst/aw_granted_q" type="logic">
+      <obj_property name="ElementShortName">aw_granted_q</obj_property>
+      <obj_property name="ObjectShortName">aw_granted_q</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ProtectionUnit_tb_0/DUT/ProtectionUnit_0/inst/ProtectionUnit_v1_0_verilog_inst/ProtectionUnit_v1_0_inst/slave/aw_valid" type="logic">
+      <obj_property name="ElementShortName">aw_valid</obj_property>
+      <obj_property name="ObjectShortName">aw_valid</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ProtectionUnit_tb_0/DUT/ProtectionUnit_0/inst/ProtectionUnit_v1_0_verilog_inst/ProtectionUnit_v1_0_inst/slave/aw_ready" type="logic">
+      <obj_property name="ElementShortName">aw_ready</obj_property>
+      <obj_property name="ObjectShortName">aw_ready</obj_property>
+   </wvobject>
    <wvobject type="divider" fp_name="divider309">
       <obj_property name="label">TMP</obj_property>
       <obj_property name="DisplayName">label</obj_property>
    </wvobject>
-   <wvobject fp_name="/ProtectionUnit_tb_0/DUT/sim_clk_gen_0/clk" type="logic">
-      <obj_property name="ElementShortName">clk</obj_property>
-      <obj_property name="ObjectShortName">clk</obj_property>
+   <wvobject fp_name="/ProtectionUnit_tb_0/DUT/ProtectionUnit_0/inst/ProtectionUnit_v1_0_verilog_inst/ProtectionUnit_v1_0_inst/PolicyCheck_aw_inst/POLICY" type="array">
+      <obj_property name="ElementShortName">POLICY[0:0][15:0]</obj_property>
+      <obj_property name="ObjectShortName">POLICY[0:0][15:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/ProtectionUnit_tb_0/DUT/ProtectionUnit_0/inst/ProtectionUnit_v1_0_verilog_inst/ProtectionUnit_v1_0_inst/PolicyCheck_ar_inst/domain_matches" type="array">
-      <obj_property name="ElementShortName">domain_matches[0:15]</obj_property>
-      <obj_property name="ObjectShortName">domain_matches[0:15]</obj_property>
+   <wvobject fp_name="/ProtectionUnit_tb_0/DUT/ProtectionUnit_0/inst/ProtectionUnit_v1_0_verilog_inst/ProtectionUnit_v1_0_inst/PolicyCheck_aw_inst/ID" type="array">
+      <obj_property name="ElementShortName">ID[0:0]</obj_property>
+      <obj_property name="ObjectShortName">ID[0:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/ProtectionUnit_tb_0/DUT/ProtectionUnit_0/inst/ProtectionUnit_v1_0_verilog_inst/ProtectionUnit_v1_0_inst/PolicyCheck_ar_inst/mem_region_matches" type="array">
-      <obj_property name="ElementShortName">mem_region_matches[0:15]</obj_property>
-      <obj_property name="ObjectShortName">mem_region_matches[0:15]</obj_property>
+   <wvobject fp_name="/ProtectionUnit_tb_0/DUT/ProtectionUnit_0/inst/ProtectionUnit_v1_0_verilog_inst/ProtectionUnit_v1_0_inst/PolicyCheck_aw_inst/ADDR" type="array">
+      <obj_property name="ElementShortName">ADDR[5:0]</obj_property>
+      <obj_property name="ObjectShortName">ADDR[5:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/ProtectionUnit_tb_0/DUT/ProtectionUnit_0/inst/ProtectionUnit_v1_0_verilog_inst/ProtectionUnit_v1_0_inst/PolicyCheck_ar_inst/POLICY" type="array">
-      <obj_property name="ElementShortName">POLICY[0:15][0:15]</obj_property>
-      <obj_property name="ObjectShortName">POLICY[0:15][0:15]</obj_property>
+   <wvobject fp_name="/ProtectionUnit_tb_0/DUT/ProtectionUnit_0/inst/ProtectionUnit_v1_0_verilog_inst/ProtectionUnit_v1_0_inst/PolicyCheck_aw_inst/LEN" type="array">
+      <obj_property name="ElementShortName">LEN[7:0]</obj_property>
+      <obj_property name="ObjectShortName">LEN[7:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/ProtectionUnit_tb_0/DUT/ProtectionUnit_0/inst/ProtectionUnit_v1_0_verilog_inst/ProtectionUnit_v1_0_inst/ProtectionUnit_v1_0_AXI_CONFIG_inst/i_ProtectionUnit_v1_0_AXI_CONFIG/policy_o" type="array">
-      <obj_property name="ElementShortName">policy_o[15:0][15:0]</obj_property>
-      <obj_property name="ObjectShortName">policy_o[15:0][15:0]</obj_property>
+   <wvobject fp_name="/ProtectionUnit_tb_0/DUT/ProtectionUnit_0/inst/ProtectionUnit_v1_0_verilog_inst/ProtectionUnit_v1_0_inst/PolicyCheck_aw_inst/SIZE" type="array">
+      <obj_property name="ElementShortName">SIZE[2:0]</obj_property>
+      <obj_property name="ObjectShortName">SIZE[2:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/ProtectionUnit_tb_0/DUT/ProtectionUnit_0/inst/ProtectionUnit_v1_0_verilog_inst/ProtectionUnit_v1_0_inst/ProtectionUnit_v1_0_AXI_CONFIG_inst/i_ProtectionUnit_v1_0_AXI_CONFIG/policy_reg_q" type="array">
-      <obj_property name="ElementShortName">policy_reg_q[15:0]</obj_property>
-      <obj_property name="ObjectShortName">policy_reg_q[15:0]</obj_property>
+   <wvobject fp_name="/ProtectionUnit_tb_0/DUT/ProtectionUnit_0/inst/ProtectionUnit_v1_0_verilog_inst/ProtectionUnit_v1_0_inst/PolicyCheck_aw_inst/READ_WRITE" type="logic">
+      <obj_property name="ElementShortName">READ_WRITE</obj_property>
+      <obj_property name="ObjectShortName">READ_WRITE</obj_property>
    </wvobject>
-   <wvobject fp_name="/ProtectionUnit_tb_0/DUT/ProtectionUnit_0/inst/ProtectionUnit_v1_0_verilog_inst/ProtectionUnit_v1_0_inst/ProtectionUnit_v1_0_AXI_CONFIG_inst/i_ProtectionUnit_v1_0_AXI_CONFIG/policy_reg_update" type="array">
-      <obj_property name="ElementShortName">policy_reg_update[15:0][3:0]</obj_property>
-      <obj_property name="ObjectShortName">policy_reg_update[15:0][3:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/ProtectionUnit_tb_0/DUT/ProtectionUnit_0/inst/ProtectionUnit_v1_0_verilog_inst/ProtectionUnit_v1_0_inst/ProtectionUnit_v1_0_AXI_CONFIG_inst/i_ProtectionUnit_v1_0_AXI_CONFIG/policy_reg_w_data" type="array">
-      <obj_property name="ElementShortName">policy_reg_w_data</obj_property>
-      <obj_property name="ObjectShortName">policy_reg_w_data</obj_property>
-   </wvobject>
-   <wvobject fp_name="/ProtectionUnit_tb_0/DUT/ProtectionUnit_0/inst/ProtectionUnit_v1_0_verilog_inst/ProtectionUnit_v1_0_inst/ProtectionUnit_v1_0_AXI_CONFIG_inst/i_ProtectionUnit_v1_0_AXI_CONFIG/axi_req_i" type="array">
-      <obj_property name="ElementShortName">axi_req_i</obj_property>
-      <obj_property name="ObjectShortName">axi_req_i</obj_property>
-      <wvobject fp_name="/ProtectionUnit_tb_0/DUT/ProtectionUnit_0/inst/ProtectionUnit_v1_0_verilog_inst/ProtectionUnit_v1_0_inst/ProtectionUnit_v1_0_AXI_CONFIG_inst/i_ProtectionUnit_v1_0_AXI_CONFIG/axi_req_i.aw" type="array">
-         <obj_property name="ElementShortName">.aw</obj_property>
-         <obj_property name="ObjectShortName">.aw</obj_property>
-      </wvobject>
-      <wvobject fp_name="/ProtectionUnit_tb_0/DUT/ProtectionUnit_0/inst/ProtectionUnit_v1_0_verilog_inst/ProtectionUnit_v1_0_inst/ProtectionUnit_v1_0_AXI_CONFIG_inst/i_ProtectionUnit_v1_0_AXI_CONFIG/axi_req_i.aw_valid" type="logic">
-         <obj_property name="ElementShortName">.aw_valid</obj_property>
-         <obj_property name="ObjectShortName">.aw_valid</obj_property>
-      </wvobject>
-      <wvobject fp_name="/ProtectionUnit_tb_0/DUT/ProtectionUnit_0/inst/ProtectionUnit_v1_0_verilog_inst/ProtectionUnit_v1_0_inst/ProtectionUnit_v1_0_AXI_CONFIG_inst/i_ProtectionUnit_v1_0_AXI_CONFIG/axi_req_i.w" type="array">
-         <obj_property name="ElementShortName">.w</obj_property>
-         <obj_property name="ObjectShortName">.w</obj_property>
-         <obj_property name="isExpanded"></obj_property>
-      </wvobject>
-      <wvobject fp_name="/ProtectionUnit_tb_0/DUT/ProtectionUnit_0/inst/ProtectionUnit_v1_0_verilog_inst/ProtectionUnit_v1_0_inst/ProtectionUnit_v1_0_AXI_CONFIG_inst/i_ProtectionUnit_v1_0_AXI_CONFIG/axi_req_i.w_valid" type="logic">
-         <obj_property name="ElementShortName">.w_valid</obj_property>
-         <obj_property name="ObjectShortName">.w_valid</obj_property>
-      </wvobject>
-      <wvobject fp_name="/ProtectionUnit_tb_0/DUT/ProtectionUnit_0/inst/ProtectionUnit_v1_0_verilog_inst/ProtectionUnit_v1_0_inst/ProtectionUnit_v1_0_AXI_CONFIG_inst/i_ProtectionUnit_v1_0_AXI_CONFIG/axi_req_i.b_ready" type="logic">
-         <obj_property name="ElementShortName">.b_ready</obj_property>
-         <obj_property name="ObjectShortName">.b_ready</obj_property>
-      </wvobject>
-      <wvobject fp_name="/ProtectionUnit_tb_0/DUT/ProtectionUnit_0/inst/ProtectionUnit_v1_0_verilog_inst/ProtectionUnit_v1_0_inst/ProtectionUnit_v1_0_AXI_CONFIG_inst/i_ProtectionUnit_v1_0_AXI_CONFIG/axi_req_i.ar" type="array">
-         <obj_property name="ElementShortName">.ar</obj_property>
-         <obj_property name="ObjectShortName">.ar</obj_property>
-      </wvobject>
-      <wvobject fp_name="/ProtectionUnit_tb_0/DUT/ProtectionUnit_0/inst/ProtectionUnit_v1_0_verilog_inst/ProtectionUnit_v1_0_inst/ProtectionUnit_v1_0_AXI_CONFIG_inst/i_ProtectionUnit_v1_0_AXI_CONFIG/axi_req_i.ar_valid" type="logic">
-         <obj_property name="ElementShortName">.ar_valid</obj_property>
-         <obj_property name="ObjectShortName">.ar_valid</obj_property>
-      </wvobject>
-      <wvobject fp_name="/ProtectionUnit_tb_0/DUT/ProtectionUnit_0/inst/ProtectionUnit_v1_0_verilog_inst/ProtectionUnit_v1_0_inst/ProtectionUnit_v1_0_AXI_CONFIG_inst/i_ProtectionUnit_v1_0_AXI_CONFIG/axi_req_i.r_ready" type="logic">
-         <obj_property name="ElementShortName">.r_ready</obj_property>
-         <obj_property name="ObjectShortName">.r_ready</obj_property>
-      </wvobject>
-   </wvobject>
-   <wvobject fp_name="/ProtectionUnit_tb_0/DUT/ProtectionUnit_0/inst/ProtectionUnit_v1_0_verilog_inst/ProtectionUnit_v1_0_inst/ProtectionUnit_v1_0_AXI_CONFIG_inst/i_ProtectionUnit_v1_0_AXI_CONFIG/ctrl_reg_update" type="array">
-      <obj_property name="ElementShortName">ctrl_reg_update[3:0]</obj_property>
-      <obj_property name="ObjectShortName">ctrl_reg_update[3:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/ProtectionUnit_tb_0/DUT/ProtectionUnit_0/inst/ProtectionUnit_v1_0_verilog_inst/ProtectionUnit_v1_0_inst/ProtectionUnit_v1_0_AXI_CONFIG_inst/i_ProtectionUnit_v1_0_AXI_CONFIG/ctrl_reg_q" type="array">
-      <obj_property name="ElementShortName">ctrl_reg_q</obj_property>
-      <obj_property name="ObjectShortName">ctrl_reg_q</obj_property>
-   </wvobject>
-   <wvobject fp_name="/ProtectionUnit_tb_0/DUT/ProtectionUnit_0/inst/ProtectionUnit_v1_0_verilog_inst/ProtectionUnit_v1_0_inst/ProtectionUnit_v1_0_AXI_CONFIG_inst/i_ProtectionUnit_v1_0_AXI_CONFIG/aw_reg_type" type="array">
-      <obj_property name="ElementShortName">aw_reg_type[1:0]</obj_property>
-      <obj_property name="ObjectShortName">aw_reg_type[1:0]</obj_property>
-   </wvobject>
-   <wvobject type="divider" fp_name="divider1726">
-      <obj_property name="label">TMP</obj_property>
-      <obj_property name="DisplayName">label</obj_property>
-   </wvobject>
-   <wvobject fp_name="/ProtectionUnit_tb_0/DUT/ProtectionUnit_0/inst/ProtectionUnit_v1_0_verilog_inst/ProtectionUnit_v1_0_inst/ProtectionUnit_v1_0_AXI_CONFIG_inst/i_ProtectionUnit_v1_0_AXI_CONFIG/i_aw_decode/addr_i" type="array">
-      <obj_property name="ElementShortName">addr_i[6:0]</obj_property>
-      <obj_property name="ObjectShortName">addr_i[6:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/ProtectionUnit_tb_0/DUT/ProtectionUnit_0/inst/ProtectionUnit_v1_0_verilog_inst/ProtectionUnit_v1_0_inst/ProtectionUnit_v1_0_AXI_CONFIG_inst/i_ProtectionUnit_v1_0_AXI_CONFIG/i_aw_decode/addr_map_i" type="array">
-      <obj_property name="ElementShortName">addr_map_i[2:0]</obj_property>
-      <obj_property name="ObjectShortName">addr_map_i[2:0]</obj_property>
-      <obj_property name="isExpanded"></obj_property>
-      <wvobject fp_name="/ProtectionUnit_tb_0/DUT/ProtectionUnit_0/inst/ProtectionUnit_v1_0_verilog_inst/ProtectionUnit_v1_0_inst/ProtectionUnit_v1_0_AXI_CONFIG_inst/i_ProtectionUnit_v1_0_AXI_CONFIG/i_aw_decode/addr_map_i[2]" type="array">
-         <obj_property name="ElementShortName">[2]</obj_property>
-         <obj_property name="ObjectShortName">[2]</obj_property>
-         <obj_property name="isExpanded"></obj_property>
-      </wvobject>
-      <wvobject fp_name="/ProtectionUnit_tb_0/DUT/ProtectionUnit_0/inst/ProtectionUnit_v1_0_verilog_inst/ProtectionUnit_v1_0_inst/ProtectionUnit_v1_0_AXI_CONFIG_inst/i_ProtectionUnit_v1_0_AXI_CONFIG/i_aw_decode/addr_map_i[1]" type="array">
-         <obj_property name="ElementShortName">[1]</obj_property>
-         <obj_property name="ObjectShortName">[1]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/ProtectionUnit_tb_0/DUT/ProtectionUnit_0/inst/ProtectionUnit_v1_0_verilog_inst/ProtectionUnit_v1_0_inst/ProtectionUnit_v1_0_AXI_CONFIG_inst/i_ProtectionUnit_v1_0_AXI_CONFIG/i_aw_decode/addr_map_i[0]" type="array">
-         <obj_property name="ElementShortName">[0]</obj_property>
-         <obj_property name="ObjectShortName">[0]</obj_property>
-      </wvobject>
-   </wvobject>
-   <wvobject fp_name="/ProtectionUnit_tb_0/DUT/ProtectionUnit_0/inst/ProtectionUnit_v1_0_verilog_inst/ProtectionUnit_v1_0_inst/ProtectionUnit_v1_0_AXI_CONFIG_inst/i_ProtectionUnit_v1_0_AXI_CONFIG/i_aw_decode/idx_o" type="array">
-      <obj_property name="ElementShortName">idx_o[1:0]</obj_property>
-      <obj_property name="ObjectShortName">idx_o[1:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/ProtectionUnit_tb_0/DUT/ProtectionUnit_0/inst/ProtectionUnit_v1_0_verilog_inst/ProtectionUnit_v1_0_inst/ProtectionUnit_v1_0_AXI_CONFIG_inst/i_ProtectionUnit_v1_0_AXI_CONFIG/i_aw_decode/dec_valid_o" type="logic">
-      <obj_property name="ElementShortName">dec_valid_o</obj_property>
-      <obj_property name="ObjectShortName">dec_valid_o</obj_property>
-   </wvobject>
-   <wvobject fp_name="/ProtectionUnit_tb_0/DUT/ProtectionUnit_0/inst/ProtectionUnit_v1_0_verilog_inst/ProtectionUnit_v1_0_inst/ProtectionUnit_v1_0_AXI_CONFIG_inst/i_ProtectionUnit_v1_0_AXI_CONFIG/i_aw_decode/dec_error_o" type="logic">
-      <obj_property name="ElementShortName">dec_error_o</obj_property>
-      <obj_property name="ObjectShortName">dec_error_o</obj_property>
-   </wvobject>
-   <wvobject fp_name="/ProtectionUnit_tb_0/DUT/ProtectionUnit_0/inst/ProtectionUnit_v1_0_verilog_inst/ProtectionUnit_v1_0_inst/ProtectionUnit_v1_0_AXI_CONFIG_inst/i_ProtectionUnit_v1_0_AXI_CONFIG/i_aw_decode/en_default_idx_i" type="logic">
-      <obj_property name="ElementShortName">en_default_idx_i</obj_property>
-      <obj_property name="ObjectShortName">en_default_idx_i</obj_property>
-   </wvobject>
-   <wvobject fp_name="/ProtectionUnit_tb_0/DUT/ProtectionUnit_0/inst/ProtectionUnit_v1_0_verilog_inst/ProtectionUnit_v1_0_inst/ProtectionUnit_v1_0_AXI_CONFIG_inst/i_ProtectionUnit_v1_0_AXI_CONFIG/i_aw_decode/default_idx_i" type="array">
-      <obj_property name="ElementShortName">default_idx_i[1:0]</obj_property>
-      <obj_property name="ObjectShortName">default_idx_i[1:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/ProtectionUnit_tb_0/DUT/ProtectionUnit_0/inst/ProtectionUnit_v1_0_verilog_inst/ProtectionUnit_v1_0_inst/ProtectionUnit_v1_0_AXI_CONFIG_inst/i_ProtectionUnit_v1_0_AXI_CONFIG/i_aw_decode/matched_rules" type="array">
-      <obj_property name="ElementShortName">matched_rules[2:0]</obj_property>
-      <obj_property name="ObjectShortName">matched_rules[2:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/ProtectionUnit_tb_0/DUT/ProtectionUnit_0/inst/ProtectionUnit_v1_0_verilog_inst/ProtectionUnit_v1_0_inst/ProtectionUnit_v1_0_AXI_CONFIG_inst/i_ProtectionUnit_v1_0_AXI_CONFIG/i_aw_decode/NoIndices" type="array">
-      <obj_property name="ElementShortName">NoIndices[31:0]</obj_property>
-      <obj_property name="ObjectShortName">NoIndices[31:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/ProtectionUnit_tb_0/DUT/ProtectionUnit_0/inst/ProtectionUnit_v1_0_verilog_inst/ProtectionUnit_v1_0_inst/ProtectionUnit_v1_0_AXI_CONFIG_inst/i_ProtectionUnit_v1_0_AXI_CONFIG/i_aw_decode/NoRules" type="array">
-      <obj_property name="ElementShortName">NoRules[31:0]</obj_property>
-      <obj_property name="ObjectShortName">NoRules[31:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/ProtectionUnit_tb_0/DUT/ProtectionUnit_0/inst/ProtectionUnit_v1_0_verilog_inst/ProtectionUnit_v1_0_inst/ProtectionUnit_v1_0_AXI_CONFIG_inst/i_ProtectionUnit_v1_0_AXI_CONFIG/i_aw_decode/IdxWidth" type="array">
-      <obj_property name="ElementShortName">IdxWidth[31:0]</obj_property>
-      <obj_property name="ObjectShortName">IdxWidth[31:0]</obj_property>
+   <wvobject fp_name="/ProtectionUnit_tb_0/DUT/ProtectionUnit_0/inst/ProtectionUnit_v1_0_verilog_inst/ProtectionUnit_v1_0_inst/PolicyCheck_aw_inst/GRANTED" type="logic">
+      <obj_property name="ElementShortName">GRANTED</obj_property>
+      <obj_property name="ObjectShortName">GRANTED</obj_property>
    </wvobject>
 </wave_config>
