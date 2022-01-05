@@ -89,23 +89,25 @@ import ProtectionUnitTestCase_tb_axi_vip_master_0_pkg::*;
         // single write transaction with fully randomization
          mst_0_multiple_write_transaction_full_rand ("single write",1);
          
-        mtestWID = $urandom_range(0,(1<<(0)-1)); 
-        mtestWADDR = 0;
-        mtestWBurstLength = 0;
-        mtestWDataSize = xil_axi_size_t'(xil_clog2((32)/8));
-        mtestWBurstType = XIL_AXI_BURST_TYPE_INCR;
-        mtestWData = $urandom();
-        //single write transaction filled in user inputs through API 
-        mst_0_single_write_transaction_api("single write with api",
-                                     .id(mtestWID),
-                                     .addr(mtestWADDR),
-                                     .len(mtestWBurstLength), 
-                                     .size(mtestWDataSize),
-                                     .burst(mtestWBurstType),
-                                     .wuser(mtestWUSER),
-                                     .awuser(mtestAWUSER), 
-                                     .data(mtestWData)
-                                     );
+        for (int i = 0; i < 10; i++) begin
+          mtestWID = $urandom_range(0,(1<<(0)-1)); 
+          mtestWADDR = $urandom_range(0,131071);
+          mtestWBurstLength = 0;
+          mtestWDataSize = xil_axi_size_t'(xil_clog2((32)/8));
+          mtestWBurstType = XIL_AXI_BURST_TYPE_INCR;
+          mtestWData = $urandom();
+          //single write transaction filled in user inputs through API 
+          mst_0_single_write_transaction_api("single write with api",
+                                      .id(mtestWID),
+                                      .addr(mtestWADDR),
+                                      .len(mtestWBurstLength), 
+                                      .size(mtestWDataSize),
+                                      .burst(mtestWBurstType),
+                                      .wuser(mtestWUSER),
+                                      .awuser(mtestAWUSER), 
+                                      .data(mtestWData)
+                                      );
+        end;                                     
 
         //multiple write transactions with the same inline randomization 
         mst_0_multiple_write_transaction_partial_rand(.num_xfer(2),
@@ -122,19 +124,22 @@ import ProtectionUnitTestCase_tb_axi_vip_master_0_pkg::*;
         //single read transaction with fully randomization
         mst_0_multiple_read_transaction_full_rand ("single read",1);
 
-        mtestRID = $urandom_range(0,(1<<(0)-1));
-        mtestRADDR = 0;
-        mtestRBurstLength = 0;
-        mtestRDataSize = xil_axi_size_t'(xil_clog2((32)/8)); 
-        mtestRBurstType = XIL_AXI_BURST_TYPE_INCR;
-        //single read transaction filled in user inputs through API 
-        mst_0_single_read_transaction_api("single read with api",
-                                     .id(mtestRID),
-                                     .addr(mtestRADDR),
-                                     .len(mtestRBurstLength), 
-                                     .size(mtestRDataSize),
-                                     .burst(mtestRBurstType)
-                                     );
+        for (int i = 0; i < 10; i++) begin
+          mtestRID = $urandom_range(0,(1<<(0)-1));
+          mtestRADDR = $urandom_range(0,131071);
+          mtestRBurstLength = 0;
+          mtestRDataSize = xil_axi_size_t'(xil_clog2((32)/8)); 
+          mtestRBurstType = XIL_AXI_BURST_TYPE_INCR;
+          //single read transaction filled in user inputs through API 
+          mst_0_single_read_transaction_api("single read with api",
+                                      .id(mtestRID),
+                                      .addr(mtestRADDR),
+                                      .len(mtestRBurstLength), 
+                                      .size(mtestRDataSize),
+                                      .burst(mtestRBurstType)
+                                      );
+        end; 
+
         //multiple read transaction with the same inline randomization 
         mst_0_multiple_read_transaction_partial_rand( .num_xfer(3),
                                                 .start_addr(mtestRADDR),

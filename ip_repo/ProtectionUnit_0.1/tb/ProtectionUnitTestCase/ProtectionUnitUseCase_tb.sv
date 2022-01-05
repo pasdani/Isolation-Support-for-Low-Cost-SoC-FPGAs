@@ -22,13 +22,14 @@ initial begin
     // Write some stuff to config register
     write('0, 32'hF0F0F0F0);
     read('0, data);
-
-    // // Read status register
-    // read('h04, data);
     
-    // Write to policy register
-    write('h40, 32'h0000002C);
+    // Write to policy of Protection Unit 0 register
+    write('h40, 32'h0000002C); // ID 0 is r/w, ID is ro  
     read('h40, data);
+
+    // Write to policy of Protection Unit 1 register
+    write('h10040, 32'h00000038); // ID 0 is ro, ID is r/w  
+    read('h10040, data);
    
     fork
       mst_0_start_stimulus();

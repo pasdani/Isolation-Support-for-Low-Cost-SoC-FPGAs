@@ -51,8 +51,8 @@ import ProtectionUnitTestCase_tb_axi_vip_slave_0_pkg::*;
 
     //fork off the process of write response and/or read response
     fork
-      wr_response();
-      rd_response();
+      wr_response(slv_agent.wr_driver);
+      rd_response(slv_agent.rd_driver);
     join_none
   endtask
 
@@ -62,12 +62,12 @@ import ProtectionUnitTestCase_tb_axi_vip_slave_0_pkg::*;
   * When slave VIP is configured in READ_WRITE/WRITE_ONLY mode,user environment must call this task
   * Otherwise, the simulation will hang there waiting for BRESP from slave till time out.
   *************************************************************************************************/
-  task wr_response();
+  task wr_response(wr_driver wr_driver);
     axi_transaction                    wr_reactive;  //Declare a handle for write response
     forever begin  
-      slv_agent.wr_driver.get_wr_reactive(wr_reactive); //Block till write transaction occurs
+      wr_driver.get_wr_reactive(wr_reactive); //Block till write transaction occurs
       fill_wr_reactive(wr_reactive);                //User fill in write response
-      slv_agent.wr_driver.send(wr_reactive);            //Write driver send response to VIP interface
+      wr_driver.send(wr_reactive);            //Write driver send response to VIP interface
     end
   endtask
 
@@ -77,12 +77,12 @@ import ProtectionUnitTestCase_tb_axi_vip_slave_0_pkg::*;
   * When slave VIP is configured in READ_WRITE/READ_ONLY mode,user environment must call this task
   * Otherwise, the simulation will hang there waiting for data channel from slave till time out.
   *************************************************************************************************/
-  task rd_response();
+  task rd_response(rd_driver rd_driver);
     axi_transaction                   rd_reactive;  //Declare a handle for read response
     forever begin
-      slv_agent.rd_driver.get_rd_reactive(rd_reactive); //Block till read transaction occurs
+      rd_driver.get_rd_reactive(rd_reactive); //Block till read transaction occurs
       fill_rd_reactive(rd_reactive);                //User fill in read response
-      slv_agent.rd_driver.send(rd_reactive);            //Write driver send response to VIP interface
+      rd_driver.send(rd_reactive);            //Write driver send response to VIP interface
     end  
   endtask
 
