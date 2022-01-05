@@ -8,10 +8,11 @@ module ProtectionUnitUseCase_tb_0(
 ProtectionUnitTestCase_tb DUT();
 
 `include "axi_transactions_.svh"
-`include "axi_vip_master_stimulus_.svh"
-`include "axi_vip_slave_basic_stimulus_.svh"
+`include "axi_vip_master_0_stimulus.svh"
+`include "axi_vip_master_1_stimulus.svh"
+`include "axi_vip_slave_0_basic_stimulus.svh"
+`include "axi_vip_slave_1_basic_stimulus.svh"
 
-axi_transaction wr_tran;
 bit [32-1:0] data = 0;
 
 initial begin
@@ -26,13 +27,16 @@ initial begin
     // read('h04, data);
     
     // Write to policy register
-    write('h44, 32'h0000000C);
-    read('h44, data);
+    write('h40, 32'h0000002C);
+    read('h40, data);
    
     fork
-      mst_start_stimulus();
-      slv_start_stimulus();
+      mst_0_start_stimulus();
+      mst_1_start_stimulus();
+      slv_0_start_stimulus();
+      slv_1_start_stimulus();
     join;
+    $finish;
 
 end
       
