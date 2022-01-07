@@ -1,7 +1,4 @@
 import axi_vip_pkg::*; 
-import ProtectionUnitTestCase_tb_axi_vip_config_0_pkg::*;
-
-ProtectionUnitTestCase_tb_axi_vip_config_0_mst_t config_agent;
 
 task automatic write( // blocking
     input xil_axi_ulong     addr,

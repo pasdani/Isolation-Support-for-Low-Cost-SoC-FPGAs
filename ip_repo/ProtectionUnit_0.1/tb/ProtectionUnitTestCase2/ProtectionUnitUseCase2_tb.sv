@@ -2,10 +2,10 @@
 `timescale 1ns / 1ps
 import axi_vip_pkg::*;
 
-module ProtectionUnitUseCase_tb_0(
+module ProtectionUnitUseCase2_tb_0(
     );
 
-ProtectionUnitTestCase_tb DUT();
+ProtectionUnitTestCase2_tb DUT();
 
 `include "axi_transactions_.svh"
 `include "axi_vip_master_0_stimulus.svh"
@@ -14,16 +14,16 @@ ProtectionUnitTestCase_tb DUT();
 `include "axi_vip_slave_1_basic_stimulus.svh"
 
 
-import ProtectionUnitTestCase_tb_axi_vip_config_0_pkg::*;
-ProtectionUnitTestCase_tb_axi_vip_config_0_mst_t config_agent;
-import ProtectionUnitTestCase_tb_axi_vip_master_0_pkg::*;
-ProtectionUnitTestCase_tb_axi_vip_master_0_mst_t mst_0_agent;
-import ProtectionUnitTestCase_tb_axi_vip_master_1_pkg::*;
-ProtectionUnitTestCase_tb_axi_vip_master_1_mst_t mst_1_agent;
-import ProtectionUnitTestCase_tb_axi_vip_slave_0_pkg::*;
-ProtectionUnitTestCase_tb_axi_vip_slave_0_slv_t slv_0_agent;
-import ProtectionUnitTestCase_tb_axi_vip_slave_1_pkg::*;
-ProtectionUnitTestCase_tb_axi_vip_slave_1_slv_t slv_1_agent;
+import ProtectionUnitTestCase2_tb_axi_vip_config_0_pkg::*;
+ProtectionUnitTestCase2_tb_axi_vip_config_0_mst_t config_agent;
+import ProtectionUnitTestCase2_tb_axi_vip_master_0_0_pkg::*;
+ProtectionUnitTestCase2_tb_axi_vip_master_0_0_mst_t mst_0_agent;
+import ProtectionUnitTestCase2_tb_axi_vip_master_1_0_pkg::*;
+ProtectionUnitTestCase2_tb_axi_vip_master_1_0_mst_t mst_1_agent;
+import ProtectionUnitTestCase2_tb_axi_vip_slave_0_0_pkg::*;
+ProtectionUnitTestCase2_tb_axi_vip_slave_0_0_slv_t slv_0_agent;
+import ProtectionUnitTestCase2_tb_axi_vip_slave_1_0_pkg::*;
+ProtectionUnitTestCase2_tb_axi_vip_slave_1_0_slv_t slv_1_agent;
 
 bit [32-1:0] data = 0;
 

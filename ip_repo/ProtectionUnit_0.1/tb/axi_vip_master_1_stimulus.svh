@@ -25,16 +25,6 @@
 *  
 ***************************************************************************************************/
 import axi_vip_pkg::*;
-import ProtectionUnitTestCase_tb_axi_vip_master_0_pkg::*;
-
-  /*************************************************************************************************
-  * <component_name>_mst_t for master agent
-  * <component_name> can be easily found in vivado bd design: click on the instance, 
-  * Then click CONFIG under Properties window and Component_Name will be shown
-  * More details please refer PG267 section about "Useful Coding Guidelines and Examples"
-  * for more details.
-  *************************************************************************************************/
-  ProtectionUnitTestCase_tb_axi_vip_master_0_mst_t                               mst_0_agent;
 
   /*************************************************************************************************
   * Declare variables which will be used in API and parital randomization for transaction generation
@@ -72,24 +62,24 @@ import ProtectionUnitTestCase_tb_axi_vip_master_0_pkg::*;
   bit[8*4096-1:0]                                          Wdatablock;        // Write data block
   xil_axi_data_beat                                        Wdatabeat[];       // Write data beats
  
-  task mst_0_start_stimulus();
+  task mst_1_start_stimulus();
     /***********************************************************************************************
     * Before agent is newed, user has to run simulation with an empty testbench to find the hierarchy
     * path of the AXI VIP's instance.Message like
     * "Xilinx AXI VIP Found at Path: my_ip_exdes_tb.DUT.ex_design.axi_vip_mst.inst" will be printed 
     * out. Pass this path to the new function. 
     ***********************************************************************************************/
-    mst_0_agent = new("master vip agent",DUT.axi_vip_master_0.inst.IF);
-    mst_0_agent.start_master();               // mst_0_agent start to run
+    mst_1_agent = new("master vip agent",DUT.axi_vip_master_1.inst.IF);
+    mst_1_agent.start_master();               // mst_1_agent start to run
 
     // Parallel write/read transaction generation 
     fork                               // Fork process of write/read transaction generation                    
   
       begin  
         // single write transaction with fully randomization
-         mst_0_multiple_write_transaction_full_rand ("single write",1);
+         mst_1_multiple_write_transaction_full_rand ("single write",1);
          
-        for (int i = 0; i < 10; i++) begin
+        for (int i = 0; i < 10; i++) begin          
           mtestWID = $urandom_range(0,(1<<(0)-1)); 
           mtestWADDR = $urandom_range(0,131071);
           mtestWBurstLength = 0;
@@ -97,20 +87,20 @@ import ProtectionUnitTestCase_tb_axi_vip_master_0_pkg::*;
           mtestWBurstType = XIL_AXI_BURST_TYPE_INCR;
           mtestWData = $urandom();
           //single write transaction filled in user inputs through API 
-          mst_0_single_write_transaction_api("single write with api",
-                                      .id(mtestWID),
-                                      .addr(mtestWADDR),
-                                      .len(mtestWBurstLength), 
-                                      .size(mtestWDataSize),
-                                      .burst(mtestWBurstType),
-                                      .wuser(mtestWUSER),
-                                      .awuser(mtestAWUSER), 
-                                      .data(mtestWData)
-                                      );
-        end;                                     
+          mst_1_single_write_transaction_api("single write with api",
+                                       .id(mtestWID),
+                                       .addr(mtestWADDR),
+                                       .len(mtestWBurstLength), 
+                                       .size(mtestWDataSize),
+                                       .burst(mtestWBurstType),
+                                       .wuser(mtestWUSER),
+                                       .awuser(mtestAWUSER), 
+                                       .data(mtestWData)
+                                       );
+        end                                  
 
         //multiple write transactions with the same inline randomization 
-        mst_0_multiple_write_transaction_partial_rand(.num_xfer(2),
+        mst_1_multiple_write_transaction_partial_rand(.num_xfer(10),
                                                 .start_addr(mtestWADDR),
                                                 .id(mtestWID),
                                                 .len(mtestWBurstLength),
@@ -122,7 +112,7 @@ import ProtectionUnitTestCase_tb_axi_vip_master_0_pkg::*;
  
       begin
         //single read transaction with fully randomization
-        mst_0_multiple_read_transaction_full_rand ("single read",1);
+        mst_1_multiple_read_transaction_full_rand ("single read",1);
 
         for (int i = 0; i < 10; i++) begin
           mtestRID = $urandom_range(0,(1<<(0)-1));
@@ -141,7 +131,7 @@ import ProtectionUnitTestCase_tb_axi_vip_master_0_pkg::*;
         end; 
 
         //multiple read transaction with the same inline randomization 
-        mst_0_multiple_read_transaction_partial_rand( .num_xfer(3),
+        mst_1_multiple_read_transaction_partial_rand( .num_xfer(3),
                                                 .start_addr(mtestRADDR),
                                                 .id(mtestRID),
                                                 .len(mtestRBurstLength),
@@ -150,16 +140,16 @@ import ProtectionUnitTestCase_tb_axi_vip_master_0_pkg::*;
                                                 .no_xfer_delays(1)
                                                ); 
         //get read data back from driver
-        rd_trans = mst_0_agent.rd_driver.create_transaction("read transaction with randomization for getting data back");
-        mst_0_fill_transaction_with_fully_randomization(rd_trans);
+        rd_trans = mst_1_agent.rd_driver.create_transaction("read transaction with randomization for getting data back");
+        mst_1_fill_transaction_with_fully_randomization(rd_trans);
         //get read data beat back from driver
-        mst_0_get_rd_data_beat_back(rd_trans,Rdatabeat);
+        mst_1_get_rd_data_beat_back(rd_trans,Rdatabeat);
         //get read data block back from driver
-        mst_0_get_rd_data_block_back(rd_trans,Rdatablock);
+        mst_1_get_rd_data_block_back(rd_trans,Rdatablock);
       end  
     join
 
-    mst_0_agent.wait_drivers_idle();           // Wait driver is idle 
+    mst_1_agent.wait_drivers_idle();           // Wait driver is idle 
    
  
     //Below shows write two transactions in and then read them back
@@ -169,7 +159,7 @@ import ProtectionUnitTestCase_tb_axi_vip_master_0_pkg::*;
     mtestWBurstLength = 0;
     mtestWDataSize = xil_axi_size_t'(xil_clog2((32)/8));
     mtestWBurstType = XIL_AXI_BURST_TYPE_INCR;
-    mst_0_multiple_write_in_then_read_back(.num_xfer(2),
+    mst_1_multiple_write_in_then_read_back(.num_xfer(2),
                                      .start_addr(mtestWADDR),
                                      .id(mtestWID),
                                      .len(mtestWBurstLength),
@@ -178,13 +168,13 @@ import ProtectionUnitTestCase_tb_axi_vip_master_0_pkg::*;
                                      .no_xfer_delays(1)
                                     );  
 
-    mst_0_agent.wait_drivers_idle();           // Wait driver is idle then stop the simulation
+    mst_1_agent.wait_drivers_idle();           // Wait driver is idle then stop the simulation
    
     if(error_cnt ==0) begin
       $display("EXAMPLE TEST DONE : Test Completed Successfully");
     end else begin  
       $display("EXAMPLE TEST DONE ",$sformatf("Test Failed: %d Comparison Failed", error_cnt));
-    end
+    end 
   endtask
 
   /*************************************************************************************************
@@ -193,12 +183,11 @@ import ProtectionUnitTestCase_tb_axi_vip_master_0_pkg::*;
   * Fatal will show up if randomizaiton failed
   *************************************************************************************************/
   
-  task automatic mst_0_fill_transaction_with_fully_randomization(inout axi_transaction trans); 
+  task automatic mst_1_fill_transaction_with_fully_randomization(inout axi_transaction trans); 
     if( !(trans.randomize())) begin
-      $fatal(1,"mst_0_fill_transaction_with_fully_randomization of %s failed at time =%t",trans.get_name(), $realtime); 
+      $fatal(1,"mst_1_fill_transaction_with_fully_randomization of %s failed at time =%t",trans.get_name(), $realtime); 
     end
-
-  endtask : mst_0_fill_transaction_with_fully_randomization
+  endtask : mst_1_fill_transaction_with_fully_randomization
 
   /*************************************************************************************************
   * Partial randomization of transaction
@@ -208,7 +197,7 @@ import ProtectionUnitTestCase_tb_axi_vip_master_0_pkg::*;
   * NOTE: Please don't use this task in VIVADO Simulator for it's limitiaton of SV support.
   *************************************************************************************************/
 
-  task automatic mst_0_inline_randomize_transaction(inout axi_transaction trans,
+  task automatic mst_1_inline_randomize_transaction(inout axi_transaction trans,
                                               input xil_axi_uint id_val,
                                               input xil_axi_ulong addr_val,
                                               input xil_axi_len_t len_val,
@@ -221,28 +210,28 @@ import ProtectionUnitTestCase_tb_axi_vip_master_0_pkg::*;
          size ==size_val;
          burst ==burst_val;
      }))) begin
-        $fatal(1,"mst_0_inline_randomize_transaction of %s failed at time =%t",trans.get_name(), $realtime);     
+        $fatal(1,"mst_1_inline_randomize_transaction of %s failed at time =%t",trans.get_name(), $realtime);     
        end
-  endtask : mst_0_inline_randomize_transaction
+  endtask : mst_1_inline_randomize_transaction
 
   /************************************************************************************************
-  * Task mst_0_send_wait_rd is a task which set_driver_return_item_policy of the read transaction, 
+  * Task mst_1_send_wait_rd is a task which set_driver_return_item_policy of the read transaction, 
   * send the transaction to the driver and wait till it is done
   *************************************************************************************************/
-  task mst_0_send_wait_rd(inout axi_transaction rd_trans);
+  task mst_1_send_wait_rd(inout axi_transaction rd_trans);
     rd_trans.set_driver_return_item_policy(XIL_AXI_PAYLOAD_RETURN);
-    mst_0_agent.rd_driver.send(rd_trans);
-    mst_0_agent.rd_driver.wait_rsp(rd_trans);
+    mst_1_agent.rd_driver.send(rd_trans);
+    mst_1_agent.rd_driver.wait_rsp(rd_trans);
   endtask
 
   /************************************************************************************************
-  * Task mst_0_get_rd_data_beat_back is to get read data back from read driver with
+  * Task mst_1_get_rd_data_beat_back is to get read data back from read driver with
   *  data beat format.
   *************************************************************************************************/
-  task mst_0_get_rd_data_beat_back(inout axi_transaction rd_trans, 
+  task mst_1_get_rd_data_beat_back(inout axi_transaction rd_trans, 
                                  output xil_axi_data_beat Rdatabeat[]
                             );  
-    mst_0_send_wait_rd(rd_trans);
+    mst_1_send_wait_rd(rd_trans);
     Rdatabeat = new[rd_trans.get_len()+1];
     for( xil_axi_uint beat=0; beat<rd_trans.get_len()+1; beat++) begin
       Rdatabeat[beat] = rd_trans.get_data_beat(beat);
@@ -251,35 +240,35 @@ import ProtectionUnitTestCase_tb_axi_vip_master_0_pkg::*;
   endtask
 
   /************************************************************************************************
-  * Task mst_0_get_rd_data_block_back is to get read data back from read driver with
+  * Task mst_1_get_rd_data_block_back is to get read data back from read driver with
   * data block format.
   *************************************************************************************************/
-  task mst_0_get_rd_data_block_back(inout axi_transaction rd_trans, 
+  task mst_1_get_rd_data_block_back(inout axi_transaction rd_trans, 
                                  output bit[8*4096-1:0] Rdatablock
                             );  
-    mst_0_send_wait_rd(rd_trans);
+    mst_1_send_wait_rd(rd_trans);
     Rdatablock = rd_trans.get_data_block();
     // $display("Read data from Driver: Block Data %h ", Rdatablock);
   endtask
 
   /************************************************************************************************
-  * Task mst_0_send_wait_wr is a task which set_driver_return_item_policy of the write transaction, 
+  * Task mst_1_send_wait_wr is a task which set_driver_return_item_policy of the write transaction, 
   * send the transaction to the driver and wait till it is done
   *************************************************************************************************/
-  task mst_0_send_wait_wr(inout axi_transaction wr_trans);
+  task mst_1_send_wait_wr(inout axi_transaction wr_trans);
     wr_trans.set_driver_return_item_policy(XIL_AXI_PAYLOAD_RETURN);
-    mst_0_agent.wr_driver.send(wr_trans);
-    mst_0_agent.wr_driver.wait_rsp(wr_trans);
+    mst_1_agent.wr_driver.send(wr_trans);
+    mst_1_agent.wr_driver.wait_rsp(wr_trans);
   endtask
 
   /************************************************************************************************
-  * Task mst_0_get_wr_data_beat_back is to get read data back from write driver with
+  * Task mst_1_get_wr_data_beat_back is to get read data back from write driver with
   * data beat format.
   *************************************************************************************************/
-  task mst_0_get_wr_data_beat_back(inout axi_transaction wr_trans, 
+  task mst_1_get_wr_data_beat_back(inout axi_transaction wr_trans, 
                                  output xil_axi_data_beat Wdatabeat[]
                             );  
-    mst_0_send_wait_wr(wr_trans);
+    mst_1_send_wait_wr(wr_trans);
     Wdatabeat = new[wr_trans.get_len()+1];
     for( xil_axi_uint beat=0; beat<wr_trans.get_len()+1; beat++) begin
       Wdatabeat[beat] = wr_trans.get_data_beat(beat);
@@ -288,20 +277,20 @@ import ProtectionUnitTestCase_tb_axi_vip_master_0_pkg::*;
   endtask
 
   /************************************************************************************************
-  * Task mst_0_get_wr_data_block_back is to get write data back from write driver with
+  * Task mst_1_get_wr_data_block_back is to get write data back from write driver with
   * data block format.
   *************************************************************************************************/
-  task mst_0_get_wr_data_block_back(inout axi_transaction wr_trans, 
+  task mst_1_get_wr_data_block_back(inout axi_transaction wr_trans, 
                                  output bit[8*4096-1:0] Wdatablock
                             );  
-    mst_0_send_wait_wr(wr_trans);
+    mst_1_send_wait_wr(wr_trans);
     Wdatablock = wr_trans.get_data_block();
     // $display("Write data from Driver: Block Data %h ", Wdatablock);
   endtask
 
 
   /************************************************************************************************
-  *  task mst_0_single_write_transaction_api is to create a single write transaction, fill in transaction 
+  *  task mst_1_single_write_transaction_api is to create a single write transaction, fill in transaction 
   *  by using APIs and send it to write driver.
   *   1. declare write transction
   *   2. Create the write transaction
@@ -312,7 +301,7 @@ import ProtectionUnitTestCase_tb_axi_vip_master_0_pkg::*;
   *   7. set WUSER if WUSR_WIDTH is bigger than 0
   *************************************************************************************************/
 
-  task automatic mst_0_single_write_transaction_api ( 
+  task automatic mst_1_single_write_transaction_api ( 
                                 input string                     name ="single_write",
                                 input xil_axi_uint               id =0, 
                                 input xil_axi_ulong              addr =0,
@@ -329,7 +318,7 @@ import ProtectionUnitTestCase_tb_axi_vip_master_0_pkg::*;
                                 input bit [32767:0]              data =0
                                                 );
     axi_transaction                               wr_trans;
-    wr_trans = mst_0_agent.wr_driver.create_transaction(name);
+    wr_trans = mst_1_agent.wr_driver.create_transaction(name);
     wr_trans.set_write_cmd(addr,burst,id,len,size);
     wr_trans.set_prot(prot);
     wr_trans.set_lock(lock);
@@ -337,11 +326,11 @@ import ProtectionUnitTestCase_tb_axi_vip_master_0_pkg::*;
     wr_trans.set_region(region);
     wr_trans.set_qos(qos);
     wr_trans.set_data_block(data);
-    mst_0_agent.wr_driver.send(wr_trans);   
-  endtask  : mst_0_single_write_transaction_api
+    mst_1_agent.wr_driver.send(wr_trans);   
+  endtask  : mst_1_single_write_transaction_api
 
   /************************************************************************************************
-  *  task mst_0_single_read_transaction_api is to create a single read transaction, fill in command with user
+  *  task mst_1_single_read_transaction_api is to create a single read transaction, fill in command with user
   *  inputs and send it to read driver.
   *   1. declare read transction
   *   2. Create the read transaction
@@ -349,7 +338,7 @@ import ProtectionUnitTestCase_tb_axi_vip_master_0_pkg::*;
   *   4. set prot.lock, cache,region and qos
   *   5. set ARUSER if ARUSER_WIDH is bigger than 0
   *************************************************************************************************/
-  task automatic mst_0_single_read_transaction_api ( 
+  task automatic mst_1_single_read_transaction_api ( 
                                     input string                     name ="single_read",
                                     input xil_axi_uint               id =0, 
                                     input xil_axi_ulong              addr =0,
@@ -364,15 +353,15 @@ import ProtectionUnitTestCase_tb_axi_vip_master_0_pkg::*;
                                     input xil_axi_data_beat          aruser =0
                                                 );
     axi_transaction                               rd_trans;
-    rd_trans = mst_0_agent.rd_driver.create_transaction(name);
+    rd_trans = mst_1_agent.rd_driver.create_transaction(name);
     rd_trans.set_read_cmd(addr,burst,id,len,size);
     rd_trans.set_prot(prot);
     rd_trans.set_lock(lock);
     rd_trans.set_cache(cache);
     rd_trans.set_region(region);
     rd_trans.set_qos(qos);
-    mst_0_agent.rd_driver.send(rd_trans);   
-  endtask  : mst_0_single_read_transaction_api
+    mst_1_agent.rd_driver.send(rd_trans);   
+  endtask  : mst_1_single_read_transaction_api
 
 
   /************************************************************************************************
@@ -385,14 +374,14 @@ import ProtectionUnitTestCase_tb_axi_vip_master_0_pkg::*;
   *    2.c Write driver of the agent sends the transaction to Master VIP interface
   * 3. once it is does, it repeats step 2 to generate another write transaction.
   *************************************************************************************************/
-  task automatic mst_0_multiple_write_transaction_full_rand (
-                               input string          name ="mst_0_multiple_write_transaction_full_rand",
+  task automatic mst_1_multiple_write_transaction_full_rand (
+                               input string          name ="mst_1_multiple_write_transaction_full_rand",
                                input xil_axi_uint    num_xfer =1);
     axi_transaction                                    wr_tran;
     for (int i =0; i< num_xfer; i++) begin
-      wr_tran = mst_0_agent.wr_driver.create_transaction($sformatf("%s,  %0d of %0d",name,i,num_xfer));
-      mst_0_fill_transaction_with_fully_randomization(wr_tran);
-      mst_0_agent.wr_driver.send(wr_tran);
+      wr_tran = mst_1_agent.wr_driver.create_transaction($sformatf("%s,  %0d of %0d",name,i,num_xfer));
+      mst_1_fill_transaction_with_fully_randomization(wr_tran);
+      mst_1_agent.wr_driver.send(wr_tran);
     end  
   endtask
  
@@ -407,15 +396,15 @@ import ProtectionUnitTestCase_tb_axi_vip_master_0_pkg::*;
   * 3. once it is does, it repeats step 2 to generate another read transaction.
   *************************************************************************************************/
 
-  task automatic mst_0_multiple_read_transaction_full_rand(
-                               input string          name ="mst_0_multiple_read_transaction_full_rand",
+  task automatic mst_1_multiple_read_transaction_full_rand(
+                               input string          name ="mst_1_multiple_read_transaction_full_rand",
                                input xil_axi_uint    num_xfer =1);
     axi_transaction                                    rd_tran;
-    rd_tran = mst_0_agent.rd_driver.create_transaction(name);
+    rd_tran = mst_1_agent.rd_driver.create_transaction(name);
     for (int i =0; i< num_xfer; i++) begin
-      rd_tran = mst_0_agent.rd_driver.create_transaction($sformatf("%s,  %0d of %0d",name,i,num_xfer));
-      mst_0_fill_transaction_with_fully_randomization(rd_tran);
-      mst_0_agent.rd_driver.send(rd_tran);
+      rd_tran = mst_1_agent.rd_driver.create_transaction($sformatf("%s,  %0d of %0d",name,i,num_xfer));
+      mst_1_fill_transaction_with_fully_randomization(rd_tran);
+      mst_1_agent.rd_driver.send(rd_tran);
     end  
   endtask
 
@@ -431,7 +420,7 @@ import ProtectionUnitTestCase_tb_axi_vip_master_0_pkg::*;
   * 6. send out the transaction
   *************************************************************************************************/
   
-  task automatic mst_0_multiple_read_transaction_partial_rand(
+  task automatic mst_1_multiple_read_transaction_partial_rand(
                               input xil_axi_uint    num_xfer =1,
                               input xil_axi_ulong   start_addr =0,
                               input xil_axi_uint    id =0,
@@ -448,13 +437,13 @@ import ProtectionUnitTestCase_tb_axi_vip_master_0_pkg::*;
 
     // queue up transactions
     for (int i =0; i <num_xfer; i++) begin
-      rd_tran[i] = mst_0_agent.rd_driver.create_transaction($sformatf("read_multiple_transaction id =%0d",i));
+      rd_tran[i] = mst_1_agent.rd_driver.create_transaction($sformatf("read_multiple_transaction id =%0d",i));
       if(no_xfer_delays ==1) begin
         rd_tran[i].set_data_insertion_delay_range(0,0);
         rd_tran[i].set_addr_delay_range(0,0);
         rd_tran[i].set_beat_delay_range(0,0);
       end  
-      mst_0_inline_randomize_transaction(.trans(rd_tran[i]), 
+      mst_1_inline_randomize_transaction(.trans(rd_tran[i]), 
                                    .id_val(id), 
                                    .addr_val(addr),
                                    .len_val(len),
@@ -464,9 +453,9 @@ import ProtectionUnitTestCase_tb_axi_vip_master_0_pkg::*;
     end
     //send out transaction
     for (int i =0; i <num_xfer; i++) begin
-       mst_0_agent.rd_driver.send(rd_tran[i]);
+       mst_1_agent.rd_driver.send(rd_tran[i]);
     end
-  endtask :mst_0_multiple_read_transaction_partial_rand
+  endtask :mst_1_multiple_read_transaction_partial_rand
 
   /*************************************************************************************************  * This task is to queue up multiple transactions with the same id, length,size, burst type
   * and incrementd addr with different data. then it send out all these transactions 
@@ -478,7 +467,7 @@ import ProtectionUnitTestCase_tb_axi_vip_master_0_pkg::*;
   * 6. send out the transaction
   *************************************************************************************************/
   
-  task automatic mst_0_multiple_write_transaction_partial_rand(
+  task automatic mst_1_multiple_write_transaction_partial_rand(
                               input xil_axi_uint    num_xfer =1,
                               input xil_axi_ulong   start_addr =0,
                               input xil_axi_uint    id =0,
@@ -495,13 +484,13 @@ import ProtectionUnitTestCase_tb_axi_vip_master_0_pkg::*;
 
     // queue up transactions
     for (int i =0; i <num_xfer; i++) begin
-      wr_tran[i] = mst_0_agent.wr_driver.create_transaction($sformatf("write_multiple_transaction id =%0d",i));
+      wr_tran[i] = mst_1_agent.wr_driver.create_transaction($sformatf("write_multiple_transaction id =%0d",i));
       if(no_xfer_delays ==1) begin
         wr_tran[i].set_data_insertion_delay_range(0,0);
         wr_tran[i].set_addr_delay_range(0,0);
         wr_tran[i].set_beat_delay_range(0,0);
       end  
-      mst_0_inline_randomize_transaction(.trans(wr_tran[i]), 
+      mst_1_inline_randomize_transaction(.trans(wr_tran[i]), 
                                    .id_val(id), 
                                    .addr_val(addr),
                                    .len_val(len),
@@ -511,12 +500,12 @@ import ProtectionUnitTestCase_tb_axi_vip_master_0_pkg::*;
     end
     //send out transaction
     for (int i =0; i <num_xfer; i++) begin
-       mst_0_agent.wr_driver.send(wr_tran[i]);
+       mst_1_agent.wr_driver.send(wr_tran[i]);
     end
-  endtask :mst_0_multiple_write_transaction_partial_rand
+  endtask :mst_1_multiple_write_transaction_partial_rand
 
   /************************************************************************************************
-  * mst_0_multiple_write_in_then_read_back shows user how to write to one address and then read back. 
+  * mst_1_multiple_write_in_then_read_back shows user how to write to one address and then read back. 
   * 1. create a write transaction with fixed address, id, length, size, burst type.
   * 2. send the transaction to Master VIP interface and wait till response come back
   * 3. Get write data beat and data block from the driver
@@ -528,7 +517,7 @@ import ProtectionUnitTestCase_tb_axi_vip_master_0_pkg::*;
   * 8. increment the address and repeat another write in and read back till num_xfer transactions
   *************************************************************************************************/
 
-  task automatic mst_0_multiple_write_in_then_read_back (
+  task automatic mst_1_multiple_write_in_then_read_back (
                           input xil_axi_uint    num_xfer =1,
                           input xil_axi_ulong   start_addr =0,
                           input xil_axi_uint    id =0,
@@ -548,36 +537,36 @@ import ProtectionUnitTestCase_tb_axi_vip_master_0_pkg::*;
     addr = start_addr;
     for (int i =0; i <num_xfer; i++) begin
       //write transaction in 
-      wr_trans = mst_0_agent.wr_driver.create_transaction($sformatf("fill in write transaction with inline randomization id =%0d",i));
+      wr_trans = mst_1_agent.wr_driver.create_transaction($sformatf("fill in write transaction with inline randomization id =%0d",i));
        if(no_xfer_delays ==1) begin
         wr_trans.set_data_insertion_delay_range(0,0);
         wr_trans.set_addr_delay_range(0,0);
         wr_trans.set_beat_delay_range(0,0);
       end  
-      mst_0_inline_randomize_transaction(.trans(wr_trans), 
+      mst_1_inline_randomize_transaction(.trans(wr_trans), 
                                    .id_val(id), 
                                    .addr_val(addr),
                                    .len_val(len),
                                    .size_val(size), 
                                    .burst_val(burst));
-      mst_0_get_wr_data_beat_back(wr_trans,DataBeat_for_write);
+      mst_1_get_wr_data_beat_back(wr_trans,DataBeat_for_write);
       data_block_for_write = wr_trans.get_data_block();
       //$display("Write data from Driver: Block Data %h ", data_block_for_write);
       
       // read data back
-      rd_trans = mst_0_agent.rd_driver.create_transaction($sformatf("fill in read transaction with inline randomization id =%0d",i));
+      rd_trans = mst_1_agent.rd_driver.create_transaction($sformatf("fill in read transaction with inline randomization id =%0d",i));
       if(no_xfer_delays ==1) begin
         rd_trans.set_data_insertion_delay_range(0,0);
         rd_trans.set_addr_delay_range(0,0);
         rd_trans.set_beat_delay_range(0,0);
       end  
-      mst_0_inline_randomize_transaction(.trans(rd_trans),
+      mst_1_inline_randomize_transaction(.trans(rd_trans),
                                    .id_val(id), 
                                    .addr_val(addr),
                                    .len_val(len),
                                    .size_val(size), 
                                    .burst_val(burst));
-      mst_0_get_rd_data_beat_back(rd_trans,DataBeat_for_read);
+      mst_1_get_rd_data_beat_back(rd_trans,DataBeat_for_read);
       data_block_for_read = rd_trans.get_data_block();
       //  $display("Read data from Driver: Block Data %h ", data_block_for_read);
       addr += wr_trans.get_num_bytes_in_transaction();
@@ -587,14 +576,14 @@ import ProtectionUnitTestCase_tb_axi_vip_master_0_pkg::*;
   /**********************************************************************************************
   * Note: if multiple agents are called in one testbench,it will be hard to tell which
   * agent is complaining. set_agent_tag can be used to set a name tag for each agent
-    mst_0_agent.set_agent_tag("My Master VIP one");
+    mst_1_agent.set_agent_tag("My Master VIP one");
 
   * If user wants to know all the details of each transaction, set_verbosity can be used to set
   * up information being printed out or not. Default is no print out 
     * Verbosity level which specifies how much debug information to produce
     *    0       - No information will be printed out.
     *   400      - All information will be printed out
-    mst_0_agent.set_verbosity(0);
+    mst_1_agent.set_verbosity(0);
 
   * These two lines should be added anywhere after agent is being newed  
   *************************************************************************************************/
@@ -610,11 +599,11 @@ import ProtectionUnitTestCase_tb_axi_vip_master_0_pkg::*;
 
   task user_gen_rready();  
     axi_ready_gen                           rready_gen;
-    rready_gen = mst_0_agent.rd_driver.create_ready("rready");
+    rready_gen = mst_1_agent.rd_driver.create_ready("rready");
     rready_gen.set_ready_policy(XIL_AXI_READY_GEN_AFTER_VALID_OSC);
     rready_gen.set_low_time(2);
     rready_gen.set_high_time(1);
-    mst_0_agent.rd_driver.send_rready(rready_gen);
+    mst_1_agent.rd_driver.send_rready(rready_gen);
   endtask
   *************************************************************************************************/
 
@@ -635,8 +624,8 @@ import ProtectionUnitTestCase_tb_axi_vip_master_0_pkg::*;
   * step 5: Use the read driver to wait for the response.
   * step 6: Use get_data_beat/get_data_block to inspect data from the response transaction.
   *
-  * mst_0_driver_rd_data_method_one shows how to get a data beat from the read driver.
-  * mst_0_driver_rd_data_method_two shows how to get a data block from the read driver.
+  * mst_1_driver_rd_data_method_one shows how to get a data beat from the read driver.
+  * mst_1_driver_rd_data_method_two shows how to get a data block from the read driver.
   * 
   * Note on API get_data_beat: get_data_beat returns the value of the specified beat. 
   * It always returns 1024 bits. It aligns the signification bytes to the lower 
@@ -673,14 +662,14 @@ import ProtectionUnitTestCase_tb_axi_vip_master_0_pkg::*;
   *
   *************************************************************************************************/
   
-  task mst_0_driver_rd_data_method_one();
+  task mst_1_driver_rd_data_method_one();
     axi_transaction                         rd_trans;
     xil_axi_data_beat                       mtestDataBeat[];
-    rd_trans = mst_0_agent.rd_driver.create_transaction("read transaction with randomization");
+    rd_trans = mst_1_agent.rd_driver.create_transaction("read transaction with randomization");
     RD_TRANSACTION_FAIL_1a:assert(rd_trans.randomize());
     rd_trans.set_driver_return_item_policy(XIL_AXI_PAYLOAD_RETURN);
-    mst_0_agent.rd_driver.send(rd_trans);
-    mst_0_agent.rd_driver.wait_rsp(rd_trans);
+    mst_1_agent.rd_driver.send(rd_trans);
+    mst_1_agent.rd_driver.wait_rsp(rd_trans);
     mtestDataBeat = new[rd_trans.get_len()+1];
     for( xil_axi_uint beat=0; beat<rd_trans.get_len()+1; beat++) begin
       mtestDataBeat[beat] = rd_trans.get_data_beat(beat);
@@ -689,14 +678,14 @@ import ProtectionUnitTestCase_tb_axi_vip_master_0_pkg::*;
   endtask 
 
   
-  task mst_0_driver_rd_data_method_two();  
+  task mst_1_driver_rd_data_method_two();  
     axi_transaction                         rd_trans;
     bit[8*4096-1:0]                         data_block;
-    rd_trans = mst_0_agent.rd_driver.create_transaction("read transaction with randomization");
+    rd_trans = mst_1_agent.rd_driver.create_transaction("read transaction with randomization");
     RD_TRANSACTION_FAIL_1a:assert(rd_trans.randomize());
     rd_trans.set_driver_return_item_policy(XIL_AXI_PAYLOAD_RETURN);
-    mst_0_agent.rd_driver.send(rd_trans);
-    mst_0_agent.rd_driver.wait_rsp(rd_trans);
+    mst_1_agent.rd_driver.send(rd_trans);
+    mst_1_agent.rd_driver.wait_rsp(rd_trans);
     data_block = rd_trans.get_data_block();
    // $display("Read data from Driver: Block Data %h ", data_block);
   endtask 

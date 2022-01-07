@@ -20,7 +20,6 @@
 *    5. wr/rd_response
 ***************************************************************************************************/
 import axi_vip_pkg::*;
-import ProtectionUnitTestCase_tb_axi_vip_slave_1_pkg::*;
 
   /*************************************************************************************************
   * Description: byte based memory model 
@@ -31,14 +30,6 @@ import ProtectionUnitTestCase_tb_axi_vip_slave_1_pkg::*;
   * Read data channel uses data_mem[addr] if it exist, otherwise, it generates randomized data
   *************************************************************************************************/
   xil_axi_payload_byte                    data_mem[xil_axi_ulong];
-
-  /*************************************************************************************************
-  * Declare <component_name>_slv_t for slave agent
-  * <component_name> can be easily found in vivado bd design: click on the instance, 
-  * then click CONFIG under Properties window and Component_Name will be shown
-  * more details please refer PG267 for more details
-  *************************************************************************************************/
-  ProtectionUnitTestCase_tb_axi_vip_slave_1_slv_t              slv_1_agent;
 
   task slv_1_start_stimulus();
     /***********************************************************************************************    * Before agent is newed, user has to run simulation with an empty testbench to find the
