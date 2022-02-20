@@ -40,8 +40,8 @@ module axi_err_slv_intf #(
 
   axi_err_slv #(
     .AxiIdWidth(AxiIdWidth),
-    .req_t(req_t),
-    .resp_t(resp_t),
+    .axi_req_t(req_t),
+    .axi_resp_t(resp_t),
     .Resp(Resp),
     .RespWidth(RespWidth),
     .RespData(RespData),
