@@ -17,7 +17,7 @@
 		// Parameters of Axi Pass Through AXI_PT
 		parameter  C_M_AXI_PT_TARGET_SLAVE_BASE_ADDR	= 32'h40000000,
 		parameter integer C_S_AXI_PT_BURST_LEN	= 16,
-		parameter integer C_S_AXI_PT_ID_WIDTH	= 1,
+		parameter integer C_S_AXI_PT_ID_WIDTH	= 2,
 		parameter integer C_S_AXI_PT_DATA_WIDTH	= 32,
 		parameter integer C_S_AXI_PT_ADDR_WIDTH	= 6,
 		parameter integer C_S_AXI_PT_AWUSER_WIDTH	= 0,
