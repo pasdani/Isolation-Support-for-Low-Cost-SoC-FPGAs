@@ -5,3 +5,7 @@
 # Vivado
 ## Exculde files unnecessary to recreate a project
 **/edit_*/**
+
+# DVT
+.dvt
+.project
