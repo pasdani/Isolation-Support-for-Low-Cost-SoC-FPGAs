@@ -1,4 +1,4 @@
-# Isolation-Support-for-Low-Cost-SoC-FPGAs
+# Isolation-Support for Low-Cost SoC-FPGAs
 
 ## Contributing
 If you wish to contribute, please contact me at my univeristy email address daniele.passaretti@ovgu.de.
