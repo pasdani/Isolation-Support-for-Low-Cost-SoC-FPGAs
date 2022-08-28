@@ -1,0 +1,11 @@
+# General
+## Don't track .log files
+*.log
+
+# Vivado
+## Exculde files unnecessary to recreate a project
+**/edit_*/**
+
+# DVT
+.dvt
+.project

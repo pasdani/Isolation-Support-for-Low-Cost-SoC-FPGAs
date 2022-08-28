@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="ProtectionUnit_tb_0_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="ProtectionUnit_tb_0" />
+            <top_module name="ProtectionUnit_tb_axi_vip_config_0_pkg" />
+            <top_module name="ProtectionUnit_tb_axi_vip_master_0_pkg" />
+            <top_module name="ProtectionUnit_tb_axi_vip_slave_0_pkg" />
+            <top_module name="axi_pkg" />
+            <top_module name="axi_vip_pkg" />
+            <top_module name="glbl" />
+            <top_module name="pu_pkg" />
+            <top_module name="std" />
+            <top_module name="xil_common_vip_pkg" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="0fs"></ZoomStartTime>
+      <ZoomEndTime time="1805001fs"></ZoomEndTime>
+      <Cursor1Time time="605000fs"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="273"></NameColumnWidth>
+      <ValueColumnWidth column_width="98"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="19" />
+   <wvobject fp_name="/ProtectionUnit_tb_0/DUT/sim_clk_gen_0/clk" type="logic">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ProtectionUnit_tb_0/DUT/sim_clk_gen_0/sync_rst" type="logic">
+      <obj_property name="ElementShortName">sync_rst</obj_property>
+      <obj_property name="ObjectShortName">sync_rst</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ProtectionUnit_tb_0/DUT/ProtectionUnit_0/AXI_CONFIG" type="protoinst">
+      <obj_property name="ElementShortName">AXI_CONFIG</obj_property>
+      <obj_property name="ObjectShortName">AXI_CONFIG</obj_property>
+      <obj_property name="children_use_element_short_name">true</obj_property>
+      <obj_property name="WaveformStyle">STYLE_ENUM_TRANSACTION</obj_property>
+      <obj_property name="EnumTransactionColorTable">0=blank 1=#D399FF 2=pink</obj_property>
+      <obj_property name="EnumTransactionValueTable">0=blank;1=Read;2=Write;3=Read/Write</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+      <obj_property name="CustomSignalColor">turquoise</obj_property>
+      <obj_property name="Render_Data">/ProtectionUnit_tb_0/DUT/ProtectionUnit_0/AXI_CONFIG.readWriteSummary</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      <obj_property name="CellHeight">36</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+   </wvobject>
+   <wvobject fp_name="/ProtectionUnit_tb_0/DUT/ProtectionUnit_0/S_AXI_PT" type="protoinst">
+      <obj_property name="ElementShortName">S_AXI_PT</obj_property>
+      <obj_property name="ObjectShortName">S_AXI_PT</obj_property>
+      <obj_property name="children_use_element_short_name">true</obj_property>
+      <obj_property name="WaveformStyle">STYLE_ENUM_TRANSACTION</obj_property>
+      <obj_property name="EnumTransactionColorTable">0=blank 1=#D399FF 2=pink</obj_property>
+      <obj_property name="EnumTransactionValueTable">0=blank;1=Read;2=Write;3=Read/Write</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+      <obj_property name="CustomSignalColor">turquoise</obj_property>
+      <obj_property name="Render_Data">/ProtectionUnit_tb_0/DUT/ProtectionUnit_0/S_AXI_PT.readWriteSummary</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      <obj_property name="CellHeight">36</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+   </wvobject>
+   <wvobject fp_name="/ProtectionUnit_tb_0/DUT/ProtectionUnit_0/M_AXI_PT" type="protoinst">
+      <obj_property name="children_use_element_short_name">true</obj_property>
+      <obj_property name="WaveformStyle">STYLE_ENUM_TRANSACTION</obj_property>
+      <obj_property name="EnumTransactionColorTable">0=blank 1=#D399FF 2=pink</obj_property>
+      <obj_property name="EnumTransactionValueTable">0=blank;1=Read;2=Write;3=Read/Write</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+      <obj_property name="CustomSignalColor">turquoise</obj_property>
+      <obj_property name="Render_Data">/ProtectionUnit_tb_0/DUT/ProtectionUnit_0/M_AXI_PT.readWriteSummary</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      <obj_property name="CellHeight">36</obj_property>
+      <obj_property name="ElementShortName">M_AXI_PT</obj_property>
+      <obj_property name="ObjectShortName">M_AXI_PT</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ProtectionUnit_tb_0/DUT/ProtectionUnit_0/inst/ProtectionUnit_v1_0_verilog_inst/ProtectionUnit_v1_0_inst/axi_demux_inst/slv_aw_select_i" type="array">
+      <obj_property name="ElementShortName">slv_aw_select_i[0:0]</obj_property>
+      <obj_property name="ObjectShortName">slv_aw_select_i[0:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ProtectionUnit_tb_0/DUT/ProtectionUnit_0/inst/ProtectionUnit_v1_0_verilog_inst/ProtectionUnit_v1_0_inst/axi_demux_inst/slv_ar_select_i" type="array">
+      <obj_property name="ElementShortName">slv_ar_select_i[0:0]</obj_property>
+      <obj_property name="ObjectShortName">slv_ar_select_i[0:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ProtectionUnit_tb_0/DUT/ProtectionUnit_0/inst/ProtectionUnit_v1_0_verilog_inst/ProtectionUnit_v1_0_inst/aw_granted_d" type="logic">
+      <obj_property name="ElementShortName">aw_granted_d</obj_property>
+      <obj_property name="ObjectShortName">aw_granted_d</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ProtectionUnit_tb_0/DUT/ProtectionUnit_0/inst/ProtectionUnit_v1_0_verilog_inst/ProtectionUnit_v1_0_inst/aw_granted_q" type="logic">
+      <obj_property name="ElementShortName">aw_granted_q</obj_property>
+      <obj_property name="ObjectShortName">aw_granted_q</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ProtectionUnit_tb_0/DUT/ProtectionUnit_0/inst/ProtectionUnit_v1_0_verilog_inst/ProtectionUnit_v1_0_inst/slave/aw_valid" type="logic">
+      <obj_property name="ElementShortName">aw_valid</obj_property>
+      <obj_property name="ObjectShortName">aw_valid</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ProtectionUnit_tb_0/DUT/ProtectionUnit_0/inst/ProtectionUnit_v1_0_verilog_inst/ProtectionUnit_v1_0_inst/slave/aw_ready" type="logic">
+      <obj_property name="ElementShortName">aw_ready</obj_property>
+      <obj_property name="ObjectShortName">aw_ready</obj_property>
+   </wvobject>
+   <wvobject type="divider" fp_name="divider309">
+      <obj_property name="label">TMP</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ProtectionUnit_tb_0/DUT/ProtectionUnit_0/inst/ProtectionUnit_v1_0_verilog_inst/ProtectionUnit_v1_0_inst/PolicyCheck_aw_inst/POLICY" type="array">
+      <obj_property name="ElementShortName">POLICY[0:0][15:0]</obj_property>
+      <obj_property name="ObjectShortName">POLICY[0:0][15:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ProtectionUnit_tb_0/DUT/ProtectionUnit_0/inst/ProtectionUnit_v1_0_verilog_inst/ProtectionUnit_v1_0_inst/PolicyCheck_aw_inst/ID" type="array">
+      <obj_property name="ElementShortName">ID[0:0]</obj_property>
+      <obj_property name="ObjectShortName">ID[0:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ProtectionUnit_tb_0/DUT/ProtectionUnit_0/inst/ProtectionUnit_v1_0_verilog_inst/ProtectionUnit_v1_0_inst/PolicyCheck_aw_inst/ADDR" type="array">
+      <obj_property name="ElementShortName">ADDR[5:0]</obj_property>
+      <obj_property name="ObjectShortName">ADDR[5:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ProtectionUnit_tb_0/DUT/ProtectionUnit_0/inst/ProtectionUnit_v1_0_verilog_inst/ProtectionUnit_v1_0_inst/PolicyCheck_aw_inst/LEN" type="array">
+      <obj_property name="ElementShortName">LEN[7:0]</obj_property>
+      <obj_property name="ObjectShortName">LEN[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ProtectionUnit_tb_0/DUT/ProtectionUnit_0/inst/ProtectionUnit_v1_0_verilog_inst/ProtectionUnit_v1_0_inst/PolicyCheck_aw_inst/SIZE" type="array">
+      <obj_property name="ElementShortName">SIZE[2:0]</obj_property>
+      <obj_property name="ObjectShortName">SIZE[2:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ProtectionUnit_tb_0/DUT/ProtectionUnit_0/inst/ProtectionUnit_v1_0_verilog_inst/ProtectionUnit_v1_0_inst/PolicyCheck_aw_inst/READ_WRITE" type="logic">
+      <obj_property name="ElementShortName">READ_WRITE</obj_property>
+      <obj_property name="ObjectShortName">READ_WRITE</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ProtectionUnit_tb_0/DUT/ProtectionUnit_0/inst/ProtectionUnit_v1_0_verilog_inst/ProtectionUnit_v1_0_inst/PolicyCheck_aw_inst/GRANTED" type="logic">
+      <obj_property name="ElementShortName">GRANTED</obj_property>
+      <obj_property name="ObjectShortName">GRANTED</obj_property>
+   </wvobject>
+</wave_config>

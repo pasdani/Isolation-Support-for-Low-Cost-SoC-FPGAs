@@ -1,4 +1,56 @@
 # Isolation-Support for Low-Cost SoC-FPGAs
+This repo contains a component called _Protection Unit_ able to filter AXI transactions using a configurable policy based on AXI IDs and address ranges.
+
+In addition, a component to manipulate the IDs of AXI transactions, and another one to convert AXI-lite to full AXI transactions with a given ID can be found. They are used to define/overwrite ID domains which policies are based on. 
+
+## Deployment Guide
+The project was created in Vivado 2020.2 and should be reopened with it.
+
+1. Clone the repository
+2. Load the submodules
+3. Add the repositorys directory to your IP catalog in Vivado
+4. Add these include search paths
+   - _<repo_root>_/ProtectionUnit_0.1/lib/common_cells/include
+   - _<repo_root>_/ProtectionUnit_0.1/lib/common_cells/
+   - _<repo_root>_/ProtectionUnit_0.1/lib/axi/include
+   - _<repo_root>_/ProtectionUnit_0.1/lib/axi
+   - _<repo_root>_/ProtectionUnit_0.1/hdl
+5. Instantiate the ip in a block design
+6. Configure the component in the block design using its GUI
+
+## Configuration Register Layout
+The configuration register contains a control and a status register (not implemented yet) as well as the registers to configure the policy.
+Each register is 32-bit wide and can be accessed through a separate AXI-Lite interace.
+
+### Control register
+The control register has currently no function implemented. 
+
+Address **0x00**
+
+### Status register
+The status register has currently no function implemented. 
+
+Address **0x04**
+
+### Policy Registers
+Through policy registers it can be configured which domains may read/write which memory areas.
+
+Within each policy register two bits corresponds to a memory region. 
+One bits indicates read permission the other write permission.
+If a read or write bit is set the domain of teh policy register has read or write access to the corresponding memory region.
+
+Bits of unused domains and memory regions are always forced 0 by hardware.
+
+Address **0x40 + 0x04 * domain_index** - There is a policy register for each domain
+
+```
+                         31                                                            0
+                        +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+memory region index     | 15| 14| 13| 12| 11| 10| 9 | 8 | 7 | 6 | 5 | 4 | 3 | 2 | 1 | 0 |
+read/write permission   |r w|r w|r w|r w|r w|r w|r w|r w|r w|r w|r w|r w|r w|r w|r w|r w|
+                        +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+```
+
 
 ## Contributing
 If you wish to contribute, please contact me at my univeristy email address daniele.passaretti@ovgu.de.
