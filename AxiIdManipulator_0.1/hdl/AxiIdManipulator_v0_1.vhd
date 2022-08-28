@@ -25,14 +25,14 @@ USE ieee.numeric_std.ALL;
 ENTITY AxiIdManipulator_v0_1 IS
 	GENERIC (
 		-- Users to add parameters here
-		C_AXI_ID : STD_LOGIC_VECTOR(16 - 1 DOWNTO 0) := "1010100000000000"; -- TODO: 0000000000000000
-		C_AXI_ID_MASK : STD_LOGIC_VECTOR(16 - 1 DOWNTO 0) := "1111100000000000"; -- TODO: 0000000000000000
+		C_AXI_ID : STD_LOGIC_VECTOR(16 - 1 DOWNTO 0) := "0000000000000000";
+		C_AXI_ID_MASK : STD_LOGIC_VECTOR(16 - 1 DOWNTO 0) := "0000000000000000";
 		-- User parameters ends
 		-- Do not modify the parameters beyond this line
 
 		-- Parameters of both Axi Slave Bus Interface S_AXI and Axi Master Bus Interface M_AXI
-		C_S_AXI_ID_WIDTH : INTEGER := 16; -- TODO: 1
-		C_M_AXI_ID_WIDTH : INTEGER := 16; -- TODO: 1
+		C_S_AXI_ID_WIDTH : INTEGER := 16;
+		C_M_AXI_ID_WIDTH : INTEGER := 16;
 		C_S_AXI_DATA_WIDTH : INTEGER := 32;
 		C_M_AXI_DATA_WIDTH : INTEGER := 32;
 		C_S_AXI_ADDR_WIDTH : INTEGER := 32;

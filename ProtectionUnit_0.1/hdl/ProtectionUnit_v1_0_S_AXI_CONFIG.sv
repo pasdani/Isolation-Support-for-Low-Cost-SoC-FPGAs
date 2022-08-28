@@ -207,7 +207,6 @@ module ProtectionUnit_v1_0_AXI_CONFIG #(
 
 
   // Write logic
-  // TODO: consider strobe
   logic[1:0]        aw_reg_type;
   mem_region_idx_t  aw_mem_region_idx;
   logic             aw_dec_valid;

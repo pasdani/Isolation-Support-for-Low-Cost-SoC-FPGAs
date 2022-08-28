@@ -239,7 +239,6 @@ end
 
 always_comb begin : grant_permission
     GRANTED = '0;
-    // TODO: Make sure logic actually works as intended
     foreach (mem_region_matches[i]) begin
         foreach (domain_matches[j]) begin
             if (mem_region_matches[i] && domain_matches[j]) begin
