@@ -1,6 +1,6 @@
-[submodule "ip_repo/ProtectionUnit_0.1/lib/axi"]
-	path = ip_repo/ProtectionUnit_0.1/lib/axi
+[submodule "ProtectionUnit_0.1/lib/axi"]
+	path = ProtectionUnit_0.1/lib/axi
 	url = https://github.com/pulp-platform/axi.git
-[submodule "ip_repo/ProtectionUnit_0.1/lib/common_cells"]
-	path = ip_repo/ProtectionUnit_0.1/lib/common_cells
+[submodule "ProtectionUnit_0.1/lib/common_cells"]
+	path = ProtectionUnit_0.1/lib/common_cells
 	url = https://github.com/pulp-platform/common_cells.git
