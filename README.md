@@ -7,20 +7,20 @@ In addition, a component to manipulate the IDs of AXI transactions, and another 
 The project was created in Vivado 2020.2 and should be reopened with it.
 
 1. Clone the repository
-2. Load the submodules
-3. Add the repositorys directory to your IP catalog in Vivado
+2. Load the git submodules
+3. Add the repository's directory to your IP catalog in Vivado
 4. Add these include search paths
    - _<repo_root>_/ProtectionUnit_0.1/lib/common_cells/include
    - _<repo_root>_/ProtectionUnit_0.1/lib/common_cells/
    - _<repo_root>_/ProtectionUnit_0.1/lib/axi/include
    - _<repo_root>_/ProtectionUnit_0.1/lib/axi
    - _<repo_root>_/ProtectionUnit_0.1/hdl
-5. Instantiate the ip in a block design
+5. Instantiate the component in a block design
 6. Configure the component in the block design using its GUI
 
 ## Configuration Register Layout
 The configuration register contains a control and a status register (not implemented yet) as well as the registers to configure the policy.
-Each register is 32-bit wide and can be accessed through a separate AXI-Lite interace.
+Each register is 32-bit wide and can be accessed through a separate AXI-Lite interface.
 
 ### Control register
 The control register has currently no function implemented. 
@@ -53,16 +53,16 @@ read/write permission   |r w|r w|r w|r w|r w|r w|r w|r w|r w|r w|r w|r w|r w|r w
 
 
 ## Contributing
-If you wish to contribute, please contact me at my univeristy email address daniele.passaretti@ovgu.de.
+If you wish to contribute, please contact me at my university email address daniele.passaretti@ovgu.de.
 
 ## People
 The following people participated:
 - [Daniele Passaretti](https://scholar.google.com/citations?user=gZym4L4AAAAJ&hl=de): 
-- [Felix Böhm](https://www.xing.com/profile/Felix_Boehm48): Hardware imlementtion of the lightweight Protection Unit
+- [Felix Böhm](https://www.xing.com/profile/Felix_Boehm48): Hardware implementation of the lightweight Protection Unit
 - [Prof. Dr.-Ing. Thilo Pionteck](https://www.hti.ovgu.de/Lehrstuhl/MitarbeiterInnen/Leiter/Prof_+Dr__Ing_+Thilo+Pionteck-p-36.html): PI
 
 
-## Acknolegdements
+## Acknowledgements
 
 
 ## License
