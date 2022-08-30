@@ -63,7 +63,7 @@ The following people participated:
 
 
 ## Acknowledgements
-
+The AXI demutex and error slave, both sub components of the Protection Unit, where taken from the [PULP Platforms AXI implementation](https://github.com/pulp-platform/axi).
 
 ## License
 
