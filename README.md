@@ -7,7 +7,7 @@ In addition, a component to manipulate the IDs of AXI transactions, and another 
 The project was created in Vivado 2020.2 and should be reopened with it.
 
 1. Clone the repository
-2. Load the git submodules
+2. Load the git submodules (`git submodule update --init`)
 3. Add the repository's directory to your IP catalog in Vivado
 4. Add these include search paths
    - _<repo_root>_/ProtectionUnit_0.1/lib/common_cells/include
