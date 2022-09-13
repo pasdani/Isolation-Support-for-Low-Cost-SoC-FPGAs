@@ -56,7 +56,7 @@ read/write permission   |r w|r w|r w|r w|r w|r w|r w|r w|r w|r w|r w|r w|r w|r w
 If you wish to contribute, please contact me at my university email address daniele.passaretti@ovgu.de.
 
 ## People
-The following people participated:
+The following people participated: Isolation Method and Optimization
 - [Daniele Passaretti](https://scholar.google.com/citations?user=gZym4L4AAAAJ&hl=de): 
 - [Felix Böhm](https://www.xing.com/profile/Felix_Boehm48): Hardware implementation of the lightweight Protection Unit
 - [Prof. Dr.-Ing. Thilo Pionteck](https://www.hti.ovgu.de/Lehrstuhl/MitarbeiterInnen/Leiter/Prof_+Dr__Ing_+Thilo+Pionteck-p-36.html): PI
